@@ -13,7 +13,6 @@
     "prebuild:check": "npm run type-check && npm run validate:questions && npm run test"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.32.1",
     "@expo-google-fonts/amiri": "^0.4.1",
     "@react-native-async-storage/async-storage": "^2.2.0",
     "@shopify/flash-list": "^2.0.2",

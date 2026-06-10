@@ -38,7 +38,6 @@ import {
 } from "../lib/gameLogic";
 import { getPlayedQuestions, addPlayedQuestions, updateStats, getStats, bumpDailyStreak } from "../lib/storage";
 import { parseSource } from "../lib/sources";
-import { getAIFeedback } from "../lib/ai";
 import type { Question, Difficulty, GameMode } from "../lib/types";
 import questions from "../data/questions.json";
 
@@ -76,8 +75,6 @@ export default function PlayScreen() {
   const [visibleOptions, setVisibleOptions] = useState<string[]>([]);
   const [answerStates, setAnswerStates] = useState<Record<string, AnswerState>>({});
   const [isAnswered, setIsAnswered] = useState(false);
-  const [aiFeedback, setAiFeedback] = useState<string | null>(null);
-  const [isLoadingFeedback, setIsLoadingFeedback] = useState(false);
   const [earnedPoints, setEarnedPoints] = useState(0);
   const [maxPoints, setMaxPoints] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
@@ -152,7 +149,6 @@ export default function PlayScreen() {
     setAnswerStates({});
     setIsAnswered(false);
     isAnsweredRef.current = false;
-    setAiFeedback(null);
     setTimeLeft(totalTime);
     timeLeftRef.current = totalTime;
     timedOutRef.current = false;
@@ -299,22 +295,6 @@ export default function PlayScreen() {
         );
       } else {
         loseLife();
-        setIsLoadingFeedback(true);
-        try {
-          const feedback = await getAIFeedback({
-            questionId: currentQ.id,
-            question: currentQ.question[language],
-            correctAnswer: correct,
-            userAnswer: option,
-            explanation: currentQ.explanation[language] ?? "",
-            language,
-          });
-          setAiFeedback(feedback || null);
-        } catch {
-          setAiFeedback(null);
-        } finally {
-          setIsLoadingFeedback(false);
-        }
       }
     },
     // timeLeft and visibleOptions intentionally omitted — read via refs to
@@ -505,16 +485,6 @@ export default function PlayScreen() {
               </TouchableOpacity>
             </NoorCard>
 
-            {isLoadingFeedback ? (
-              <NoorCard>
-                <Text style={styles.feedbackLoading}>{t("loading.default") ?? "..."}</Text>
-              </NoorCard>
-            ) : aiFeedback ? (
-              <NoorCard variant="dark">
-                <Text style={styles.feedbackLabel}>نور</Text>
-                <Text style={[styles.feedbackText, isRTL && { textAlign: "right" }]}>{aiFeedback}</Text>
-              </NoorCard>
-            ) : null}
 
             <NoorButton
               onPress={handleNext}
@@ -561,8 +531,6 @@ const styles = StyleSheet.create({
   questionRTL: { textAlign: "right", fontFamily: "Amiri_400Regular", fontSize: 20 },
   options: { gap: 10 },
   feedbackContainer: { gap: 12 },
-  feedbackLoading: { color: Colors.text.muted, textAlign: "center", fontStyle: "italic" },
-  feedbackLabel: { fontFamily: "Amiri_700Bold", fontSize: 16, color: Colors.gold.primary, marginBottom: 8, textAlign: "right" },
   feedbackText: { fontSize: 15, color: Colors.text.primary, lineHeight: 24 },
   explanationLabel: {
     fontSize: 11, color: Colors.gold.primary, fontWeight: "700",
