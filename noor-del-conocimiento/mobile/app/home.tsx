@@ -1,183 +1,283 @@
-import React, { useMemo, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useRouter } from 'expo-router';
-import { Colors } from '../constants/colors';
-import { Fonts } from '../constants/fonts';
-import { NumPlate } from '../components/ui/NumPlate';
-import { PaperCard } from '../components/ui/PaperCard';
-import { StripHeader } from '../components/ui/StripHeader';
-import { NoorButton } from '../components/ui/NoorButton';
-import { useLanguage } from '../context/LanguageContext';
-import { useTheme } from '../context/ThemeContext';
-import { getQuestionBank } from '../lib/questions';
-import { setGameSettings } from '../lib/session';
-import type { Category, Difficulty, GameMode } from '../lib/types';
+// Home Screen — mode selection + category + difficulty setup
+// Migrated from Next.js page.tsx
+// Mobile-native: bottom sheet approach for difficulty (not website tabs in phone)
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  ScrollView,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
+import { router } from "expo-router";
+import { useTranslation } from "react-i18next";
+import { Colors } from "../constants/colors";
+import { NoorButton } from "../components/ui/NoorButton";
+import { NoorCard } from "../components/ui/NoorCard";
+import { IslamicPatternBackground } from "../components/patterns/IslamicPattern";
+import { useLanguage } from "../context/LanguageContext";
+import type { GameMode, Difficulty, Language } from "../lib/types";
 
-const QUESTION_COUNT = 10;
+const { width } = Dimensions.get("window");
+
+type Step = "mode" | "category" | "difficulty";
+
+const CATEGORIES: { key: GameMode; labelKey: string; icon: string }[] = [
+  { key: "Seerah", labelKey: "category.seerah", icon: "🌙" },
+  { key: "Profetas", labelKey: "category.prophets", icon: "📜" },
+  { key: "Corán y General", labelKey: "category.general", icon: "🌍" },
+  { key: "mix", labelKey: "category.mix", icon: "✦" },
+];
+
+const DIFFICULTIES: { key: Difficulty; labelKey: string; timeKey: string }[] = [
+  { key: "easy", labelKey: "difficulty.easy", timeKey: "30s" },
+  { key: "medium", labelKey: "difficulty.medium", timeKey: "20s" },
+  { key: "hard", labelKey: "difficulty.hard", timeKey: "15s" },
+];
 
 export default function HomeScreen() {
-  const router = useRouter();
-  const { t, n } = useLanguage();
-  const { theme } = useTheme();
-  const [mode, setMode] = useState<GameMode>('solo');
-  const [category, setCategory] = useState<Category | 'all'>('all');
-  const [difficulty, setDifficulty] = useState<Difficulty>('easy');
+  const { t } = useTranslation();
+  const { language, isRTL, setLanguage } = useLanguage();
 
-  const availableCount = useMemo(
-    () =>
-      getQuestionBank().filter(
-        (q) => q.difficulty === difficulty && (category === 'all' || q.category === category),
-      ).length,
-    [category, difficulty],
-  );
+  const [step, setStep] = useState<Step>("mode");
+  const [selectedCategory, setSelectedCategory] = useState<GameMode | null>(null);
 
-  const modes: Array<{ key: GameMode; label: string; desc: string }> = [
-    { key: 'solo', label: t('home.modeSolo'), desc: t('home.modeSoloDesc') },
-    { key: 'majlis', label: t('home.modeMajlis'), desc: t('home.modeMajlisDesc') },
-    { key: 'learn', label: t('home.modeLearn'), desc: t('home.modeLearnDesc') },
-  ];
-  const categories: Array<{ key: Category | 'all'; label: string }> = [
-    { key: 'all', label: t('home.categoryAll') },
-    { key: 'quran_general', label: t('home.categoryQuranGeneral') },
-    { key: 'prophets', label: t('home.categoryProphets') },
-    { key: 'seerah', label: t('home.categorySeerah') },
-  ];
-  const difficulties: Array<{ key: Difficulty; label: string }> = [
-    { key: 'easy', label: t('home.difficultyEasy') },
-    { key: 'medium', label: t('home.difficultyMedium') },
-    { key: 'hard', label: t('home.difficultyHard') },
-  ];
+  const handleStartMusafir = (difficulty: Difficulty) => {
+    if (!selectedCategory) {
+      // Defensive — UI flow should never allow this, but bail safely if it does.
+      setStep("category");
+      return;
+    }
+    router.push({
+      pathname: "/play",
+      params: {
+        mode: "musafir",
+        category: selectedCategory,
+        difficulty,
+        language,
+      },
+    });
+  };
 
-  const start = () => {
-    setGameSettings({ mode, category, difficulty, questionCount: QUESTION_COUNT });
-    if (mode === 'majlis') router.push('/majlis-setup');
-    else if (mode === 'learn') router.push('/learn');
-    else router.push('/play');
+  const handleMajlis = () => {
+    router.push("/majlis-setup");
   };
 
   return (
-    <View style={[styles.page, { backgroundColor: theme.paper.paper }]}>
-      <StripHeader title={t('home.title')} arabicMark={t('common.appNameArabic')} meta="L. 01" />
-      <ScrollView contentContainerStyle={styles.content}>
-        <Lesson num="01" label={t('home.mode')}>
-          {modes.map((m) => (
-            <Choice
-              key={m.key}
-              label={m.label}
-              desc={m.desc}
-              selected={mode === m.key}
-              onPress={() => setMode(m.key)}
-            />
+    <SafeAreaView style={styles.root}>
+      <IslamicPatternBackground color={Colors.gold.primary} opacity={0.04} tileSize={52} />
+
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Header */}
+        <View style={styles.header}>
+          <Text style={[styles.arabicTitle, isRTL && { textAlign: "right" }]}>
+            نور المعرفة
+          </Text>
+          <Text style={[styles.headerSub, isRTL && { textAlign: "right" }]}>
+            {t("welcomeMessage")}
+          </Text>
+        </View>
+
+        {/* Language switcher — compact, top right */}
+        <View style={styles.langRow}>
+          {(["es", "en", "ar"] as Language[]).map((lang) => (
+            <TouchableOpacity
+              key={lang}
+              onPress={() => setLanguage(lang)}
+              style={[styles.langChip, language === lang && styles.langChipActive]}
+            >
+              <Text
+                style={[
+                  styles.langChipText,
+                  language === lang && styles.langChipTextActive,
+                ]}
+              >
+                {lang === "es" ? "ES" : lang === "en" ? "EN" : "عر"}
+              </Text>
+            </TouchableOpacity>
           ))}
-        </Lesson>
-        <Text style={styles.separator}>۞</Text>
-        <Lesson num="02" label={t('home.subject')}>
-          {categories.map((c) => (
-            <Choice
-              key={c.key}
-              label={c.label}
-              selected={category === c.key}
-              onPress={() => setCategory(c.key)}
-            />
-          ))}
-        </Lesson>
-        <Text style={styles.separator}>۞</Text>
-        <Lesson num="03" label={t('home.tempo')}>
-          {difficulties.map((d) => (
-            <Choice
-              key={d.key}
-              label={d.label}
-              selected={difficulty === d.key}
-              onPress={() => setDifficulty(d.key)}
-            />
-          ))}
-        </Lesson>
-        <Text style={styles.count}>
-          {availableCount === 0
-            ? t('home.noQuestions')
-            : t('plurals.questions', { count: availableCount, formattedCount: n(availableCount) })}
-        </Text>
-        <NoorButton label={t('home.start')} onPress={start} disabled={availableCount === 0} />
-        <NoorButton
-          label={t('settings.title')}
-          variant="ghost"
-          onPress={() => router.push('/settings')}
-        />
+        </View>
+
+        {/* Step: Mode selection */}
+        {step === "mode" && (
+          <View style={styles.section}>
+            <Text style={[styles.sectionTitle, isRTL && { textAlign: "right" }]}>
+              {t("setup.chooseMode")}
+            </Text>
+            <View style={styles.modeCards}>
+              {/* Musafir — solo */}
+              <NoorCard style={styles.modeCard}>
+                <Text style={styles.modeIcon}>🧳</Text>
+                <Text style={[styles.modeTitle, isRTL && { textAlign: "right" }]}>
+                  {t("setup.musafirMode.title")}
+                </Text>
+                <Text style={[styles.modeDesc, isRTL && { textAlign: "right" }]}>
+                  {t("setup.musafirMode.description")}
+                </Text>
+                <NoorButton
+                  onPress={() => setStep("category")}
+                  label={t("setup.selectButton")}
+                  variant="primary"
+                  size="sm"
+                  style={{ marginTop: 16 }}
+                />
+              </NoorCard>
+
+              {/* Majlis — multiplayer */}
+              <NoorCard style={styles.modeCard} variant="gold">
+                <Text style={styles.modeIcon}>🪑</Text>
+                <Text style={[styles.modeTitle, isRTL && { textAlign: "right" }]}>
+                  {t("setup.majlisMode.title")}
+                </Text>
+                <Text style={[styles.modeDesc, isRTL && { textAlign: "right" }]}>
+                  {t("setup.majlisMode.description")}
+                </Text>
+                <NoorButton
+                  onPress={handleMajlis}
+                  label={t("setup.majlisMode.button")}
+                  variant="gold"
+                  size="sm"
+                  style={{ marginTop: 16 }}
+                />
+              </NoorCard>
+            </View>
+          </View>
+        )}
+
+        {/* Step: Category selection */}
+        {step === "category" && (
+          <View style={styles.section}>
+            <TouchableOpacity onPress={() => setStep("mode")} style={styles.backBtn}>
+              <Text style={styles.backText}>← {t("setup.chooseAnotherMode")}</Text>
+            </TouchableOpacity>
+            <Text style={[styles.sectionTitle, isRTL && { textAlign: "right" }]}>
+              {t("setup.chooseCategory")}
+            </Text>
+            <View style={styles.categoryGrid}>
+              {CATEGORIES.map((cat) => (
+                <TouchableOpacity
+                  key={cat.key}
+                  onPress={() => {
+                    setSelectedCategory(cat.key);
+                    setStep("difficulty");
+                  }}
+                  style={styles.categoryCard}
+                  activeOpacity={0.7}
+                >
+                  <Text style={styles.categoryIcon}>{cat.icon}</Text>
+                  <Text
+                    style={[styles.categoryLabel, isRTL && { textAlign: "right" }]}
+                    numberOfLines={2}
+                  >
+                    {t(cat.labelKey)}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+        )}
+
+        {/* Step: Difficulty selection */}
+        {step === "difficulty" && (
+          <View style={styles.section}>
+            <TouchableOpacity onPress={() => setStep("category")} style={styles.backBtn}>
+              <Text style={styles.backText}>← {t("setup.chooseCategory")}</Text>
+            </TouchableOpacity>
+            <Text style={[styles.sectionTitle, isRTL && { textAlign: "right" }]}>
+              {t("setup.chooseDifficulty")}
+            </Text>
+            <View style={styles.difficultyList}>
+              {DIFFICULTIES.map((d) => (
+                <NoorCard key={d.key} style={styles.diffCard}>
+                  <View style={styles.diffRow}>
+                    <View style={{ flex: 1 }}>
+                      <Text style={[styles.diffLabel, isRTL && { textAlign: "right" }]}>
+                        {t(d.labelKey)}
+                      </Text>
+                      <Text style={styles.diffTime}>{d.timeKey}</Text>
+                    </View>
+                    <NoorButton
+                      onPress={() => handleStartMusafir(d.key)}
+                      label="▶"
+                      variant="primary"
+                      size="sm"
+                    />
+                  </View>
+                </NoorCard>
+              ))}
+            </View>
+          </View>
+        )}
       </ScrollView>
-    </View>
-  );
-}
-
-function Lesson({
-  num,
-  label,
-  children,
-}: {
-  num: string;
-  label: string;
-  children: React.ReactNode;
-}) {
-  const { theme } = useTheme();
-  return (
-    <PaperCard>
-      <View style={styles.lessonHeader}>
-        <NumPlate label={`L. ${num}`} />
-        <Text style={[styles.lessonTitle, theme.titleFont]}>{label}</Text>
-      </View>
-      <View style={styles.choices}>{children}</View>
-    </PaperCard>
-  );
-}
-
-function Choice({
-  label,
-  desc,
-  selected,
-  onPress,
-}: {
-  label: string;
-  desc?: string;
-  selected: boolean;
-  onPress: () => void;
-}) {
-  return (
-    <Pressable
-      accessibilityRole="radio"
-      accessibilityState={{ selected }}
-      onPress={onPress}
-      style={[styles.choice, selected && styles.choiceSelected]}
-    >
-      <Text style={[styles.choiceLabel, selected && styles.choiceLabelSelected]}>{label}</Text>
-      {desc ? <Text style={styles.choiceDesc}>{desc}</Text> : null}
-    </Pressable>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  page: { flex: 1 },
-  content: { padding: 18, gap: 10, paddingBottom: 40 },
-  lessonHeader: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 10 },
-  lessonTitle: { fontSize: 18, color: Colors.ink },
-  choices: { gap: 8 },
-  choice: {
-    minHeight: 48,
-    justifyContent: 'center',
-    borderRadius: 10,
+  root: { flex: 1, backgroundColor: Colors.bg.primary },
+  scroll: { flex: 1 },
+  contentContainer: { paddingHorizontal: 20, paddingTop: 16, paddingBottom: 40, gap: 8 },
+  header: { alignItems: "center", paddingVertical: 16 },
+  arabicTitle: {
+    fontFamily: "Amiri_700Bold",
+    fontSize: 34,
+    color: Colors.parchment.primary,
+    textAlign: "center",
+    lineHeight: 48,
+  },
+  headerSub: {
+    fontSize: 14,
+    color: Colors.text.secondary,
+    textAlign: "center",
+    lineHeight: 22,
+    marginTop: 4,
+    maxWidth: 280,
+  },
+  langRow: { flexDirection: "row", justifyContent: "center", gap: 8, marginBottom: 8 },
+  langChip: {
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 20,
     borderWidth: 1,
-    borderColor: Colors.hairline,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
+    borderColor: Colors.border.subtle,
   },
-  choiceSelected: { borderColor: Colors.emerald, backgroundColor: Colors.emeraldGlow },
-  choiceLabel: { fontFamily: Fonts.bodyMedium, fontSize: 14, color: Colors.ink },
-  choiceLabelSelected: { color: Colors.emeraldDeep, fontFamily: Fonts.bodySemiBold },
-  choiceDesc: { fontFamily: Fonts.body, fontSize: 12, color: Colors.inkMuted, marginTop: 2 },
-  separator: { textAlign: 'center', color: Colors.gold, fontSize: 14, marginVertical: 2 },
-  count: {
-    fontFamily: Fonts.monoMedium,
-    fontSize: 11,
-    color: Colors.inkMuted,
-    textAlign: 'center',
-    marginTop: 6,
+  langChipActive: {
+    borderColor: Colors.accent.emerald,
+    backgroundColor: "rgba(16, 185, 129, 0.12)",
   },
+  langChipText: { fontSize: 12, color: Colors.text.muted, fontWeight: "600" },
+  langChipTextActive: { color: Colors.accent.emerald },
+  section: { gap: 12 },
+  sectionTitle: { fontSize: 20, fontWeight: "700", color: Colors.parchment.primary },
+  modeCards: { gap: 12 },
+  modeCard: { flex: 1 },
+  modeIcon: { fontSize: 32, marginBottom: 8 },
+  modeTitle: { fontSize: 18, fontWeight: "700", color: Colors.parchment.primary, marginBottom: 4 },
+  modeDesc: { fontSize: 14, color: Colors.text.secondary, lineHeight: 20 },
+  categoryGrid: { flexDirection: "row", flexWrap: "wrap", gap: 10 },
+  categoryCard: {
+    width: (width - 50) / 2,
+    backgroundColor: Colors.bg.secondary,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: Colors.border.subtle,
+    padding: 20,
+    alignItems: "center",
+    gap: 8,
+  },
+  categoryIcon: { fontSize: 28 },
+  categoryLabel: { fontSize: 14, color: Colors.parchment.primary, fontWeight: "600", textAlign: "center" },
+  difficultyList: { gap: 10 },
+  diffCard: {},
+  diffRow: { flexDirection: "row", alignItems: "center", gap: 12 },
+  diffLabel: { fontSize: 16, fontWeight: "700", color: Colors.parchment.primary },
+  diffTime: { fontSize: 13, color: Colors.text.muted, marginTop: 2 },
+  backBtn: { paddingVertical: 4 },
+  backText: { fontSize: 14, color: Colors.text.secondary },
 });

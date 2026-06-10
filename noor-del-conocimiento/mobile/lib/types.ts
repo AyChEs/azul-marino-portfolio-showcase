@@ -1,92 +1,79 @@
-export type Language = 'es' | 'en' | 'ar' | 'ma';
-export const SUPPORTED_LANGUAGES: readonly Language[] = ['es', 'en', 'ar', 'ma'] as const;
-/** Languages whose translations are mandatory for a question to be servable. */
-export const REQUIRED_QUESTION_LANGUAGES: readonly Language[] = ['es', 'en', 'ar'] as const;
-export const RTL_LANGUAGES: readonly Language[] = ['ar', 'ma'] as const;
+export type Difficulty = "easy" | "medium" | "hard";
+export type Category = "Profetas" | "Seerah" | "Corán y General";
+export type GameMode = Category | "mix";
+export type Language = "es" | "en" | "ar";
 
-export type Category = 'quran_general' | 'prophets' | 'seerah';
-export type Difficulty = 'easy' | 'medium' | 'hard';
-export type Sensitivity = 'none' | 'scholarly_difference';
+export interface MultilingualText {
+  es: string;
+  en: string;
+  ar: string;
+}
 
-export type LocalizedText = Partial<Record<Language, string>> & { es: string; en: string; ar: string };
-export type LocalizedOptions = Partial<Record<Language, string[]>> & {
+export interface MultilingualOptions {
   es: string[];
   en: string[];
   ar: string[];
-};
-
-export interface QuestionSource {
-  /** Primary reference, e.g. "Corán 96:1-5" or "Sahih al-Bukhari 3". */
-  primary: string;
-  secondary?: string;
-  reference_url?: string;
-  /** "pending_scholar_review" questions are never served in production. */
-  verified_by: string;
-  verified_date: string | null;
 }
 
 export interface Question {
-  id: string;
+  id: number;
+  question: MultilingualText;
+  options: MultilingualOptions;
+  correctAnswer: MultilingualText;
   category: Category;
   difficulty: Difficulty;
-  question: LocalizedText;
-  options: LocalizedOptions;
-  correctIndex: number;
-  explanation: LocalizedText;
-  source: QuestionSource;
-  sensitivity: Sensitivity;
+  arabicVerse?: string;
+  explanation: MultilingualText;
+  // Auditoría (FASE 0)
+  source?: string;
+  verified?: boolean;
+  flag?: boolean;
+  correction_note?: string;
 }
 
-export type GameMode = 'solo' | 'majlis' | 'learn';
-export type LifelineKind = 'fiftyFifty' | 'extraTime' | 'skip';
-
-export interface GameSettings {
-  mode: GameMode;
-  category: Category | 'all';
-  difficulty: Difficulty;
-  questionCount: number;
-}
-
-export interface LifelineState {
-  fiftyFifty: number;
-  extraTime: number;
-  skip: number;
-}
-
-export interface GameState {
-  questions: Question[];
-  currentIndex: number;
-  score: number;
-  lives: number;
-  streak: number;
-  correctCount: number;
-  lifelines: LifelineState;
-  eliminatedOptions: number[];
-  finished: boolean;
-}
-
-export interface MajlisPlayer {
+export interface Player {
+  id: string;
   name: string;
   score: number;
-  correctCount: number;
+  lives: number;
+  lifelines: {
+    fiftyFifty: number;
+    extraTime: number;
+    skip: number;
+  };
+  isEliminated: boolean;
 }
 
-export interface PersonalBest {
+export interface GameSession {
+  mode: "musafir" | "majlis";
+  category: GameMode;
+  difficulty: Difficulty;
+  language: Language;
+  players: Player[];
+  currentPlayerIndex: number;
+  round: number;
+  totalRounds: number;
+  startedAt: number;
+}
+
+export interface GameResult {
   score: number;
-  accuracy: number;
-  date: string;
+  totalQuestions: number;
+  correctAnswers: number;
+  rank: RankInfo;
+  timeMs: number;
+  language: Language;
 }
 
-export type ThemeHeaderStyle = 'cuaderno' | 'minimo';
-
-export interface ThemePrefs {
-  paper: 'linen' | 'pergamino' | 'antiguo';
-  voice: 'editorial' | 'amable' | 'clasica';
-  header: ThemeHeaderStyle;
+export interface RankInfo {
+  titleKey: string;
+  descriptionKey: string;
+  minScore: number;
 }
 
-export interface AppSettings {
-  theme: ThemePrefs;
-  soundEnabled: boolean;
-  hapticsEnabled: boolean;
+export interface StoredStats {
+  bestScore: number;
+  gamesPlayed: number;
+  totalCorrect: number;
+  lastPlayedAt: number;
 }

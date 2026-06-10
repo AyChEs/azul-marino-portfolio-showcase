@@ -1,33 +1,52 @@
 {
   "cli": {
-    "version": ">= 13.0.0",
+    "version": ">= 7.0.0",
     "appVersionSource": "remote"
   },
   "build": {
     "development": {
-      "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleDebug"
+      },
+      "ios": {
+        "simulator": true
+      },
+      "env": {
+        "EXPO_PUBLIC_ANTHROPIC_BASE_URL": "https://api.anthropic.com"
+      }
     },
     "preview": {
       "distribution": "internal",
+      "channel": "preview",
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_ANTHROPIC_BASE_URL": "https://api.anthropic.com"
       }
     },
     "production": {
-      "autoIncrement": true,
+      "channel": "production",
       "android": {
         "buildType": "app-bundle"
       },
       "env": {
-        "EXPO_PUBLIC_FEEDBACK_API_URL": "https://noor-feedback.example.com/api/feedback"
+        "EXPO_PUBLIC_ANTHROPIC_BASE_URL": "https://api.anthropic.com"
       }
     }
   },
   "submit": {
     "production": {
       "android": {
-        "track": "internal"
+        "serviceAccountKeyPath": "./google-service-account.json",
+        "track": "production"
+      },
+      "ios": {
+        "appleId": "APPLE_ID_HERE",
+        "ascAppId": "APP_STORE_CONNECT_APP_ID",
+        "appleTeamId": "APPLE_TEAM_ID"
       }
     }
   }

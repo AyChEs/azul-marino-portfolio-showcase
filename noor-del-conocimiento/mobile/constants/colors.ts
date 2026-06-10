@@ -1,63 +1,58 @@
-/**
- * Madrasa / Cuaderno de Estudio design tokens (Dirección E).
- * Paper is the dominant surface; emerald is reserved for the notebook
- * "spine" header, primary buttons and selection accents.
- */
-
-export type PaperVariant = 'linen' | 'pergamino' | 'antiguo';
-
-export interface PaperTokens {
-  paper: string;
-  paperHi: string;
-  paperDeep: string;
-  paperSoft: string;
-}
-
-export const PaperVariants: Record<PaperVariant, PaperTokens> = {
-  linen: { paper: '#ebe6d8', paperHi: '#f3eee0', paperDeep: '#cdc4a8', paperSoft: '#dcd5c0' },
-  pergamino: { paper: '#f3ead4', paperHi: '#f9f1de', paperDeep: '#dfd1a4', paperSoft: '#ebe0c0' },
-  antiguo: { paper: '#e8d8b0', paperHi: '#f0e2c0', paperDeep: '#c8af7a', paperSoft: '#d9c498' },
-} as const;
+// Islamic palette — informs all design decisions
+// Follows design-taste principles: max 1 accent, no pure black, no purple AI gradient
 
 export const Colors = {
-  // Paper — dominant background ("pergamino" defaults; runtime variant via ThemeContext)
-  paper: '#f3ead4',
-  paperSoft: '#ebe0c0',
-  paperDeep: '#dfd1a4',
-  paperHi: '#f9f1de',
+  // Background hierarchy (dark mode — mosque-garden greens)
+  bg: {
+    primary: "#0a2a1a",    // deepest background — like a mosque garden at night
+    secondary: "#0f3d2e",  // card surfaces
+    tertiary: "#155e40",   // elevated elements
+    overlay: "rgba(10, 42, 26, 0.95)",
+  },
 
-  // Brand cover (splash / logo presentation)
-  coverTeal: '#0d2922',
-  cream: '#f3ead4',
+  // Single emerald accent — all primary CTAs
+  accent: {
+    emerald: "#10b981",
+    emeraldLight: "#34d399",
+    emeraldDark: "#059669",
+  },
 
-  // Ink — green-tinted text, never pure black
-  ink: '#1f2e26',
-  inkSoft: '#3d4f47',
-  inkMuted: 'rgba(31,46,38,0.55)',
-  inkDim: 'rgba(31,46,38,0.32)',
+  // Gold — secondary accent (correct answers, stars, Islamic ornament)
+  gold: {
+    primary: "#d4af37",
+    light: "#e8c96b",
+    muted: "#c8a84b",
+  },
 
-  // Emerald — ACCENT, not background
-  emerald: '#176c4d',
-  emeraldDeep: '#0d4a36',
-  emeraldHi: '#28956b',
-  emeraldGlow: 'rgba(23,108,77,0.10)',
+  // Parchment — text on dark backgrounds, light surface elements
+  parchment: {
+    primary: "#fdf6e3",   // main light text / light screen background
+    secondary: "#f5edce",
+    muted: "#e8d9a0",
+  },
 
-  // Dusty gold — numerals, small accents, lifelines
-  gold: '#b88a3f',
-  goldHi: '#d4a85a',
+  // Semantic game states
+  correct: "#16a34a",
+  incorrect: "#dc2626",
+  timer: {
+    full: "#10b981",
+    medium: "#f59e0b",
+    low: "#dc2626",
+  },
 
-  // Terracotta — non-success states
-  terracotta: '#b85a3d',
+  // Text
+  text: {
+    primary: "#fdf6e3",   // on dark bg
+    secondary: "rgba(253, 246, 227, 0.7)",
+    muted: "rgba(253, 246, 227, 0.4)",
+    onLight: "#0a2a1a",   // on parchment bg
+  },
 
-  // Hairlines
-  hairline: 'rgba(31,46,38,0.10)',
-  hairlineStrong: 'rgba(31,46,38,0.22)',
-
-  // Game states
-  correctBg: 'rgba(23,108,77,0.10)',
-  incorrectBg: 'rgba(184,90,61,0.10)',
-
-  // Flashcard surface
-  flashcard: '#fffaf0',
-  white: '#ffffff',
+  // Borders — hairline, never harsh (design-taste: no generic 1px solid gray)
+  border: {
+    subtle: "rgba(253, 246, 227, 0.1)",
+    medium: "rgba(253, 246, 227, 0.2)",
+    gold: "rgba(212, 175, 55, 0.3)",
+    emerald: "rgba(16, 185, 129, 0.3)",
+  },
 } as const;

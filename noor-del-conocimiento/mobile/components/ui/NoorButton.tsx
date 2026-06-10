@@ -1,97 +1,184 @@
-import React from 'react';
-import { Pressable, StyleSheet, Text, type ViewStyle } from 'react-native';
+// Design principles applied:
+// - Emil Kowalski: scale(0.97) on press, ease-out, < 200ms
+// - high-end skill: double-bezel nested architecture for premium feel
+// - design-taste: spring physics, no linear easing
+import React from "react";
+import {
+  Pressable,
+  Text,
+  View,
+  ActivityIndicator,
+  StyleSheet,
+} from "react-native";
 import Animated, {
-  useAnimatedStyle,
   useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
-import { Colors } from '../../constants/colors';
-import { Fonts } from '../../constants/fonts';
-import { useTheme } from '../../context/ThemeContext';
+  useAnimatedStyle,
+  withSpring,
+} from "react-native-reanimated";
+import { Colors } from "../../constants/colors";
 
-export type ButtonVariant = 'primary' | 'gold' | 'outline' | 'ghost' | 'danger';
+type Variant = "primary" | "secondary" | "ghost" | "gold";
+type Size = "sm" | "md" | "lg";
 
 interface NoorButtonProps {
-  label: string;
   onPress: () => void;
-  variant?: ButtonVariant;
+  label: string;
+  variant?: Variant;
+  size?: Size;
   disabled?: boolean;
-  style?: ViewStyle;
-  accessibilityLabel?: string;
+  loading?: boolean;
+  isRTL?: boolean;
+  style?: object;
 }
 
-export function NoorButton({
-  label,
-  onPress,
-  variant = 'primary',
-  disabled = false,
-  style,
-  accessibilityLabel,
-}: NoorButtonProps) {
-  const { theme } = useTheme();
-  const scale = useSharedValue(1);
-  const animatedStyle = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-  const { container, text } = variantStyles(variant, theme.paper.paper);
+const NoorButtonBase: React.FC<NoorButtonProps> = ({
+  onPress,
+  label,
+  variant = "primary",
+  size = "md",
+  disabled = false,
+  loading = false,
+  isRTL = false,
+  style,
+}) => {
+  const scale = useSharedValue(1);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+
+  const handlePressIn = () => {
+    // Emil Kowalski: scale(0.97) on active, spring physics, not linear
+    scale.value = withSpring(0.97, { stiffness: 400, damping: 25 });
+  };
+
+  const handlePressOut = () => {
+    scale.value = withSpring(1, { stiffness: 300, damping: 20 });
+  };
+
+  const styles = getStyles(variant, size, disabled);
 
   return (
-    <Animated.View style={[animatedStyle, style]}>
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={accessibilityLabel ?? label}
-        accessibilityState={{ disabled }}
-        disabled={disabled}
-        onPressIn={() => {
-          scale.value = withTiming(0.97, { duration: 150 });
-        }}
-        onPressOut={() => {
-          scale.value = withTiming(1, { duration: 150 });
-        }}
-        onPress={onPress}
-        style={[styles.base, container, disabled && styles.disabled]}
-      >
-        <Text style={[styles.label, text]} numberOfLines={1} adjustsFontSizeToFit>
-          {label}
-        </Text>
-      </Pressable>
-    </Animated.View>
+    // Double-bezel: outer shell + inner core (high-end skill)
+    <AnimatedPressable
+      onPress={disabled || loading ? undefined : onPress}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      style={[animatedStyle, styles.outerShell, style]}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      accessibilityState={{ disabled }}
+    >
+      <View style={styles.innerCore}>
+        {loading ? (
+          <ActivityIndicator
+            size="small"
+            color={variant === "primary" ? Colors.parchment.primary : Colors.accent.emerald}
+          />
+        ) : (
+          <Text
+            style={[styles.label, isRTL && { textAlign: "right" }]}
+            numberOfLines={1}
+          >
+            {label}
+          </Text>
+        )}
+      </View>
+    </AnimatedPressable>
   );
-}
+};
 
-function variantStyles(
-  variant: ButtonVariant,
-  paper: string,
-): { container: ViewStyle; text: { color: string } } {
-  switch (variant) {
-    case 'gold':
-      return { container: { backgroundColor: Colors.goldHi }, text: { color: Colors.ink } };
-    case 'outline':
-      return {
-        container: {
-          backgroundColor: paper,
-          borderWidth: 1,
-          borderColor: Colors.hairlineStrong,
-        },
-        text: { color: Colors.ink },
-      };
-    case 'ghost':
-      return { container: { backgroundColor: 'transparent' }, text: { color: Colors.inkSoft } };
-    case 'danger':
-      return { container: { backgroundColor: Colors.terracotta }, text: { color: Colors.white } };
-    case 'primary':
-    default:
-      return { container: { backgroundColor: Colors.emerald }, text: { color: Colors.white } };
-  }
-}
+// Memoize the button — its props (label, variant, size, etc.) rarely change
+// for a given instance, so React skips re-renders when the parent updates.
+// Crucial in play.tsx where the parent re-renders every second from the timer.
+export const NoorButton = React.memo(NoorButtonBase);
 
-const styles = StyleSheet.create({
-  base: {
-    minHeight: 48,
-    borderRadius: 12,
-    paddingHorizontal: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  label: { fontFamily: Fonts.bodySemiBold, fontSize: 15 },
-  disabled: { opacity: 0.45 },
-});
+const getStyles = (variant: Variant, size: Size, disabled: boolean) => {
+  const pad = { sm: 12, md: 16, lg: 20 }[size];
+  const fontSize = { sm: 14, md: 16, lg: 18 }[size];
+
+  const variantOuter: Record<Variant, object> = {
+    primary: {
+      backgroundColor: "rgba(16, 185, 129, 0.15)",
+      borderWidth: 1,
+      borderColor: Colors.border.emerald,
+      borderRadius: 16,
+      padding: 2,
+    },
+    secondary: {
+      backgroundColor: "rgba(253, 246, 227, 0.08)",
+      borderWidth: 1,
+      borderColor: Colors.border.subtle,
+      borderRadius: 16,
+      padding: 2,
+    },
+    ghost: {
+      borderRadius: 16,
+      padding: 2,
+    },
+    gold: {
+      backgroundColor: "rgba(212, 175, 55, 0.12)",
+      borderWidth: 1,
+      borderColor: Colors.border.gold,
+      borderRadius: 16,
+      padding: 2,
+    },
+  };
+
+  const variantInner: Record<Variant, object> = {
+    primary: {
+      backgroundColor: Colors.accent.emerald,
+      borderRadius: 14,
+      // Inner highlight — liquid glass refraction (design-taste skill)
+      shadowColor: Colors.accent.emerald,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.3,
+      shadowRadius: 8,
+    },
+    secondary: {
+      backgroundColor: "rgba(253, 246, 227, 0.1)",
+      borderRadius: 14,
+    },
+    ghost: {
+      borderRadius: 14,
+    },
+    gold: {
+      backgroundColor: Colors.gold.primary,
+      borderRadius: 14,
+      shadowColor: Colors.gold.primary,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 8,
+    },
+  };
+
+  const labelColor: Record<Variant, string> = {
+    primary: Colors.parchment.primary,
+    secondary: Colors.text.primary,
+    ghost: Colors.text.secondary,
+    gold: Colors.bg.primary,
+  };
+
+  return StyleSheet.create({
+    outerShell: {
+      ...(variantOuter[variant] as object),
+      opacity: disabled ? 0.45 : 1,
+    },
+    innerCore: {
+      ...(variantInner[variant] as object),
+      paddingHorizontal: pad,
+      paddingVertical: pad * 0.7,
+      alignItems: "center",
+      justifyContent: "center",
+      flexDirection: "row",
+    },
+    label: {
+      color: labelColor[variant],
+      fontSize,
+      fontWeight: "600",
+      letterSpacing: 0.3,
+    },
+  });
+};

@@ -1,146 +1,176 @@
 {
-  "common": {
-    "appName": "Noor",
-    "appNameArabic": "نور",
-    "tagline": "del Conocimiento",
-    "bismillah": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
-    "back": "Atrás",
-    "next": "Siguiente",
-    "continue": "Continuar",
-    "cancel": "Cancelar",
-    "confirm": "Confirmar",
-    "close": "Cerrar",
-    "loading": "Cargando…",
-    "retry": "Reintentar",
-    "yes": "Sí",
-    "no": "No",
-    "notebook": "NDC · CUADERNO",
+    "gameTitle": "Trivia Luz del Saber",
+    "bismillah": "بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+    "startYourJourney": "Empieza tu Viaje",
+    "welcomeMessage": "Bienvenido a un viaje de conocimiento para iluminar la mente y el alma.",
+    "rulesTitle": "Reglas del Juego",
+    "rulesScrollPrompt": "Debes desplazarte hasta el final para poder continuar.",
+    "rulesReadButton": "He leído las reglas, ¡a jugar!",
+    "rulesScrollCta": "Desplázate hacia abajo para continuar...",
     "chooseLanguage": "Elige tu idioma",
-    "beta": "beta"
-  },
-  "home": {
-    "title": "Índice de contenidos",
-    "lesson": "Lección",
-    "mode": "Modo",
-    "subject": "Materia",
-    "tempo": "Tempo",
-    "modeSolo": "Solo",
-    "modeSoloDesc": "Estudia a tu ritmo, con vidas y reloj",
-    "modeMajlis": "Majlis",
-    "modeMajlisDesc": "Juega en grupo, por turnos",
-    "modeLearn": "Aprender",
-    "modeLearnDesc": "Repasa sin reloj ni vidas",
-    "categoryAll": "Todas las materias",
-    "categoryQuranGeneral": "Corán y General",
-    "categoryProphets": "Profetas",
-    "categorySeerah": "Seerah",
-    "difficultyEasy": "Fácil",
-    "difficultyMedium": "Medio",
-    "difficultyHard": "Difícil",
-    "start": "Comenzar lección",
-    "noQuestions": "No hay preguntas verificadas para esta selección todavía."
-  },
-  "play": {
-    "questionMeta": "PÁG %{current}/%{total}",
-    "lives": "Vidas",
-    "score": "Puntos",
-    "timeUp": "¡Se acabó el tiempo!",
-    "correct": "Correcto",
-    "incorrect": "Incorrecto",
-    "explanation": "Explicación",
-    "source": "Fuente",
-    "reportQuestion": "Reportar este dato",
-    "exitTitle": "¿Salir de la lección?",
-    "exitBody": "Perderás el progreso de esta partida.",
-    "lifelineFiftyName": "الفُرقان",
-    "lifelineFiftyEffect": "El discernimiento · elimina dos opciones",
-    "lifelineTimeName": "الصَّبر",
-    "lifelineTimeEffect": "La paciencia · +15 segundos",
-    "lifelineSkipName": "الهِجرة",
-    "lifelineSkipEffect": "La migración · salta la pregunta",
-    "aiThinking": "Preparando explicación…",
-    "aiUnavailable": "Explicación verificada del banco de preguntas:"
-  },
-  "gameOver": {
-    "title": "Boletín de notas",
-    "score": "Puntuación",
-    "accuracy": "Precisión",
-    "answered": "Respondidas",
-    "newRecord": "¡Nuevo récord personal!",
-    "rankHafiz": "Háfiz",
-    "rankHafizDesc": "Dominio excepcional. Sigue iluminando.",
-    "rankAlim": "Álim",
-    "rankAlimDesc": "Gran conocimiento. Muy bien.",
-    "rankTalib": "Tálib",
-    "rankTalibDesc": "Buen estudiante. Sigue repasando.",
-    "rankMubtadi": "Mubtadí",
-    "rankMubtadiDesc": "Cada error es una oportunidad de aprender.",
-    "playAgain": "Jugar de nuevo",
-    "goHome": "Volver al índice",
-    "share": "Compartir resultado",
-    "shareMessage": "He conseguido %{score} puntos (%{accuracy}% de precisión) en Noor del Conocimiento, rango %{rank}. ¿Te animas?"
-  },
-  "majlis": {
-    "setupTitle": "Registro de clase",
-    "players": "Estudiantes",
-    "addPlayer": "Añadir estudiante",
-    "playerPlaceholder": "Nombre",
-    "minPlayers": "Se necesitan al menos 2 estudiantes.",
-    "maxPlayers": "Máximo 8 estudiantes.",
-    "turnOf": "Turno de %{name}",
-    "resultsTitle": "Ranking de clase",
-    "winner": "Ganador",
-    "finalScores": "Puntuaciones finales",
-    "rank": "RANK"
-  },
-  "learn": {
-    "title": "Modo Aprender",
-    "subtitle": "Sin reloj, sin vidas. Solo conocimiento.",
-    "showAnswer": "Ver respuesta y explicación",
-    "nextCard": "Siguiente tarjeta"
-  },
-  "settings": {
-    "title": "Ajustes",
-    "language": "Idioma",
-    "themePaper": "Papel",
-    "paperLinen": "Lino",
-    "paperPergamino": "Pergamino",
-    "paperAntiguo": "Antiguo",
-    "themeVoice": "Voz tipográfica",
-    "voiceEditorial": "Editorial",
-    "voiceAmable": "Amable",
-    "voiceClasica": "Clásica",
-    "themeHeader": "Encabezado",
-    "headerCuaderno": "Cuaderno",
-    "headerMinimo": "Mínimo",
-    "sound": "Sonido",
-    "haptics": "Vibración",
-    "about": "Acerca de"
-  },
-  "about": {
-    "title": "Acerca de",
-    "disclaimer": "Noor del Conocimiento es una app educativa. Todo el contenido procede de fuentes islámicas verificables (Corán, colecciones auténticas de hadiz y obras reconocidas de Seerah), citadas en cada pregunta. Para cuestiones de práctica religiosa, consulta siempre a un erudito cualificado.",
-    "sourcesTitle": "Fuentes principales",
-    "privacy": "Política de privacidad",
-    "reportContent": "Reportar un error de contenido",
-    "reportSubject": "Reporte de contenido — pregunta %{id}",
-    "version": "Versión"
-  },
-  "errors": {
-    "erratumTitle": "Erratum · 500",
-    "erratumBody": "Algo salió mal. La página se ha marcado para corrección.",
-    "notFoundTitle": "Página perdida · ٤٠٤",
-    "notFoundBody": "Esta hoja no está en el cuaderno.",
-    "goHome": "Volver al inicio"
-  },
-  "plurals": {
-    "questions": {
-      "one": "%{count} pregunta",
-      "other": "%{count} preguntas"
+    "loading": {
+        "default": "Cargando...",
+        "results": "Cargando resultados...",
+        "game": "Cargando partida..."
     },
-    "players": {
-      "one": "%{count} estudiante",
-      "other": "%{count} estudiantes"
+    "rules": {
+        "gameModes": {
+            "title": "Modos de Juego",
+            "musafir": {
+                "title": "Modo Musafir (Solo)",
+                "description": "Juega preguntas hasta que pierdas tus 3 vidas. ¡Busca tu récord personal!"
+            },
+            "majlis": {
+                "title": "Modo Majlis (Grupo)",
+                "description": "Compite por turnos con 2-6 jugadores. Cada uno tiene 3 vidas. El juego termina cuando solo queda un jugador o se completan las rondas."
+            }
+        },
+        "difficulty": {
+            "title": "Dificultad y Tiempo",
+            "easy": "Hechos básicos y nombres conocidos. (30 segundos)",
+            "medium": "Fechas, detalles de batallas. (20 segundos)",
+            "hard": "Tafsir, cronología exacta, jurisprudencia. (15 segundos)"
+        },
+        "lifelines": {
+            "title": "Mecánica de Comodines",
+            "inventory": "Cada jugador tiene su propio inventario por partida.",
+            "fiftyFifty": {
+                "title": "50/50 (El Discernimiento)",
+                "description": "Elimina 2 respuestas incorrectas. Tienes 2 usos por partida."
+            },
+            "extraTime": {
+                "title": "Tiempo Extra (Sabr)",
+                "description": "Añade 15 segundos al temporizador. Tienes 2 usos por partida."
+            },
+            "skip": {
+                "title": "Saltar Pregunta (Hégira)",
+                "description": "Pasa a la siguiente pregunta sin perder vidas. Tienes 1 uso por partida (solo en dificultad Media y Difícil)."
+            }
+        },
+        "scoring": {
+            "title": "Sistema de Puntuación",
+            "difficulty": "Multiplicador por Dificultad: Fácil (1.0x), Medio (1.5x), Difícil (2.0x)",
+            "category": "Multiplicador por Categoría: Seerah (1.2x), Profetas (1.1x), Corán y General (1.0x)",
+            "timeBonus": "Bono de Tiempo: Hasta un 30% extra según lo rápido que respondas.",
+            "accumulation": "Progreso Global: Todos tus puntos se acumulan en la Tabla de Clasificación."
+        }
+    },
+    "setup": {
+        "chooseMode": "Elige tu Modo de Juego",
+        "musafirMode": {
+            "title": "Modo Musafir",
+            "description": "Un viaje de conocimiento en solitario. ¿Hasta dónde puedes llegar?"
+        },
+        "majlisMode": {
+            "title": "Modo Majlis",
+            "description": "Reúne a tu familia y amigos para un desafío en grupo.",
+            "button": "Configurar Partida"
+        },
+        "selectButton": "Seleccionar",
+        "chooseAnotherMode": "Elegir otro modo",
+        "chooseCategory": "Elige una Categoría",
+        "chooseDifficulty": "Elige la Dificultad"
+    },
+    "category": {
+        "seerah": "Sira",
+        "prophets": "Profetas",
+        "general": "General",
+        "mix": "Mixto",
+        "seerahDescription": "Sumérgete en la vida, batallas y enseñanzas del Profeta Muhammad (ﷺ).",
+        "prophetsDescription": "Pon a prueba tu conocimiento sobre las historias de los profetas, desde Adán (AS) hasta Isa (AS).",
+        "generalDescription": "Explora la revelación, Fiqh básico, historia islámica y los pilares de la fe.",
+        "mixDescription": "Un desafío aleatorio de todas las categorías para la dificultad elegida."
+    },
+    "difficulty": {
+        "easy": "Fácil",
+        "medium": "Medio",
+        "hard": "Difícil"
+    },
+    "majlisSetup": {
+        "title": "Configuración del Majlis",
+        "description": "Añade de 2 a 6 jugadores para comenzar",
+        "playerNameLabel": "Nombre del Jugador",
+        "playerNamePlaceholder": "Ej: Abdullah",
+        "addPlayerButton": "Añadir",
+        "playersTitle": "Jugadores",
+        "startGameButton": "Comenzar Partida Grupal",
+        "backToHome": "Volver al inicio"
+    },
+    "majlis": {
+        "player": "Jugador",
+        "addPlayer": "Añadir jugador",
+        "defaultPlayer": "Jugador",
+        "results": "Resultados del Majlis",
+        "eliminated": "Eliminado"
+    },
+    "game": {
+        "score": "Puntos",
+        "start": "Iniciar Majlis",
+        "playAgain": "Jugar de nuevo",
+        "backHome": "Volver al inicio"
+    },
+    "play": {
+        "score": "Puntuación",
+        "round": "Ronda",
+        "turnOf": "Turno de",
+        "readyButton": "¡Estoy listo!",
+        "exit": "Salir",
+        "exitAria": "Salir de la partida",
+        "exitTitle": "¿Salir de la partida?",
+        "exitDescription": "Tu progreso en esta partida se perderá. ¿Estás seguro de que quieres salir?",
+        "exitCancel": "Seguir jugando",
+        "exitConfirm": "Sí, salir"
+    },
+    "playerStatus": {
+        "pts": "pts",
+        "eliminated": "Eliminado",
+        "lives": "Vidas"
+    },
+    "lifeline": {
+        "fiftyFifty": "Comodín 50/50",
+        "extraTime": "Comodín de tiempo extra",
+        "skip": "Saltar"
+    },
+    "feedback": {
+        "title": "Feedback de IA",
+        "incorrect": "Eso no fue del todo correcto.",
+        "correctAnswerIs": "La respuesta correcta es:",
+        "generating": "Generando un poco de sabiduría...",
+        "continue": "Continuar",
+        "error": "La sabiduría de la IA no está disponible en este momento. Por favor, continúa."
+    },
+    "gameOver": {
+        "solo": {
+            "title": "Fin del Viaje",
+            "description": "Tu búsqueda de conocimiento ha terminado... por ahora."
+        },
+        "majlis": {
+            "title": "Fin del Majlis",
+            "description": "¡La competencia ha terminado!",
+            "winner": "Ganador",
+            "finalStandings": "Clasificación Final"
+        },
+        "finalScore": "Puntaje Final",
+        "correctOf": "correctas de",
+        "questions": "preguntas",
+        "playAgain": "Jugar de Nuevo"
+    },
+    "rank": {
+        "0": {
+            "title": "Novato de la Luz",
+            "description": "Has dado el primer paso en el camino del conocimiento. ¡Sigue aprendiendo!"
+        },
+        "1": {
+            "title": "Buscador de las Escrituras",
+            "description": "Tu viaje está en marcha. Los versos se están abriendo para ti."
+        },
+        "2": {
+            "title": "Erudito de la Sunnah",
+            "description": "Muestras una gran promesa y comprensión. Tu dedicación brilla con fuerza."
+        },
+        "3": {
+            "title": "Sabio de los Sahaba",
+            "description": "¡Masha-Allah! Tu conocimiento es vasto y profundo, un verdadero faro de luz."
+        }
     }
-  }
 }

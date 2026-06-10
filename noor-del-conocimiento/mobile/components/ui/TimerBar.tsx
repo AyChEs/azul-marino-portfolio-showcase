@@ -1,44 +1,76 @@
-import React, { memo } from 'react';
-import { StyleSheet, View } from 'react-native';
-import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
-import { Colors } from '../../constants/colors';
+// Timer bar — animates with linear easing (progress bars are linear, not spring)
+// Color shifts green→amber→red as time runs out.
+import React, { useEffect } from "react";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
+import { timerColor } from "../../lib/utils";
 
 interface TimerBarProps {
-  /** Remaining fraction of time, 0..1. */
-  fraction: number;
+  timeLeft: number;
+  totalTime: number;
 }
 
-/** Emerald → gold → terracotta as time runs out. Isolated so the per-second
- *  re-render does not drag the whole screen. */
-export const TimerBar = memo(function TimerBar({ fraction }: TimerBarProps) {
-  const color =
-    fraction > 0.5 ? Colors.emerald : fraction > 0.25 ? Colors.goldHi : Colors.terracotta;
+const WINDOW_WIDTH = Dimensions.get("window").width;
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    width: withTiming(`${Math.max(0, Math.min(1, fraction)) * 100}%`, { duration: 250 }),
-    backgroundColor: withTiming(color, { duration: 250 }),
-    shadowColor: color,
+export const TimerBar: React.FC<TimerBarProps> = ({ timeLeft, totalTime }) => {
+  const fraction = Math.max(0, timeLeft / totalTime);
+  const widthPx = useSharedValue(fraction * WINDOW_WIDTH);
+
+  useEffect(() => {
+    widthPx.value = withTiming(fraction * WINDOW_WIDTH, {
+      duration: 1000,
+      easing: Easing.linear,
+    });
+  }, [fraction]);
+
+  const animatedBar = useAnimatedStyle(() => ({
+    width: widthPx.value,
+    backgroundColor: timerColor(widthPx.value / WINDOW_WIDTH),
   }));
 
   return (
-    <View style={styles.track} accessibilityRole="progressbar">
-      <Animated.View style={[styles.fill, animatedStyle]} />
+    <View
+      style={styles.container}
+      accessible
+      accessibilityRole="progressbar"
+      accessibilityValue={{ min: 0, max: totalTime, now: Math.ceil(timeLeft) }}
+    >
+      <View style={styles.track}>
+        <Animated.View style={[styles.bar, animatedBar]} />
+      </View>
+      <Text style={[styles.label, { color: timerColor(fraction) }]}>
+        {Math.ceil(timeLeft)}s
+      </Text>
     </View>
   );
-});
+};
 
 const styles = StyleSheet.create({
-  track: {
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: Colors.hairline,
-    overflow: 'hidden',
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
   },
-  fill: {
-    height: '100%',
+  track: {
+    flex: 1,
+    height: 6,
+    backgroundColor: "rgba(253, 246, 227, 0.1)",
     borderRadius: 3,
-    shadowOpacity: 0.5,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 0 },
+    overflow: "hidden",
+  },
+  bar: {
+    height: "100%",
+    borderRadius: 3,
+  },
+  label: {
+    fontSize: 13,
+    fontWeight: "700",
+    minWidth: 28,
+    textAlign: "right",
   },
 });

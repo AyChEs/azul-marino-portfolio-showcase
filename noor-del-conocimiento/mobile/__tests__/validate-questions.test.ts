@@ -2,19 +2,20 @@ import questionsJson from '../data/questions.json';
 import { countByVerification, validateQuestions } from '../scripts/validate-questions';
 
 const validQuestion = {
-  id: 'x_001',
-  category: 'seerah',
-  difficulty: 'easy',
+  id: 9001,
   question: { es: 'q', en: 'q', ar: 'q' },
   options: {
     es: ['a', 'b', 'c', 'd'],
     en: ['a', 'b', 'c', 'd'],
     ar: ['a', 'b', 'c', 'd'],
   },
-  correctIndex: 0,
+  correctAnswer: { es: 'b', en: 'b', ar: 'b' },
+  category: 'Seerah',
+  difficulty: 'easy',
   explanation: { es: 'e', en: 'e', ar: 'e' },
-  source: { primary: 'Corán 1:1', verified_by: 'test', verified_date: '2026-01-01' },
-  sensitivity: 'none',
+  source: 'Corán 1:1',
+  verified: true,
+  flag: false,
 };
 
 describe('validateQuestions', () => {
@@ -22,14 +23,16 @@ describe('validateQuestions', () => {
     expect(validateQuestions([validQuestion])).toEqual([]);
   });
 
-  it('rejects missing source.primary', () => {
-    const q = { ...validQuestion, source: { ...validQuestion.source, primary: '' } };
-    expect(validateQuestions([q]).some((i) => i.problem.includes('source.primary'))).toBe(true);
+  it('rejects missing source', () => {
+    const q = { ...validQuestion, source: '' };
+    expect(validateQuestions([q]).some((i) => i.problem.includes('source'))).toBe(true);
   });
 
-  it('rejects out-of-range correctIndex', () => {
-    const q = { ...validQuestion, correctIndex: 4 };
-    expect(validateQuestions([q]).some((i) => i.problem.includes('correctIndex'))).toBe(true);
+  it('rejects a correctAnswer that is not among the options', () => {
+    const q = { ...validQuestion, correctAnswer: { es: 'z', en: 'b', ar: 'b' } };
+    expect(
+      validateQuestions([q]).some((i) => i.problem.includes('correctAnswer.es')),
+    ).toBe(true);
   });
 
   it('rejects duplicate options', () => {
@@ -56,13 +59,14 @@ describe('validateQuestions', () => {
   });
 });
 
-describe('shipped question bank', () => {
+describe('shipped question bank (507)', () => {
   it('passes validation', () => {
     expect(validateQuestions(questionsJson as never[])).toEqual([]);
   });
 
-  it('has no pending-review questions in the production set', () => {
-    const { pending } = countByVerification(questionsJson as never[]);
-    expect(pending).toBe(0);
+  it('has no excluded (unverified/flagged) questions', () => {
+    const { servable, excluded } = countByVerification(questionsJson as never[]);
+    expect(excluded).toBe(0);
+    expect(servable).toBe(507);
   });
 });
