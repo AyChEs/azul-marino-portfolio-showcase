@@ -1,0 +1,57 @@
+{
+  "name": "noor-del-conocimiento",
+  "version": "1.0.0",
+  "main": "expo-router/entry",
+  "private": true,
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "lint": "expo lint",
+    "typecheck": "tsc --noEmit",
+    "validate:questions": "ts-node --compilerOptions '{\"module\":\"commonjs\"}' scripts/validate-questions.ts",
+    "test": "jest",
+    "prebuild:check": "npm run typecheck && npm run validate:questions && npm run test"
+  },
+  "dependencies": {
+    "@expo-google-fonts/dm-serif-display": "^0.2.3",
+    "@expo-google-fonts/el-messiri": "^0.2.3",
+    "@expo-google-fonts/inter": "^0.2.3",
+    "@expo-google-fonts/jetbrains-mono": "^0.2.3",
+    "@react-native-async-storage/async-storage": "1.23.1",
+    "expo": "~52.0.0",
+    "expo-constants": "~17.0.3",
+    "expo-font": "~13.0.1",
+    "expo-haptics": "~14.0.0",
+    "expo-linking": "~7.0.3",
+    "expo-localization": "~16.0.0",
+    "expo-router": "~4.0.9",
+    "expo-splash-screen": "~0.29.13",
+    "expo-status-bar": "~2.0.0",
+    "expo-system-ui": "~4.0.4",
+    "i18n-js": "^4.5.0",
+    "react": "18.3.1",
+    "react-native": "0.76.5",
+    "react-native-reanimated": "~3.16.1",
+    "react-native-safe-area-context": "4.12.0",
+    "react-native-screens": "~4.4.0",
+    "react-native-svg": "15.8.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.0",
+    "@types/jest": "^29.5.12",
+    "@types/react": "~18.3.12",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.3.3"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/__tests__/**/*.test.ts"
+    ]
+  }
+}
