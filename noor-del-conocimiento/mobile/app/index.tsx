@@ -1,77 +1,194 @@
-import React, { useEffect } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useRouter, useLocalSearchParams, Redirect } from 'expo-router';
-import { Colors } from '../constants/colors';
-import { Fonts } from '../constants/fonts';
-import { NumPlate } from '../components/ui/NumPlate';
-import { Wordmark } from '../components/ui/Wordmark';
-import { useLanguage } from '../context/LanguageContext';
-import { SUPPORTED_LANGUAGES, type Language } from '../lib/types';
+// Language Selection Screen — shown only on first launch
+// Auto-detects device language and pre-selects it.
+// On subsequent launches, the app goes directly to home.
+import React, { useEffect } from "react";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withDelay,
+  withTiming,
+} from "react-native-reanimated";
+import { router } from "expo-router";
+import { Colors } from "../constants/colors";
+import { NoorButton } from "../components/ui/NoorButton";
+import { IslamicPatternBackground, MihrabArch } from "../components/patterns/IslamicPattern";
+import { useLanguage } from "../context/LanguageContext";
+import type { Language } from "../lib/types";
 
-const NATIVE_NAMES: Record<Language, string> = {
-  es: 'Español',
-  en: 'English',
-  ar: 'العربية',
-  ma: 'الدارجة',
-};
+const { width } = Dimensions.get("window");
 
-/** Notebook cover: shown on first launch or when opened from Settings. */
-export default function CoverScreen() {
-  const router = useRouter();
-  const { firstLaunch, setLanguage, language, t } = useLanguage();
-  const params = useLocalSearchParams<{ picker?: string }>();
-  const forcePicker = params.picker === '1';
+export default function LanguageScreen() {
+  const { setLanguage, isReady, isFirstTime, language } = useLanguage();
 
-  // Language auto-detected on a previous launch → straight to home (section 5.1).
-  if (!firstLaunch && !forcePicker) return <Redirect href="/home" />;
+  // If context is ready and this is not the first time, skip straight to home
+  useEffect(() => {
+    if (isReady && !isFirstTime) {
+      router.replace("/home");
+    }
+  }, [isReady, isFirstTime]);
 
-  const choose = async (lang: Language) => {
+  const titleOpacity = useSharedValue(0);
+  const titleY = useSharedValue(16);
+  const arabicOpacity = useSharedValue(0);
+  const arabicY = useSharedValue(12);
+  const buttonsOpacity = useSharedValue(0);
+  const buttonsY = useSharedValue(20);
+
+  useEffect(() => {
+    if (!isReady || !isFirstTime) return;
+    titleOpacity.value = withDelay(100, withTiming(1, { duration: 400 }));
+    titleY.value = withDelay(100, withSpring(0, { stiffness: 120, damping: 18 }));
+    arabicOpacity.value = withDelay(250, withTiming(1, { duration: 400 }));
+    arabicY.value = withDelay(250, withSpring(0, { stiffness: 120, damping: 18 }));
+    buttonsOpacity.value = withDelay(420, withTiming(1, { duration: 380 }));
+    buttonsY.value = withDelay(420, withSpring(0, { stiffness: 120, damping: 18 }));
+  }, [isReady, isFirstTime]);
+
+  const titleStyle = useAnimatedStyle(() => ({
+    opacity: titleOpacity.value,
+    transform: [{ translateY: titleY.value }],
+  }));
+
+  const arabicStyle = useAnimatedStyle(() => ({
+    opacity: arabicOpacity.value,
+    transform: [{ translateY: arabicY.value }],
+  }));
+
+  const buttonsStyle = useAnimatedStyle(() => ({
+    opacity: buttonsOpacity.value,
+    transform: [{ translateY: buttonsY.value }],
+  }));
+
+  const handleSelectLanguage = async (lang: Language) => {
     await setLanguage(lang);
-    router.replace('/home');
+    router.replace("/home");
   };
 
+  // Render nothing while deciding whether to redirect
+  if (!isReady || !isFirstTime) return null;
+
+  const LANGS: { code: Language; label: string; isRTL?: boolean }[] = [
+    { code: "es", label: "Español" },
+    { code: "en", label: "English" },
+    { code: "ar", label: "العربية", isRTL: true },
+  ];
+
   return (
-    <ScrollView style={styles.page} contentContainerStyle={styles.content}>
-      <NumPlate label={t('common.notebook')} style={styles.plate} />
-      <Wordmark />
-      <Text style={styles.bismillah}>{t('common.bismillah')}</Text>
-      <Text style={styles.separator}>۞</Text>
-      <Text style={styles.choose}>{t('common.chooseLanguage')}</Text>
-      <View style={styles.cards}>
-        {SUPPORTED_LANGUAGES.map((lang) => (
-          <Pressable
-            key={lang}
-            accessibilityRole="button"
-            accessibilityLabel={NATIVE_NAMES[lang]}
-            onPress={() => void choose(lang)}
-            style={[styles.card, language === lang && styles.cardActive]}
-          >
-            <Text style={styles.cardLang}>{NATIVE_NAMES[lang]}</Text>
-            <NumPlate label={lang === 'ma' ? `${lang} · ${t('common.beta')}` : lang} />
-          </Pressable>
-        ))}
+    <SafeAreaView style={styles.root}>
+      <IslamicPatternBackground color={Colors.gold.primary} opacity={0.05} tileSize={48} />
+
+      <View style={styles.content}>
+        <View style={styles.archContainer}>
+          <MihrabArch color={Colors.gold.primary} width={width * 0.65} />
+        </View>
+
+        <Animated.View style={[styles.bismillahContainer, arabicStyle]}>
+          <Text style={styles.bismillah} allowFontScaling={false}>
+            بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+          </Text>
+        </Animated.View>
+
+        <Animated.View style={[styles.titleContainer, titleStyle]}>
+          <Text style={styles.arabicTitle}>نور المعرفة</Text>
+          <Text style={styles.subtitle}>Noor del Conocimiento</Text>
+        </Animated.View>
+
+        <View style={styles.divider} />
+
+        <Animated.View style={[styles.buttons, buttonsStyle]}>
+          <Text style={styles.chooseLabel}>Choose your language / اختر لغتك</Text>
+
+          {LANGS.map((lang) => (
+            <NoorButton
+              key={lang.code}
+              onPress={() => handleSelectLanguage(lang.code)}
+              label={lang.label}
+              variant={language === lang.code ? "primary" : "secondary"}
+              size="lg"
+              isRTL={lang.isRTL}
+              style={styles.langButton}
+            />
+          ))}
+        </Animated.View>
       </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  page: { flex: 1, backgroundColor: Colors.coverTeal },
-  content: { alignItems: 'center', paddingVertical: 72, paddingHorizontal: 24, gap: 14 },
-  plate: { marginBottom: 18 },
-  bismillah: { fontFamily: Fonts.arabic, fontSize: 18, color: 'rgba(243,234,212,0.8)', marginTop: 20 },
-  separator: { fontSize: 18, color: Colors.gold, marginVertical: 6 },
-  choose: { fontFamily: Fonts.bodySemiBold, fontSize: 13, color: Colors.cream, marginBottom: 4 },
-  cards: { width: '100%', gap: 10 },
-  card: {
-    backgroundColor: Colors.flashcard,
-    borderRadius: 14,
-    minHeight: 56,
-    paddingHorizontal: 18,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+  root: {
+    flex: 1,
+    backgroundColor: Colors.bg.primary,
   },
-  cardActive: { borderWidth: 2, borderColor: Colors.goldHi },
-  cardLang: { fontFamily: Fonts.bodySemiBold, fontSize: 16, color: Colors.ink },
+  content: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 28,
+    gap: 8,
+  },
+  archContainer: {
+    marginBottom: 8,
+    opacity: 0.7,
+  },
+  bismillahContainer: {
+    alignItems: "center",
+  },
+  bismillah: {
+    fontFamily: "Amiri_400Regular",
+    fontSize: 22,
+    color: Colors.gold.primary,
+    textAlign: "center",
+    lineHeight: 38,
+    letterSpacing: 1,
+  },
+  titleContainer: {
+    alignItems: "center",
+    gap: 4,
+    marginTop: 4,
+  },
+  arabicTitle: {
+    fontFamily: "Amiri_700Bold",
+    fontSize: 40,
+    color: Colors.parchment.primary,
+    textAlign: "center",
+    lineHeight: 56,
+  },
+  subtitle: {
+    fontSize: 14,
+    color: Colors.text.secondary,
+    letterSpacing: 2,
+    textTransform: "uppercase",
+    fontWeight: "500",
+  },
+  divider: {
+    width: 48,
+    height: 1,
+    backgroundColor: Colors.gold.primary,
+    opacity: 0.4,
+    marginVertical: 20,
+  },
+  buttons: {
+    width: "100%",
+    gap: 12,
+    alignItems: "stretch",
+  },
+  chooseLabel: {
+    fontSize: 13,
+    color: Colors.text.muted,
+    textAlign: "center",
+    letterSpacing: 0.5,
+    marginBottom: 4,
+  },
+  langButton: {
+    width: "100%",
+  },
 });

@@ -1,52 +1,77 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Colors } from '../constants/colors';
-import { Fonts } from '../constants/fonts';
-import { t } from '../lib/i18n';
+import React from "react";
+import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import { router } from "expo-router";
+import { Colors } from "../constants/colors";
+import { NoorButton } from "./ui/NoorButton";
 
-interface ErrorBoundaryState {
+interface State {
   hasError: boolean;
 }
 
-/** Global "Erratum · 500" boundary. Reports error name only — no PII. */
 export class ErrorBoundary extends React.Component<
   { children: React.ReactNode },
-  ErrorBoundaryState
+  State
 > {
-  override state: ErrorBoundaryState = { hasError: false };
+  state: State = { hasError: false };
 
-  static getDerivedStateFromError(): ErrorBoundaryState {
+  static getDerivedStateFromError(): State {
     return { hasError: true };
   }
 
-  override componentDidCatch(error: Error): void {
-    if (__DEV__) console.error('ErrorBoundary:', error);
-    // Production: log error name only (no message/stack — could contain user data).
-    else console.warn('app_error', error.name);
+  componentDidCatch(error: Error) {
+    // Log to console in dev; swap for Sentry.captureException(error) in prod
+    console.error("[ErrorBoundary]", error);
   }
 
-  override render(): React.ReactNode {
+  handleReset = () => {
+    this.setState({ hasError: false });
+    router.replace("/home");
+  };
+
+  render() {
     if (!this.state.hasError) return this.props.children;
+
     return (
-      <View style={styles.page}>
-        <Text style={styles.ornament}>۞</Text>
-        <Text style={styles.title}>{t('errors.erratumTitle')}</Text>
-        <Text style={styles.body}>{t('errors.erratumBody')}</Text>
-      </View>
+      <SafeAreaView style={styles.root}>
+        <View style={styles.content}>
+          <Text style={styles.icon}>☁️</Text>
+          <Text style={styles.title}>Algo salió mal</Text>
+          <Text style={styles.subtitle}>Something went wrong · حدث خطأ ما</Text>
+          <NoorButton
+            onPress={this.handleReset}
+            label="Volver al inicio"
+            variant="primary"
+            size="md"
+            style={styles.button}
+          />
+        </View>
+      </SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  page: {
+  root: { flex: 1, backgroundColor: Colors.bg.primary },
+  content: {
     flex: 1,
-    backgroundColor: Colors.paper,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: 32,
     gap: 12,
   },
-  ornament: { fontSize: 28, color: Colors.gold },
-  title: { fontFamily: Fonts.displayItalic, fontStyle: 'italic', fontSize: 24, color: Colors.ink },
-  body: { fontFamily: Fonts.body, fontSize: 14, color: Colors.inkMuted, textAlign: 'center' },
+  icon: { fontSize: 48 },
+  title: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: Colors.parchment.primary,
+    textAlign: "center",
+  },
+  subtitle: {
+    fontSize: 14,
+    color: Colors.text.secondary,
+    textAlign: "center",
+    lineHeight: 22,
+    marginBottom: 8,
+  },
+  button: { width: "100%" },
 });

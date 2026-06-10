@@ -1,90 +1,155 @@
-import React, { memo } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { Colors } from '../../constants/colors';
-import { Fonts } from '../../constants/fonts';
-import { useTheme } from '../../context/ThemeContext';
+// Answer option button — core game interaction component
+// Design: Emil Kowalski spring feedback + color state (idle/selected/correct/incorrect)
+// RTL-aware text alignment for Darija
+import React, { useEffect } from "react";
+import { Pressable, Text, StyleSheet } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withTiming,
+  withSequence,
+} from "react-native-reanimated";
+import { Colors } from "../../constants/colors";
 
-export type AnswerState = 'default' | 'selected' | 'correct' | 'wrong' | 'eliminated';
+type AnswerState = "idle" | "selected" | "correct" | "incorrect";
 
 interface AnswerOptionProps {
-  index: number;
   label: string;
   state: AnswerState;
-  onPress: (index: number) => void;
+  // Stable handler called with the option value — lets the parent memoize
+  // without recreating an arrow function per row on every render.
+  onSelect: (value: string) => void;
   disabled?: boolean;
+  isRTL?: boolean;
+  index: number;
 }
 
-const PREFIXES = ['A', 'B', 'C', 'D'] as const;
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-export const AnswerOption = memo(function AnswerOption({
-  index,
+const AnswerOptionBase: React.FC<AnswerOptionProps> = ({
   label,
   state,
-  onPress,
+  onSelect,
   disabled = false,
-}: AnswerOptionProps) {
-  const { theme } = useTheme();
-  const prefix = PREFIXES[index] ?? '?';
+  isRTL = false,
+  index,
+}) => {
+  const scale = useSharedValue(0.92);
+  const opacity = useSharedValue(0);
 
-  const stateStyle = (() => {
-    switch (state) {
-      case 'selected':
-        return { borderColor: Colors.emerald, backgroundColor: Colors.white };
-      case 'correct':
-        return {
-          borderColor: Colors.emerald,
-          backgroundColor: Colors.correctBg,
-          transform: [{ scale: 1.015 }],
-        };
-      case 'wrong':
-        return { borderColor: Colors.terracotta, backgroundColor: Colors.incorrectBg };
-      case 'eliminated':
-        return { opacity: 0.22, backgroundColor: theme.paper.paper };
-      default:
-        return { backgroundColor: theme.paper.paper };
+  // Stagger entrance — 60ms between options (Emil: 30-80ms between items)
+  useEffect(() => {
+    const delay = index * 60;
+    setTimeout(() => {
+      scale.value = withSpring(1, { stiffness: 180, damping: 18 });
+      opacity.value = withTiming(1, { duration: 220 });
+    }, delay);
+  }, []);
+
+  // Shake animation for incorrect
+  useEffect(() => {
+    if (state === "incorrect") {
+      scale.value = withSequence(
+        withSpring(1.02, { stiffness: 600, damping: 10 }),
+        withSpring(0.98, { stiffness: 600, damping: 10 }),
+        withSpring(1.02, { stiffness: 600, damping: 10 }),
+        withSpring(1, { stiffness: 300, damping: 20 })
+      );
     }
-  })();
+    if (state === "correct") {
+      scale.value = withSpring(1.03, { stiffness: 300, damping: 18 });
+    }
+  }, [state]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+    opacity: opacity.value,
+  }));
+
+  const handlePressIn = () => {
+    if (!disabled) scale.value = withSpring(0.97, { stiffness: 400, damping: 25 });
+  };
+
+  const handlePressOut = () => {
+    if (!disabled && state === "idle") {
+      scale.value = withSpring(1, { stiffness: 300, damping: 20 });
+    }
+  };
+
+  const containerStyle = [
+    styles.container,
+    state === "correct" && styles.correct,
+    state === "incorrect" && styles.incorrect,
+    state === "selected" && styles.selected,
+    disabled && state === "idle" && styles.dimmed,
+  ];
 
   return (
-    <Pressable
+    <AnimatedPressable
+      onPress={disabled ? undefined : () => onSelect(label)}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      style={[animatedStyle, containerStyle]}
       accessibilityRole="button"
-      accessibilityLabel={`${prefix}. ${label}`}
-      accessibilityState={{ disabled: disabled || state === 'eliminated' }}
-      disabled={disabled || state === 'eliminated'}
-      onPress={() => onPress(index)}
-      style={[styles.option, stateStyle]}
+      accessibilityLabel={label}
     >
-      <View style={styles.prefixBox}>
-        <Text style={styles.prefix}>{prefix}</Text>
-      </View>
-      <Text style={styles.label} numberOfLines={3}>
+      <Text
+        style={[
+          styles.label,
+          state === "correct" && styles.labelCorrect,
+          state === "incorrect" && styles.labelIncorrect,
+          isRTL && { textAlign: "right", fontFamily: "Amiri_400Regular", fontSize: 18 },
+        ]}
+        numberOfLines={3}
+      >
         {label}
       </Text>
-    </Pressable>
+    </AnimatedPressable>
   );
-});
+};
+
+// Memoized — option props only change when the question/state/disabled changes,
+// not when the parent re-renders from the timer tick.
+export const AnswerOption = React.memo(AnswerOptionBase);
 
 const styles = StyleSheet.create({
-  option: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    minHeight: 52,
-    borderRadius: 12,
+  container: {
+    backgroundColor: Colors.bg.secondary,
     borderWidth: 1,
-    borderColor: Colors.hairline,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
+    borderColor: Colors.border.subtle,
+    borderRadius: 16,
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    // Double-bezel hint via inner shadow would be here in web
+    // In RN we achieve it via border + background contrast
   },
-  prefixBox: {
-    width: 24,
-    height: 24,
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: Colors.hairlineStrong,
-    alignItems: 'center',
-    justifyContent: 'center',
+  correct: {
+    backgroundColor: "rgba(22, 163, 74, 0.15)",
+    borderColor: Colors.correct,
   },
-  prefix: { fontFamily: Fonts.monoBold, fontSize: 11, color: Colors.inkSoft },
-  label: { flex: 1, fontFamily: Fonts.bodyMedium, fontSize: 14, color: Colors.ink },
+  incorrect: {
+    backgroundColor: "rgba(220, 38, 38, 0.12)",
+    borderColor: Colors.incorrect,
+  },
+  selected: {
+    backgroundColor: "rgba(16, 185, 129, 0.1)",
+    borderColor: Colors.accent.emerald,
+  },
+  dimmed: {
+    opacity: 0.45,
+  },
+  label: {
+    color: Colors.text.primary,
+    fontSize: 16,
+    fontWeight: "500",
+    lineHeight: 22,
+  },
+  labelCorrect: {
+    color: Colors.correct,
+    fontWeight: "700",
+  },
+  labelIncorrect: {
+    color: Colors.incorrect,
+  },
 });

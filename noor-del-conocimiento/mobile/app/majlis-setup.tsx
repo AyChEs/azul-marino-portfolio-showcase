@@ -1,97 +1,200 @@
-import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { useRouter } from 'expo-router';
-import { Colors } from '../constants/colors';
-import { Fonts } from '../constants/fonts';
-import { NumPlate } from '../components/ui/NumPlate';
-import { PaperCard } from '../components/ui/PaperCard';
-import { StripHeader } from '../components/ui/StripHeader';
-import { NoorButton } from '../components/ui/NoorButton';
-import { useLanguage } from '../context/LanguageContext';
-import { useTheme } from '../context/ThemeContext';
-import { setMajlisPlayers } from '../lib/session';
-import { MAX_PLAYER_NAME_LENGTH, sanitizeUserText } from '../lib/utils';
+// Majlis Setup Screen — 2-6 player configuration
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import { router } from "expo-router";
+import { useTranslation } from "react-i18next";
+import { Colors } from "../constants/colors";
+import { NoorButton } from "../components/ui/NoorButton";
+import { NoorCard } from "../components/ui/NoorCard";
+import { IslamicPatternBackground } from "../components/patterns/IslamicPattern";
+import { useLanguage } from "../context/LanguageContext";
+import { createPlayer } from "../lib/gameLogic";
+import type { Difficulty } from "../lib/types";
 
 const MIN_PLAYERS = 2;
-const MAX_PLAYERS = 8;
+const MAX_PLAYERS = 6;
 
-/** "Class register": numbered student list for the Majlis mode. */
 export default function MajlisSetupScreen() {
-  const router = useRouter();
-  const { t, n } = useLanguage();
-  const { theme } = useTheme();
-  const [names, setNames] = useState<string[]>(['', '']);
+  const { t } = useTranslation();
+  const { isRTL, language } = useLanguage();
+  const [playerNames, setPlayerNames] = useState<string[]>(["", ""]);
+  const [difficulty, setDifficulty] = useState<Difficulty>("medium");
 
-  const setName = (index: number, value: string) => {
-    setNames((prev) => prev.map((name, i) => (i === index ? value : name)));
+  const addPlayer = () => {
+    if (playerNames.length < MAX_PLAYERS) {
+      setPlayerNames([...playerNames, ""]);
+    }
   };
 
-  const validNames = names.map((nm) => sanitizeUserText(nm)).filter((nm) => nm.length > 0);
-  const canStart = validNames.length >= MIN_PLAYERS;
-
-  const start = () => {
-    setMajlisPlayers(validNames.map((name) => ({ name, score: 0, correctCount: 0 })));
-    router.push('/play');
+  const removePlayer = (index: number) => {
+    if (playerNames.length > MIN_PLAYERS) {
+      setPlayerNames(playerNames.filter((_, i) => i !== index));
+    }
   };
+
+  const updateName = (index: number, name: string) => {
+    const updated = [...playerNames];
+    updated[index] = name;
+    setPlayerNames(updated);
+  };
+
+  const handleStart = () => {
+    // Strip control characters and limit length — player names can appear
+    // in context when AI feedback is requested, so sanitize upfront.
+    const sanitizeName = (raw: string, fallback: string) =>
+      raw.replace(/[\x00-\x1F\x7F]/g, "").slice(0, 20).trim() || fallback;
+    const names = playerNames.map((n, i) =>
+      sanitizeName(n, `${t("majlis.defaultPlayer")} ${i + 1}`)
+    );
+    const players = names.map((name, i) => createPlayer(`player_${i}`, name));
+    router.push({
+      pathname: "/play",
+      params: {
+        mode: "majlis",
+        category: "mix",
+        difficulty,
+        language,
+        players: JSON.stringify(players),
+      },
+    });
+  };
+
+  const canStart = playerNames.length >= MIN_PLAYERS;
 
   return (
-    <View style={[styles.page, { backgroundColor: theme.paper.paper }]}>
-      <StripHeader
-        title={t('majlis.setupTitle')}
-        arabicMark={t('common.appNameArabic')}
-        meta="L. 02"
-      />
-      <ScrollView contentContainerStyle={styles.content}>
-        <PaperCard>
-          <NumPlate label={t('majlis.players')} style={styles.sectionPlate} />
-          {names.map((name, i) => (
-            <View key={i} style={styles.row}>
-              <Text style={styles.num}>{n(i + 1)}</Text>
+    <SafeAreaView style={styles.root}>
+      <IslamicPatternBackground color={Colors.gold.primary} opacity={0.04} tileSize={52} />
+
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <TouchableOpacity onPress={() => router.back()} style={styles.back}>
+          <Text style={styles.backText}>← {t("setup.chooseAnotherMode")}</Text>
+        </TouchableOpacity>
+
+        <Text style={[styles.title, isRTL && { textAlign: "right" }]}>
+          {t("setup.majlisMode.title")}
+        </Text>
+        <Text style={[styles.subtitle, isRTL && { textAlign: "right" }]}>
+          {t("setup.majlisMode.description")}
+        </Text>
+
+        {/* Player list */}
+        <View style={styles.section}>
+          {playerNames.map((name, i) => (
+            <View key={i} style={styles.playerRow}>
               <TextInput
+                style={[
+                  styles.input,
+                  isRTL && { textAlign: "right" },
+                ]}
+                placeholder={`${t("majlis.player") ?? "Jugador"} ${i + 1}`}
+                placeholderTextColor={Colors.text.muted}
                 value={name}
-                onChangeText={(v) => setName(i, v)}
-                placeholder={t('majlis.playerPlaceholder')}
-                placeholderTextColor={Colors.inkDim}
-                maxLength={MAX_PLAYER_NAME_LENGTH}
-                style={styles.input}
-                accessibilityLabel={`${t('majlis.playerPlaceholder')} ${n(i + 1)}`}
+                onChangeText={(v) => updateName(i, v)}
+                maxLength={20}
               />
+              {playerNames.length > MIN_PLAYERS && (
+                <TouchableOpacity
+                  onPress={() => removePlayer(i)}
+                  style={styles.removeBtn}
+                >
+                  <Text style={styles.removeBtnText}>✕</Text>
+                </TouchableOpacity>
+              )}
             </View>
           ))}
-          {names.length < MAX_PLAYERS ? (
+
+          {playerNames.length < MAX_PLAYERS && (
             <NoorButton
-              label={t('majlis.addPlayer')}
-              variant="outline"
-              onPress={() => setNames((prev) => [...prev, ''])}
+              onPress={addPlayer}
+              label={`+ ${t("majlis.addPlayer") ?? "Añadir jugador"}`}
+              variant="ghost"
+              size="sm"
             />
-          ) : (
-            <Text style={styles.hint}>{t('majlis.maxPlayers')}</Text>
           )}
-        </PaperCard>
-        {!canStart ? <Text style={styles.hint}>{t('majlis.minPlayers')}</Text> : null}
-        <NoorButton label={t('home.start')} onPress={start} disabled={!canStart} />
+        </View>
+
+        {/* Difficulty */}
+        <NoorCard style={styles.diffSection}>
+          <Text style={[styles.sectionLabel, isRTL && { textAlign: "right" }]}>
+            {t("setup.chooseDifficulty")}
+          </Text>
+          <View style={styles.diffRow}>
+            {(["easy", "medium", "hard"] as Difficulty[]).map((d) => (
+              <TouchableOpacity
+                key={d}
+                onPress={() => setDifficulty(d)}
+                style={[styles.diffChip, difficulty === d && styles.diffChipActive]}
+              >
+                <Text
+                  style={[
+                    styles.diffChipText,
+                    difficulty === d && styles.diffChipTextActive,
+                  ]}
+                >
+                  {t(`difficulty.${d}`)}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </NoorCard>
+
+        <NoorButton
+          onPress={handleStart}
+          label={t("game.start") ?? "Iniciar Majlis"}
+          variant="primary"
+          size="lg"
+          disabled={!canStart}
+        />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  page: { flex: 1 },
-  content: { padding: 18, gap: 12, paddingBottom: 40 },
-  sectionPlate: { marginBottom: 10 },
-  row: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 8 },
-  num: { fontFamily: Fonts.monoBold, fontSize: 12, color: Colors.gold, width: 20 },
+  root: { flex: 1, backgroundColor: Colors.bg.primary },
+  content: { padding: 20, gap: 16, paddingBottom: 40 },
+  back: { paddingVertical: 4 },
+  backText: { fontSize: 14, color: Colors.text.secondary },
+  title: { fontSize: 26, fontWeight: "800", color: Colors.parchment.primary },
+  subtitle: { fontSize: 14, color: Colors.text.secondary, lineHeight: 22 },
+  section: { gap: 10 },
+  playerRow: { flexDirection: "row", alignItems: "center", gap: 10 },
   input: {
     flex: 1,
-    minHeight: 44,
-    borderRadius: 10,
+    backgroundColor: Colors.bg.secondary,
     borderWidth: 1,
-    borderColor: Colors.hairlineStrong,
-    paddingHorizontal: 12,
-    fontFamily: Fonts.bodyMedium,
-    fontSize: 14,
-    color: Colors.ink,
-    backgroundColor: Colors.white,
+    borderColor: Colors.border.subtle,
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    color: Colors.parchment.primary,
+    fontSize: 16,
   },
-  hint: { fontFamily: Fonts.body, fontSize: 12, color: Colors.inkMuted, textAlign: 'center' },
+  removeBtn: { padding: 8 },
+  removeBtnText: { color: Colors.incorrect, fontSize: 16 },
+  diffSection: {},
+  sectionLabel: { fontSize: 15, fontWeight: "700", color: Colors.parchment.primary, marginBottom: 12 },
+  diffRow: { flexDirection: "row", gap: 8 },
+  diffChip: {
+    flex: 1,
+    paddingVertical: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: Colors.border.subtle,
+  },
+  diffChipActive: {
+    borderColor: Colors.accent.emerald,
+    backgroundColor: "rgba(16, 185, 129, 0.12)",
+  },
+  diffChipText: { fontSize: 13, color: Colors.text.secondary, fontWeight: "600" },
+  diffChipTextActive: { color: Colors.accent.emerald },
 });

@@ -1,154 +1,176 @@
 {
-  "common": {
-    "appName": "نور",
-    "appNameArabic": "نور",
-    "tagline": "المعرفة",
-    "bismillah": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
-    "back": "رجوع",
-    "next": "التالي",
-    "continue": "متابعة",
-    "cancel": "إلغاء",
-    "confirm": "تأكيد",
-    "close": "إغلاق",
-    "loading": "جارٍ التحميل…",
-    "retry": "إعادة المحاولة",
-    "yes": "نعم",
-    "no": "لا",
-    "notebook": "ن.م · دفتر",
+    "gameTitle": "مسابقة نور المعرفة",
+    "bismillah": "بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+    "startYourJourney": "ابدأ رحلتك",
+    "welcomeMessage": "مرحباً بك في رحلة معرفية لتنوير العقل والروح.",
+    "rulesTitle": "قواعد اللعبة",
+    "rulesScrollPrompt": "يجب عليك التمرير حتى النهاية للمتابعة.",
+    "rulesReadButton": "لقد اطّلعت على القواعد، فلنبدأ!",
+    "rulesScrollCta": "مرِّر للأسفل للمتابعة...",
     "chooseLanguage": "اختر لغتك",
-    "beta": "تجريبي"
-  },
-  "home": {
-    "title": "فهرس المحتويات",
-    "lesson": "الدرس",
-    "mode": "النمط",
-    "subject": "المادة",
-    "tempo": "الإيقاع",
-    "modeSolo": "فردي",
-    "modeSoloDesc": "ادرس بإيقاعك، مع أرواح ومؤقّت",
-    "modeMajlis": "مجلس",
-    "modeMajlisDesc": "العب في مجموعة بالتناوب",
-    "modeLearn": "تعلّم",
-    "modeLearnDesc": "راجع بلا مؤقّت ولا أرواح",
-    "categoryAll": "كل المواد",
-    "categoryQuranGeneral": "القرآن وعام",
-    "categoryProphets": "الأنبياء",
-    "categorySeerah": "السيرة",
-    "difficultyEasy": "سهل",
-    "difficultyMedium": "متوسط",
-    "difficultyHard": "صعب",
-    "start": "ابدأ الدرس",
-    "noQuestions": "لا توجد أسئلة موثّقة لهذا الاختيار بعد."
-  },
-  "play": {
-    "questionMeta": "ص %{current}/%{total}",
-    "lives": "الأرواح",
-    "score": "النقاط",
-    "timeUp": "انتهى الوقت!",
-    "correct": "صحيح",
-    "incorrect": "خطأ",
-    "explanation": "الشرح",
-    "source": "المصدر",
-    "reportQuestion": "الإبلاغ عن هذه المعلومة",
-    "exitTitle": "مغادرة الدرس؟",
-    "exitBody": "ستفقد تقدّم هذه الجولة.",
-    "lifelineFiftyName": "الفُرقان",
-    "lifelineFiftyEffect": "الفرقان · يحذف خيارين",
-    "lifelineTimeName": "الصَّبر",
-    "lifelineTimeEffect": "الصبر · +١٥ ثانية",
-    "lifelineSkipName": "الهِجرة",
-    "lifelineSkipEffect": "الهجرة · تخطَّ السؤال",
-    "aiThinking": "جارٍ إعداد الشرح…",
-    "aiUnavailable": "الشرح الموثّق من بنك الأسئلة:"
-  },
-  "gameOver": {
-    "title": "كشف الدرجات",
-    "score": "النتيجة",
-    "accuracy": "الدقة",
-    "answered": "تمت الإجابة",
-    "newRecord": "رقم قياسي شخصي جديد!",
-    "rankHafiz": "حافظ",
-    "rankHafizDesc": "إتقان استثنائي. واصل التألق.",
-    "rankAlim": "عالِم",
-    "rankAlimDesc": "معرفة واسعة. أحسنت.",
-    "rankTalib": "طالب",
-    "rankTalibDesc": "طالب مجتهد. واصل المراجعة.",
-    "rankMubtadi": "مبتدئ",
-    "rankMubtadiDesc": "كل خطأ فرصة للتعلم.",
-    "playAgain": "العب مجددًا",
-    "goHome": "العودة إلى الفهرس",
-    "share": "مشاركة النتيجة",
-    "shareMessage": "حصلت على %{score} نقطة (دقة %{accuracy}٪) في نور المعرفة، رتبة %{rank}. هل تجرب؟"
-  },
-  "majlis": {
-    "setupTitle": "سجل الفصل",
-    "players": "الطلاب",
-    "addPlayer": "إضافة طالب",
-    "playerPlaceholder": "الاسم",
-    "minPlayers": "يلزم طالبان على الأقل.",
-    "maxPlayers": "الحد الأقصى ٨ طلاب.",
-    "turnOf": "دور %{name}",
-    "resultsTitle": "ترتيب الفصل",
-    "winner": "الفائز",
-    "finalScores": "النتائج النهائية",
-    "rank": "الرتبة"
-  },
-  "learn": {
-    "title": "نمط التعلّم",
-    "subtitle": "بلا مؤقّت ولا أرواح. معرفة فقط.",
-    "showAnswer": "إظهار الإجابة والشرح",
-    "nextCard": "البطاقة التالية"
-  },
-  "settings": {
-    "title": "الإعدادات",
-    "language": "اللغة",
-    "themePaper": "الورق",
-    "paperLinen": "كتاني",
-    "paperPergamino": "رَقّ",
-    "paperAntiguo": "عتيق",
-    "themeVoice": "الصوت الطباعي",
-    "voiceEditorial": "تحريري",
-    "voiceAmable": "ودود",
-    "voiceClasica": "كلاسيكي",
-    "themeHeader": "الترويسة",
-    "headerCuaderno": "دفتر",
-    "headerMinimo": "بسيط",
-    "sound": "الصوت",
-    "haptics": "الاهتزاز",
-    "about": "حول التطبيق"
-  },
-  "about": {
-    "title": "حول التطبيق",
-    "disclaimer": "نور المعرفة تطبيق تعليمي. كل المحتوى مأخوذ من مصادر إسلامية موثّقة (القرآن الكريم، ومجموعات الحديث الصحيحة، وكتب السيرة المعتمدة) مع ذكر المصدر في كل سؤال. في مسائل العبادة والممارسة، استشر دائمًا عالمًا مؤهلًا.",
-    "sourcesTitle": "المصادر الرئيسية",
-    "privacy": "سياسة الخصوصية",
-    "reportContent": "الإبلاغ عن خطأ في المحتوى",
-    "reportSubject": "بلاغ محتوى — سؤال %{id}",
-    "version": "الإصدار"
-  },
-  "errors": {
-    "erratumTitle": "تصويب · 500",
-    "erratumBody": "حدث خطأ ما. وُضعت الصفحة قيد التصحيح.",
-    "notFoundTitle": "صفحة مفقودة · ٤٠٤",
-    "notFoundBody": "هذه الورقة ليست في الدفتر.",
-    "goHome": "العودة للرئيسية"
-  },
-  "plurals": {
-    "questions": {
-      "zero": "لا أسئلة",
-      "one": "سؤال واحد",
-      "two": "سؤالان",
-      "few": "%{count} أسئلة",
-      "many": "%{count} سؤالًا",
-      "other": "%{count} سؤال"
+    "loading": {
+        "default": "جارٍ التحميل...",
+        "results": "جارٍ تحميل النتائج...",
+        "game": "جارٍ تحميل اللعبة..."
     },
-    "players": {
-      "zero": "لا طلاب",
-      "one": "طالب واحد",
-      "two": "طالبان",
-      "few": "%{count} طلاب",
-      "many": "%{count} طالبًا",
-      "other": "%{count} طالب"
+    "rules": {
+        "gameModes": {
+            "title": "أوضاع اللعب",
+            "musafir": {
+                "title": "وضع المسافر (فردي)",
+                "description": "أجب عن الأسئلة حتى تنفد حياتك الثلاث. احرص على تحقيق أفضل رقم شخصي!"
+            },
+            "majlis": {
+                "title": "وضع المجلس (جماعي)",
+                "description": "تنافس بالأدوار مع 2-6 لاعبين. لكل لاعب ثلاث حيوات. تنتهي اللعبة عندما يبقى لاعب واحد أو تكتمل الجولات."
+            }
+        },
+        "difficulty": {
+            "title": "الصعوبة والوقت",
+            "easy": "حقائق أساسية وأسماء مشهورة. (30 ثانية)",
+            "medium": "تواريخ وتفاصيل المعارك. (20 ثانية)",
+            "hard": "التفسير والتسلسل الزمني الدقيق والفقه. (15 ثانية)"
+        },
+        "lifelines": {
+            "title": "آلية المساعدات",
+            "inventory": "لكل لاعب مخزونه الخاص من المساعدات في كل لعبة.",
+            "fiftyFifty": {
+                "title": "50/50 (الفرقان)",
+                "description": "تُزيل إجابتين خاطئتين. لديك استخدامان في كل لعبة."
+            },
+            "extraTime": {
+                "title": "وقت إضافي (الصبر)",
+                "description": "تُضيف 15 ثانية إلى المؤقت. لديك استخدامان في كل لعبة."
+            },
+            "skip": {
+                "title": "تخطي السؤال (الهجرة)",
+                "description": "الانتقال إلى السؤال التالي دون فقدان أي حياة. لديك استخدام واحد في كل لعبة (في الصعوبة المتوسطة والعالية فقط)."
+            }
+        },
+        "scoring": {
+            "title": "نظام النقاط",
+            "difficulty": "مُضاعِف الصعوبة: سهل (1.0×)، متوسط (1.5×)، صعب (2.0×)",
+            "category": "مُضاعِف الفئة: السيرة (1.2×)، الأنبياء (1.1×)، القرآن والعام (1.0×)",
+            "timeBonus": "مكافأة الوقت: تصل إلى 30% إضافية وفق سرعة إجابتك.",
+            "accumulation": "التقدم العام: جميع نقاطك تتراكم في لوحة المتصدرين."
+        }
+    },
+    "setup": {
+        "chooseMode": "اختر وضع اللعب",
+        "musafirMode": {
+            "title": "وضع المسافر",
+            "description": "رحلة معرفية فردية. إلى أين يبلغ بك العلم؟"
+        },
+        "majlisMode": {
+            "title": "وضع المجلس",
+            "description": "اجمع عائلتك وأصدقاءك لتحدٍّ جماعي.",
+            "button": "إعداد اللعبة"
+        },
+        "selectButton": "اختيار",
+        "chooseAnotherMode": "اختر وضعاً آخر",
+        "chooseCategory": "اختر الفئة",
+        "chooseDifficulty": "اختر الصعوبة"
+    },
+    "category": {
+        "seerah": "السيرة النبوية",
+        "prophets": "الأنبياء",
+        "general": "عام",
+        "mix": "مختلط",
+        "seerahDescription": "تعمَّق في حياة النبي محمد ﷺ ومعاركه وتعاليمه.",
+        "prophetsDescription": "اختبر معلوماتك حول قصص الأنبياء من آدم عليه السلام إلى عيسى عليه السلام.",
+        "generalDescription": "استكشف الوحي والفقه الأساسي والتاريخ الإسلامي وأركان الإيمان.",
+        "mixDescription": "تحدٍّ عشوائي من جميع الفئات وفق الصعوبة المختارة."
+    },
+    "difficulty": {
+        "easy": "سهل",
+        "medium": "متوسط",
+        "hard": "صعب"
+    },
+    "majlisSetup": {
+        "title": "إعداد المجلس",
+        "description": "أضف من 2 إلى 6 لاعبين للبدء",
+        "playerNameLabel": "اسم اللاعب",
+        "playerNamePlaceholder": "مثال: عبد الله",
+        "addPlayerButton": "إضافة",
+        "playersTitle": "اللاعبون",
+        "startGameButton": "ابدأ اللعبة الجماعية",
+        "backToHome": "العودة إلى البداية"
+    },
+    "majlis": {
+        "player": "لاعب",
+        "addPlayer": "إضافة لاعب",
+        "defaultPlayer": "لاعب",
+        "results": "نتائج المجلس",
+        "eliminated": "مُقصَى"
+    },
+    "game": {
+        "score": "النقاط",
+        "start": "ابدأ المجلس",
+        "playAgain": "العب مرة أخرى",
+        "backHome": "العودة إلى البداية"
+    },
+    "play": {
+        "score": "النتيجة",
+        "round": "الجولة",
+        "turnOf": "دور",
+        "readyButton": "أنا مستعد!",
+        "exit": "خروج",
+        "exitAria": "الخروج من اللعبة",
+        "exitTitle": "هل تريد الخروج؟",
+        "exitDescription": "سيضيع تقدمك في هذه اللعبة. هل أنت متأكد؟",
+        "exitCancel": "مواصلة اللعب",
+        "exitConfirm": "نعم، اخرج"
+    },
+    "playerStatus": {
+        "pts": "نقطة",
+        "eliminated": "مُقصَى",
+        "lives": "حياة"
+    },
+    "lifeline": {
+        "fiftyFifty": "مساعدة 50/50",
+        "extraTime": "وقت إضافي",
+        "skip": "تخطَّ"
+    },
+    "feedback": {
+        "title": "ملاحظات الذكاء الاصطناعي",
+        "incorrect": "لم تكن تلك الإجابة صحيحة.",
+        "correctAnswerIs": "الإجابة الصحيحة هي:",
+        "generating": "جارٍ توليد شيء من الحكمة...",
+        "continue": "متابعة",
+        "error": "ملاحظات الذكاء الاصطناعي غير متاحة حالياً. يُرجى المتابعة."
+    },
+    "gameOver": {
+        "solo": {
+            "title": "نهاية الرحلة",
+            "description": "انتهى بحثك عن المعرفة... في الوقت الحالي."
+        },
+        "majlis": {
+            "title": "نهاية المجلس",
+            "description": "انتهت المنافسة!",
+            "winner": "الفائز",
+            "finalStandings": "الترتيب النهائي"
+        },
+        "finalScore": "النتيجة النهائية",
+        "correctOf": "صحيحة من",
+        "questions": "أسئلة",
+        "playAgain": "العب مرة أخرى"
+    },
+    "rank": {
+        "0": {
+            "title": "مبتدئ النور",
+            "description": "لقد اتخذت الخطوة الأولى في طريق المعرفة. واصل التعلم!"
+        },
+        "1": {
+            "title": "طالب العلم",
+            "description": "رحلتك في بدايتها. الآيات تنفتح أمامك."
+        },
+        "2": {
+            "title": "عالم السنة",
+            "description": "تُظهر فهماً واعداً وعميقاً. تفانيك يضيء بجلاء."
+        },
+        "3": {
+            "title": "حكيم الصحابة",
+            "description": "ما شاء الله! معرفتك واسعة وراسخة، منارة حقيقية للنور."
+        }
     }
-  }
 }

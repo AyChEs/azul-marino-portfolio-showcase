@@ -1,31 +1,50 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { useRouter } from 'expo-router';
-import { Colors } from '../constants/colors';
-import { Fonts } from '../constants/fonts';
-import { NoorButton } from '../components/ui/NoorButton';
-import { useLanguage } from '../context/LanguageContext';
-import { useTheme } from '../context/ThemeContext';
+import React from "react";
+import { View, Text, SafeAreaView, StyleSheet } from "react-native";
+import { router } from "expo-router";
+import { Colors } from "../constants/colors";
+import { NoorButton } from "../components/ui/NoorButton";
 
-/** "Missing page · ٤٠٤". */
 export default function NotFoundScreen() {
-  const router = useRouter();
-  const { t } = useLanguage();
-  const { theme } = useTheme();
-
   return (
-    <View style={[styles.page, { backgroundColor: theme.paper.paper }]}>
-      <Text style={styles.ornament}>۞</Text>
-      <Text style={[styles.title, theme.titleFont]}>{t('errors.notFoundTitle')}</Text>
-      <Text style={styles.body}>{t('errors.notFoundBody')}</Text>
-      <NoorButton label={t('errors.goHome')} onPress={() => router.replace('/home')} />
-    </View>
+    <SafeAreaView style={styles.root}>
+      <View style={styles.content}>
+        <Text style={styles.icon}>🔍</Text>
+        <Text style={styles.title}>Página no encontrada</Text>
+        <Text style={styles.subtitle}>Page not found · الصفحة غير موجودة</Text>
+        <NoorButton
+          onPress={() => router.replace("/home")}
+          label="Volver al inicio"
+          variant="primary"
+          size="md"
+          style={styles.button}
+        />
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  page: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32, gap: 12 },
-  ornament: { fontSize: 28, color: Colors.gold },
-  title: { fontSize: 24, color: Colors.ink },
-  body: { fontFamily: Fonts.body, fontSize: 14, color: Colors.inkMuted, textAlign: 'center' },
+  root: { flex: 1, backgroundColor: Colors.bg.primary },
+  content: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 32,
+    gap: 12,
+  },
+  icon: { fontSize: 48 },
+  title: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: Colors.parchment.primary,
+    textAlign: "center",
+  },
+  subtitle: {
+    fontSize: 14,
+    color: Colors.text.secondary,
+    textAlign: "center",
+    lineHeight: 22,
+    marginBottom: 8,
+  },
+  button: { width: "100%" },
 });

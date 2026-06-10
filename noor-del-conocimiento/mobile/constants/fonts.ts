@@ -1,37 +1,30 @@
-/** Typeface roles for the Madrasa design system. */
-export type TypographicVoice = 'editorial' | 'amable' | 'clasica';
+// Amiri: classical Arabic typeface — authentic, elegant, highly legible
+// Latin: system font — clean, never Inter (banned by high-end skill)
 
 export const Fonts = {
-  // Arabic display + UI
-  arabic: 'ElMessiri_600SemiBold',
-  arabicBold: 'ElMessiri_700Bold',
-  // Latin display
-  display: 'DMSerifDisplay_400Regular',
-  displayItalic: 'DMSerifDisplay_400Regular_Italic',
-  // Body / UI
-  body: 'Inter_400Regular',
-  bodyMedium: 'Inter_500Medium',
-  bodySemiBold: 'Inter_600SemiBold',
-  bodyBold: 'Inter_700Bold',
-  // Numerals / mono labels
-  mono: 'JetBrainsMono_400Regular',
-  monoMedium: 'JetBrainsMono_500Medium',
-  monoBold: 'JetBrainsMono_700Bold',
+  arabic: "Amiri_400Regular",
+  arabicBold: "Amiri_700Bold",
+  arabicItalic: "Amiri_400Italic",
+  arabicBoldItalic: "Amiri_700BoldItalic",
 } as const;
 
-/** Title font for the chosen typographic voice (section 4.5 tweak #2). */
-export function titleFontFor(voice: TypographicVoice): {
-  fontFamily: string;
-  fontStyle?: 'italic' | 'normal';
-} {
-  switch (voice) {
-    case 'amable':
-      return { fontFamily: Fonts.arabic, fontStyle: 'normal' };
-    case 'clasica':
-      // Fraunces is the spec'd fallback; DM Serif upright stands in until it ships.
-      return { fontFamily: Fonts.display, fontStyle: 'normal' };
-    case 'editorial':
-    default:
-      return { fontFamily: Fonts.displayItalic, fontStyle: 'italic' };
-  }
-}
+export const FontSizes = {
+  // Arabic verse display — large, commanding
+  arabicVerse: 28,
+  arabicLarge: 24,
+  arabicBody: 20,
+
+  // UI text
+  display: 32,
+  headline: 24,
+  title: 20,
+  body: 16,
+  caption: 13,
+  micro: 11,
+} as const;
+
+export const LineHeights = {
+  arabic: 1.8,   // Arabic text needs more leading
+  latin: 1.4,
+  tight: 1.2,
+} as const;

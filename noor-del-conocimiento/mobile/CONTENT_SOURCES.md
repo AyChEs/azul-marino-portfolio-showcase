@@ -1,48 +1,38 @@
 # CONTENT_SOURCES — Noor del Conocimiento
 
-Documento de auditoría del contenido religioso (sección 6 del spec). Cada pregunta de
-`data/questions.json` lleva metadatos `source` con referencia primaria (y secundaria si aplica).
+Documento de auditoría del contenido religioso. El banco vive en `data/questions.json`
+(**507 preguntas**, 3 idiomas es/en/ar) con campos de auditoría `source`, `verified`,
+`flag` y `correction_note`.
+
+## Reglas de servicio en producción
+
+- `lib/gameLogic.ts → filterQuestions` solo sirve preguntas con `verified: true` y sin `flag`.
+- `scripts/validate-questions.ts` rompe el build si: falta `source`, `correctAnswer` no está
+  entre las `options`, opciones ≠ 4 o duplicadas, falta una traducción es/en/ar, o hay IDs
+  repetidos. Ejecutar con `npm run validate:questions` (incluido en `npm run prebuild:check`).
 
 ## Jerarquía de fuentes aceptadas
 
-1. **Corán** — citado como `Corán sura:aya`. Texto árabe con tashkīl según el mushaf
-   (Hafs ʿan ʿĀṣim). Traducciones de referencia: Sahih International (`en`),
-   Julio Cortés / Muhammad Asad (`es`). URLs: quran.com.
-2. **Hadiz** — solo colecciones autenticadas con grado Sahih/Hasan:
-   Sahih al-Bukhari, Sahih Muslim, los Sunan. Referencia numérica de sunnah.com.
-   **Prohibido** usar hadices daʿīf o mawḍūʿ para enseñar hechos.
-3. **Seerah** — Sirat Ibn Hisham; Ar-Raheeq Al-Makhtum ("El Néctar Sellado", Safi-ur-Rahman
-   al-Mubarakpuri).
-4. **Consenso académico contemporáneo** para fechas históricas (solo hechos consensuados).
+1. **Corán** (sura:aya) — texto árabe con tashkīl del mushaf (Hafs ʿan ʿĀṣim);
+   traducciones de referencia: Sahih International (`en`), Cortés/Asad (`es`).
+2. **Hadiz** de colecciones autenticadas con grado Sahih/Hasan (Bukhari, Muslim, Sunan),
+   con referencia numérica (sunnah.com). Prohibido usar daʿīf/mawḍūʿ para enseñar hechos.
+3. **Seerah**: Sirat Ibn Hisham; Ar-Raheeq Al-Makhtum ("El Néctar Sellado").
+4. **Consenso académico contemporáneo** para fechas históricas.
 
-## Fuentes por categoría (banco actual)
+## Honoríficos y transliteración
 
-| Categoría | Fuentes usadas |
-|---|---|
-| Corán y General | Corán (estructura del mushaf, 2:127, 2:282, 4:163, 9, 96:1-5); Sahih al-Bukhari 3, 8, 756; Sahih Muslim 16, 394 |
-| Profetas | Corán 2:127, 19:29-30, 19:53, 27:16, 37:142, 4:163; concordancias clásicas (Al-Muʿjam al-Mufahras) |
-| Seerah | Sirat Ibn Hisham; Ar-Raheeq Al-Makhtum; Sahih al-Bukhari 3, 3653, 3818, 3906; Corán 3:123, 9:40 |
+- Profeta Muhammad → ﷺ (U+FDFA). Otros profetas → (AS) / عليه السلام.
+  Compañeros/as → (RA) / رضي الله عنه/عنها. Estándar IJMES simplificado.
 
-## Estándar de transliteración y honoríficos
+## Pendientes de QA de contenido (no bloqueantes del build)
 
-- IJMES simplificado (sin diacríticos técnicos en UI; con macrones solo en citas formales).
-- Profeta Muhammad → **ﷺ** (U+FDFA) en todos los idiomas.
-- Otros profetas → (AS) en `es`/`en`; عليه السلام en `ar`/`ma`.
-- Compañeros/as → (RA) en `es`/`en`; رضي الله عنه/عنها en `ar`/`ma`.
-- Temas con desacuerdo entre escuelas → `sensitivity: "scholarly_difference"` y reformulación
-  hacia el hecho consensuado; el banco actual no contiene ninguno.
-
-## Estado de verificación
-
-- `verified_by: "editorial_check_v1"` = verificado contra la fuente primaria citada durante el
-  build (hechos incontrovertibles y estructurales). **Se recomienda una revisión externa por un
-  erudito antes del lanzamiento amplio**; el pipeline lo soporta cambiando `verified_by`.
-- `verified_by: "pending_scholar_review"` = excluido automáticamente de producción
-  (`lib/questions.ts`) y detectado por `scripts/validate-questions.ts`.
-
-## Importar el banco completo de 507 preguntas verificadas
-
-El banco verificado de 507 preguntas mencionado en el spec **no estaba presente en este
-repositorio**. Para importarlo: convertir cada pregunta al esquema de `data/questions.json`
-(ver `lib/types.ts` → `Question`), incluir `source.primary` y `verified_by`/`verified_date`
-reales, y ejecutar `npm run validate:questions`.
+1. **Registro del árabe**: parte del texto `ar` de las preguntas está redactado en registro
+   coloquial/darija (p. ej. «شحال كاينة من سورة…», id 1), mientras la UI (`locales/ar.json`)
+   usa árabe estándar. Decidir registro único (MSA recomendado para contenido coránico) o
+   añadir `ma` como idioma separado, y revisar el banco en consecuencia.
+2. **Granularidad de `source`**: hoy es una cadena libre. Recomendado migrar gradualmente a
+   referencia estructurada (primaria/secundaria/URL/verificador/fecha) para auditoría externa.
+3. **Revisión por erudito**: `verified: true` refleja la auditoría interna (FASE 0).
+   Recomendada una revisión externa antes del lanzamiento amplio; las preguntas dudosas se
+   marcan `flag: true` (quedan excluidas automáticamente) con `correction_note`.

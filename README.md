@@ -1,73 +1,23 @@
-# Welcome to your Lovable project
+# نور · Noor del Conocimiento
 
-## Project info
+App de trivia de conocimiento islámico (Expo SDK 54 · React Native · expo-router), respetuosa
+y educativa, con **507 preguntas verificadas** en 3 idiomas (es/en/ar) y fuentes citadas.
 
-**URL**: https://lovable.dev/projects/88ca3d63-9d63-4eaa-992d-90db220b4056
+> Este repositorio contiene únicamente la app móvil, en `noor-del-conocimiento/mobile/`.
 
-## How can I edit this code?
+## Desarrollo
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/88ca3d63-9d63-4eaa-992d-90db220b4056) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```bash
+cd noor-del-conocimiento/mobile
+npm install
+npm start                 # Expo dev server
+npm run prebuild:check    # type-check + validación del banco de preguntas + tests
 ```
 
-**Edit a file directly in GitHub**
+## Documentación
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/88ca3d63-9d63-4eaa-992d-90db220b4056) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- `noor-del-conocimiento/mobile/CONTENT_SOURCES.md` — auditoría de fuentes del contenido.
+- `noor-del-conocimiento/mobile/PRIVACY.md` — política de privacidad + Data Safety.
+- `noor-del-conocimiento/mobile/STORE_LISTING.md` — materiales de la ficha de Play Store.
+- `noor-del-conocimiento/mobile/RELEASE_CHECKLIST.md` — checklist y comandos de publicación.
+- `noor-del-conocimiento/mobile/BUILD_REPORT.md` — resumen de la integración.
