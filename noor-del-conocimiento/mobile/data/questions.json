@@ -1,0 +1,661 @@
+[
+  {
+    "id": "quran_001",
+    "category": "quran_general",
+    "difficulty": "easy",
+    "question": {
+      "es": "¿Cuántas suras (capítulos) tiene el Corán?",
+      "en": "How many surahs (chapters) does the Quran have?",
+      "ar": "كم عدد سور القرآن الكريم؟",
+      "ma": "شحال من سورة كاينة فالقرآن الكريم؟"
+    },
+    "options": {
+      "es": ["100", "114", "120", "99"],
+      "en": ["100", "114", "120", "99"],
+      "ar": ["١٠٠", "١١٤", "١٢٠", "٩٩"],
+      "ma": ["١٠٠", "١١٤", "١٢٠", "٩٩"]
+    },
+    "correctIndex": 1,
+    "explanation": {
+      "es": "El Corán contiene 114 suras, desde Al-Fátiha (la primera) hasta An-Nas (la última), según el orden del mushaf utmánico.",
+      "en": "The Quran contains 114 surahs, from Al-Fatihah (the first) to An-Nas (the last), per the Uthmanic mushaf order.",
+      "ar": "يحتوي القرآن الكريم على ١١٤ سورة، من الفاتحة إلى الناس، حسب ترتيب المصحف العثماني.",
+      "ma": "القرآن الكريم فيه ١١٤ سورة، من الفاتحة حتى الناس، على حساب ترتيب المصحف العثماني."
+    },
+    "source": {
+      "primary": "Mushaf utmánico (estructura del Corán)",
+      "reference_url": "https://quran.com",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  },
+  {
+    "id": "quran_002",
+    "category": "quran_general",
+    "difficulty": "easy",
+    "question": {
+      "es": "¿Cuál es la sura más larga del Corán?",
+      "en": "Which is the longest surah of the Quran?",
+      "ar": "ما هي أطول سورة في القرآن الكريم؟",
+      "ma": "شنو هي أطول سورة فالقرآن الكريم؟"
+    },
+    "options": {
+      "es": ["Al-Fátiha", "Ya-Sin", "Al-Báqara", "Al-Kahf"],
+      "en": ["Al-Fatihah", "Ya-Sin", "Al-Baqarah", "Al-Kahf"],
+      "ar": ["الفاتحة", "يس", "البقرة", "الكهف"],
+      "ma": ["الفاتحة", "يس", "البقرة", "الكهف"]
+    },
+    "correctIndex": 2,
+    "explanation": {
+      "es": "Al-Báqara (La Vaca), la sura 2, es la más larga del Corán con 286 aleyas.",
+      "en": "Al-Baqarah (The Cow), surah 2, is the longest in the Quran with 286 verses.",
+      "ar": "سورة البقرة، السورة الثانية، هي أطول سور القرآن بـ٢٨٦ آية.",
+      "ma": "سورة البقرة، السورة الثانية، هي أطول سورة فالقرآن بـ٢٨٦ آية."
+    },
+    "source": {
+      "primary": "Corán, sura 2 (Al-Báqara)",
+      "reference_url": "https://quran.com/2",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  },
+  {
+    "id": "quran_003",
+    "category": "quran_general",
+    "difficulty": "easy",
+    "question": {
+      "es": "¿Qué sura se recita en cada unidad (rak'a) de la oración?",
+      "en": "Which surah is recited in every unit (rak'ah) of the prayer?",
+      "ar": "ما السورة التي تُقرأ في كل ركعة من الصلاة؟",
+      "ma": "شنو هي السورة اللي كتقرا فكل ركعة فالصلاة؟"
+    },
+    "options": {
+      "es": ["Al-Ijlás", "Al-Fátiha", "An-Nas", "Al-Káfirun"],
+      "en": ["Al-Ikhlas", "Al-Fatihah", "An-Nas", "Al-Kafirun"],
+      "ar": ["الإخلاص", "الفاتحة", "الناس", "الكافرون"],
+      "ma": ["الإخلاص", "الفاتحة", "الناس", "الكافرون"]
+    },
+    "correctIndex": 1,
+    "explanation": {
+      "es": "El Profeta ﷺ dijo: «No hay oración para quien no recita la Apertura del Libro (Al-Fátiha)» (Sahih al-Bujari 756).",
+      "en": "The Prophet ﷺ said: “There is no prayer for the one who does not recite the Opening of the Book (Al-Fatihah)” (Sahih al-Bukhari 756).",
+      "ar": "قال النبي ﷺ: «لا صلاة لمن لم يقرأ بفاتحة الكتاب» (صحيح البخاري ٧٥٦).",
+      "ma": "قال النبي ﷺ: «لا صلاة لمن لم يقرأ بفاتحة الكتاب» (صحيح البخاري ٧٥٦)."
+    },
+    "source": {
+      "primary": "Sahih al-Bukhari 756",
+      "secondary": "Sahih Muslim 394",
+      "reference_url": "https://sunnah.com/bukhari:756",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  },
+  {
+    "id": "quran_004",
+    "category": "quran_general",
+    "difficulty": "medium",
+    "question": {
+      "es": "¿Cuáles fueron las primeras aleyas reveladas del Corán?",
+      "en": "Which were the first revealed verses of the Quran?",
+      "ar": "ما هي أول آيات نزلت من القرآن الكريم؟",
+      "ma": "شنو هي أول آيات نزلات من القرآن الكريم؟"
+    },
+    "options": {
+      "es": ["Al-Fátiha 1-7", "Al-'Alaq 96:1-5", "Al-Múddazir 74:1-5", "Al-Ijlás 112:1-4"],
+      "en": ["Al-Fatihah 1-7", "Al-'Alaq 96:1-5", "Al-Muddaththir 74:1-5", "Al-Ikhlas 112:1-4"],
+      "ar": ["الفاتحة ١-٧", "العلق ٩٦: ١-٥", "المدثر ٧٤: ١-٥", "الإخلاص ١١٢: ١-٤"],
+      "ma": ["الفاتحة ١-٧", "العلق ٩٦: ١-٥", "المدثر ٧٤: ١-٥", "الإخلاص ١١٢: ١-٤"]
+    },
+    "correctIndex": 1,
+    "explanation": {
+      "es": "Las primeras aleyas reveladas fueron las cinco primeras de la sura Al-'Alaq (96:1-5), comenzando con «¡Lee en el nombre de tu Señor!», en la cueva de Hira (Sahih al-Bujari 3).",
+      "en": "The first revealed verses were the first five of Surah Al-'Alaq (96:1-5), beginning with “Read in the name of your Lord!”, in the cave of Hira (Sahih al-Bukhari 3).",
+      "ar": "أول ما نزل هو صدر سورة العلق (٩٦: ١-٥): ﴿اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ﴾، في غار حراء (صحيح البخاري ٣).",
+      "ma": "أول ما نزل هو بداية سورة العلق (٩٦: ١-٥): ﴿اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ﴾، فغار حراء (صحيح البخاري ٣)."
+    },
+    "source": {
+      "primary": "Corán 96:1-5",
+      "secondary": "Sahih al-Bukhari 3",
+      "reference_url": "https://quran.com/96",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  },
+  {
+    "id": "quran_005",
+    "category": "quran_general",
+    "difficulty": "hard",
+    "question": {
+      "es": "¿Qué sura del Corán no comienza con la Básmala (Bismillah)?",
+      "en": "Which surah of the Quran does not begin with the Basmalah (Bismillah)?",
+      "ar": "ما السورة التي لا تبدأ بالبسملة؟",
+      "ma": "شنو هي السورة اللي ماكتبداش بالبسملة؟"
+    },
+    "options": {
+      "es": ["Al-Anfal", "At-Tawba", "Yunus", "Al-Hashr"],
+      "en": ["Al-Anfal", "At-Tawbah", "Yunus", "Al-Hashr"],
+      "ar": ["الأنفال", "التوبة", "يونس", "الحشر"],
+      "ma": ["الأنفال", "التوبة", "يونس", "الحشر"]
+    },
+    "correctIndex": 1,
+    "explanation": {
+      "es": "La sura At-Tawba (9) es la única del mushaf que no comienza con «Bismillāhi r-Raḥmāni r-Raḥīm».",
+      "en": "Surah At-Tawbah (9) is the only one in the mushaf that does not open with “Bismillāhi r-Raḥmāni r-Raḥīm”.",
+      "ar": "سورة التوبة (٩) هي الوحيدة في المصحف التي لا تبدأ بالبسملة.",
+      "ma": "سورة التوبة (٩) هي الوحيدة فالمصحف اللي ماكتبداش بالبسملة."
+    },
+    "source": {
+      "primary": "Corán, sura 9 (At-Tawba)",
+      "reference_url": "https://quran.com/9",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  },
+  {
+    "id": "quran_006",
+    "category": "quran_general",
+    "difficulty": "hard",
+    "question": {
+      "es": "La aleya más larga del Corán (2:282) trata principalmente sobre…",
+      "en": "The longest verse of the Quran (2:282) deals mainly with…",
+      "ar": "أطول آية في القرآن (البقرة ٢٨٢) تتحدث أساسًا عن…",
+      "ma": "أطول آية فالقرآن (البقرة ٢٨٢) كتهضر أساسًا على…"
+    },
+    "options": {
+      "es": ["La herencia", "Las deudas y su registro", "El ayuno", "La peregrinación"],
+      "en": ["Inheritance", "Debts and recording them", "Fasting", "Pilgrimage"],
+      "ar": ["الميراث", "الدَّين وتوثيقه", "الصيام", "الحج"],
+      "ma": ["الميراث", "الدَّين وتوثيقو", "الصيام", "الحج"]
+    },
+    "correctIndex": 1,
+    "explanation": {
+      "es": "La aleya 282 de Al-Báqara, conocida como la «aleya de la deuda» (āyat ad-dayn), ordena poner por escrito las deudas y contar con testigos.",
+      "en": "Verse 282 of Al-Baqarah, known as the “verse of debt” (āyat ad-dayn), commands writing down debts and having witnesses.",
+      "ar": "آية ٢٨٢ من سورة البقرة، المعروفة بآية الدَّين، تأمر بكتابة الدَّين والإشهاد عليه.",
+      "ma": "الآية ٢٨٢ من سورة البقرة، المعروفة بآية الدَّين، كتأمر بكتابة الدين والشهود عليه."
+    },
+    "source": {
+      "primary": "Corán 2:282",
+      "reference_url": "https://quran.com/2/282",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  },
+  {
+    "id": "prophets_001",
+    "category": "prophets",
+    "difficulty": "easy",
+    "question": {
+      "es": "¿Qué profeta construyó la Kaaba junto a su hijo?",
+      "en": "Which prophet built the Kaaba together with his son?",
+      "ar": "أي نبي بنى الكعبة مع ابنه؟",
+      "ma": "شكون من نبي بنى الكعبة مع ولدو؟"
+    },
+    "options": {
+      "es": ["Musa (AS)", "Ibrahim (AS)", "Nuh (AS)", "Dawud (AS)"],
+      "en": ["Musa (AS)", "Ibrahim (AS)", "Nuh (AS)", "Dawud (AS)"],
+      "ar": ["موسى عليه السلام", "إبراهيم عليه السلام", "نوح عليه السلام", "داود عليه السلام"],
+      "ma": ["موسى عليه السلام", "إبراهيم عليه السلام", "نوح عليه السلام", "داود عليه السلام"]
+    },
+    "correctIndex": 1,
+    "explanation": {
+      "es": "El Corán narra que Ibrahim (AS) elevó los cimientos de la Casa junto a su hijo Ismail (AS): «Y cuando Ibrahim e Ismail levantaban los cimientos de la Casa…» (Corán 2:127).",
+      "en": "The Quran narrates that Ibrahim (AS) raised the foundations of the House with his son Ismail (AS): “And when Ibrahim and Ismail were raising the foundations of the House…” (Quran 2:127).",
+      "ar": "قال تعالى: ﴿وَإِذْ يَرْفَعُ إِبْرَاهِيمُ الْقَوَاعِدَ مِنَ الْبَيْتِ وَإِسْمَاعِيلُ﴾ (البقرة ١٢٧).",
+      "ma": "قال تعالى: ﴿وَإِذْ يَرْفَعُ إِبْرَاهِيمُ الْقَوَاعِدَ مِنَ الْبَيْتِ وَإِسْمَاعِيلُ﴾ (البقرة ١٢٧)."
+    },
+    "source": {
+      "primary": "Corán 2:127",
+      "reference_url": "https://quran.com/2/127",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  },
+  {
+    "id": "prophets_002",
+    "category": "prophets",
+    "difficulty": "easy",
+    "question": {
+      "es": "¿Qué profeta fue tragado por un gran pez?",
+      "en": "Which prophet was swallowed by a great fish?",
+      "ar": "أي نبي التقمه الحوت؟",
+      "ma": "شكون من نبي بلعو الحوت؟"
+    },
+    "options": {
+      "es": ["Yunus (AS)", "Yusuf (AS)", "Ayub (AS)", "Salih (AS)"],
+      "en": ["Yunus (AS)", "Yusuf (AS)", "Ayyub (AS)", "Salih (AS)"],
+      "ar": ["يونس عليه السلام", "يوسف عليه السلام", "أيوب عليه السلام", "صالح عليه السلام"],
+      "ma": ["يونس عليه السلام", "يوسف عليه السلام", "أيوب عليه السلام", "صالح عليه السلام"]
+    },
+    "correctIndex": 0,
+    "explanation": {
+      "es": "El Corán relata que Yunus (AS) fue tragado por el pez: «El pez se lo tragó, pues era digno de reproche» (Corán 37:142).",
+      "en": "The Quran relates that Yunus (AS) was swallowed by the fish: “Then the fish swallowed him while he was blameworthy” (Quran 37:142).",
+      "ar": "قال تعالى: ﴿فَالْتَقَمَهُ الْحُوتُ وَهُوَ مُلِيمٌ﴾ (الصافات ١٤٢).",
+      "ma": "قال تعالى: ﴿فَالْتَقَمَهُ الْحُوتُ وَهُوَ مُلِيمٌ﴾ (الصافات ١٤٢)."
+    },
+    "source": {
+      "primary": "Corán 37:142",
+      "reference_url": "https://quran.com/37/142",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  },
+  {
+    "id": "prophets_003",
+    "category": "prophets",
+    "difficulty": "easy",
+    "question": {
+      "es": "¿Quién era el hermano del profeta Musa (AS), también profeta?",
+      "en": "Who was the brother of Prophet Musa (AS), also a prophet?",
+      "ar": "من هو أخو النبي موسى عليه السلام، وكان نبيًا أيضًا؟",
+      "ma": "شكون هو خو النبي موسى عليه السلام، اللي كان حتى هو نبي؟"
+    },
+    "options": {
+      "es": ["Harún (AS)", "Yusuf (AS)", "Ismail (AS)", "Idris (AS)"],
+      "en": ["Harun (AS)", "Yusuf (AS)", "Ismail (AS)", "Idris (AS)"],
+      "ar": ["هارون عليه السلام", "يوسف عليه السلام", "إسماعيل عليه السلام", "إدريس عليه السلام"],
+      "ma": ["هارون عليه السلام", "يوسف عليه السلام", "إسماعيل عليه السلام", "إدريس عليه السلام"]
+    },
+    "correctIndex": 0,
+    "explanation": {
+      "es": "Allah dice: «Y le dimos, por Nuestra misericordia, a su hermano Harún como profeta» (Corán 19:53).",
+      "en": "Allah says: “And We granted him, out of Our mercy, his brother Harun as a prophet” (Quran 19:53).",
+      "ar": "قال تعالى: ﴿وَوَهَبْنَا لَهُ مِن رَّحْمَتِنَا أَخَاهُ هَارُونَ نَبِيًّا﴾ (مريم ٥٣).",
+      "ma": "قال تعالى: ﴿وَوَهَبْنَا لَهُ مِن رَّحْمَتِنَا أَخَاهُ هَارُونَ نَبِيًّا﴾ (مريم ٥٣)."
+    },
+    "source": {
+      "primary": "Corán 19:53",
+      "reference_url": "https://quran.com/19/53",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  },
+  {
+    "id": "prophets_004",
+    "category": "prophets",
+    "difficulty": "medium",
+    "question": {
+      "es": "¿Qué profeta habló desde la cuna siendo un bebé?",
+      "en": "Which prophet spoke from the cradle as a baby?",
+      "ar": "أي نبي تكلم في المهد وهو رضيع؟",
+      "ma": "شكون من نبي هضر فالمهد وهو رضيع؟"
+    },
+    "options": {
+      "es": ["Yahya (AS)", "Isa (AS)", "Sulayman (AS)", "Yusuf (AS)"],
+      "en": ["Yahya (AS)", "Isa (AS)", "Sulayman (AS)", "Yusuf (AS)"],
+      "ar": ["يحيى عليه السلام", "عيسى عليه السلام", "سليمان عليه السلام", "يوسف عليه السلام"],
+      "ma": ["يحيى عليه السلام", "عيسى عليه السلام", "سليمان عليه السلام", "يوسف عليه السلام"]
+    },
+    "correctIndex": 1,
+    "explanation": {
+      "es": "Isa (AS) habló desde la cuna: «Dijo: Soy el siervo de Allah. Me ha dado el Libro y me ha hecho profeta» (Corán 19:29-30).",
+      "en": "Isa (AS) spoke from the cradle: “He said: Indeed, I am the servant of Allah. He has given me the Scripture and made me a prophet” (Quran 19:29-30).",
+      "ar": "تكلم عيسى عليه السلام في المهد: ﴿قَالَ إِنِّي عَبْدُ اللَّهِ آتَانِيَ الْكِتَابَ وَجَعَلَنِي نَبِيًّا﴾ (مريم ٣٠).",
+      "ma": "هضر عيسى عليه السلام فالمهد: ﴿قَالَ إِنِّي عَبْدُ اللَّهِ آتَانِيَ الْكِتَابَ وَجَعَلَنِي نَبِيًّا﴾ (مريم ٣٠)."
+    },
+    "source": {
+      "primary": "Corán 19:29-30",
+      "reference_url": "https://quran.com/19/29-30",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  },
+  {
+    "id": "prophets_005",
+    "category": "prophets",
+    "difficulty": "medium",
+    "question": {
+      "es": "¿A qué profeta le fue dado el Zabur (los Salmos)?",
+      "en": "Which prophet was given the Zabur (the Psalms)?",
+      "ar": "أي نبي أُوتي الزبور؟",
+      "ma": "شكون من نبي تعطا ليه الزبور؟"
+    },
+    "options": {
+      "es": ["Sulayman (AS)", "Musa (AS)", "Dawud (AS)", "Isa (AS)"],
+      "en": ["Sulayman (AS)", "Musa (AS)", "Dawud (AS)", "Isa (AS)"],
+      "ar": ["سليمان عليه السلام", "موسى عليه السلام", "داود عليه السلام", "عيسى عليه السلام"],
+      "ma": ["سليمان عليه السلام", "موسى عليه السلام", "داود عليه السلام", "عيسى عليه السلام"]
+    },
+    "correctIndex": 2,
+    "explanation": {
+      "es": "Allah dice: «…y a Dawud le dimos el Zabur» (Corán 4:163).",
+      "en": "Allah says: “…and to Dawud We gave the Zabur” (Quran 4:163).",
+      "ar": "قال تعالى: ﴿وَآتَيْنَا دَاوُودَ زَبُورًا﴾ (النساء ١٦٣).",
+      "ma": "قال تعالى: ﴿وَآتَيْنَا دَاوُودَ زَبُورًا﴾ (النساء ١٦٣)."
+    },
+    "source": {
+      "primary": "Corán 4:163",
+      "reference_url": "https://quran.com/4/163",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  },
+  {
+    "id": "prophets_006",
+    "category": "prophets",
+    "difficulty": "hard",
+    "question": {
+      "es": "¿Qué profeta podía entender el lenguaje de las aves?",
+      "en": "Which prophet could understand the speech of birds?",
+      "ar": "أي نبي عُلِّم منطق الطير؟",
+      "ma": "شكون من نبي كان كيفهم كلام الطيور؟"
+    },
+    "options": {
+      "es": ["Dawud (AS)", "Sulayman (AS)", "Nuh (AS)", "Ibrahim (AS)"],
+      "en": ["Dawud (AS)", "Sulayman (AS)", "Nuh (AS)", "Ibrahim (AS)"],
+      "ar": ["داود عليه السلام", "سليمان عليه السلام", "نوح عليه السلام", "إبراهيم عليه السلام"],
+      "ma": ["داود عليه السلام", "سليمان عليه السلام", "نوح عليه السلام", "إبراهيم عليه السلام"]
+    },
+    "correctIndex": 1,
+    "explanation": {
+      "es": "Sulayman (AS) dijo: «¡Gentes! Se nos ha enseñado el lenguaje de las aves» (Corán 27:16).",
+      "en": "Sulayman (AS) said: “O people, we have been taught the language of birds” (Quran 27:16).",
+      "ar": "قال سليمان عليه السلام: ﴿يَا أَيُّهَا النَّاسُ عُلِّمْنَا مَنطِقَ الطَّيْرِ﴾ (النمل ١٦).",
+      "ma": "قال سليمان عليه السلام: ﴿يَا أَيُّهَا النَّاسُ عُلِّمْنَا مَنطِقَ الطَّيْرِ﴾ (النمل ١٦)."
+    },
+    "source": {
+      "primary": "Corán 27:16",
+      "reference_url": "https://quran.com/27/16",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  },
+  {
+    "id": "seerah_001",
+    "category": "seerah",
+    "difficulty": "easy",
+    "question": {
+      "es": "¿En qué ciudad nació el Profeta Muhammad ﷺ?",
+      "en": "In which city was the Prophet Muhammad ﷺ born?",
+      "ar": "في أي مدينة وُلد النبي محمد ﷺ؟",
+      "ma": "ففينا مدينة تزاد النبي محمد ﷺ؟"
+    },
+    "options": {
+      "es": ["Medina", "La Meca", "Taif", "Jerusalén"],
+      "en": ["Medina", "Mecca", "Taif", "Jerusalem"],
+      "ar": ["المدينة المنورة", "مكة المكرمة", "الطائف", "القدس"],
+      "ma": ["المدينة المنورة", "مكة المكرمة", "الطائف", "القدس"]
+    },
+    "correctIndex": 1,
+    "explanation": {
+      "es": "El Profeta Muhammad ﷺ nació en La Meca, en el seno de la tribu de Quraysh, según el consenso de las obras de Seerah (Ibn Hisham; Ar-Raheeq Al-Makhtum).",
+      "en": "The Prophet Muhammad ﷺ was born in Mecca, within the tribe of Quraysh, per the consensus of Seerah works (Ibn Hisham; Ar-Raheeq Al-Makhtum).",
+      "ar": "وُلد النبي محمد ﷺ في مكة المكرمة، في قبيلة قريش، باتفاق كتب السيرة (ابن هشام؛ الرحيق المختوم).",
+      "ma": "تزاد النبي محمد ﷺ فمكة المكرمة، فقبيلة قريش، باتفاق كتب السيرة (ابن هشام؛ الرحيق المختوم)."
+    },
+    "source": {
+      "primary": "Sirat Ibn Hisham",
+      "secondary": "Ar-Raheeq Al-Makhtum (El Néctar Sellado)",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  },
+  {
+    "id": "seerah_002",
+    "category": "seerah",
+    "difficulty": "easy",
+    "question": {
+      "es": "¿Quién fue la primera esposa del Profeta Muhammad ﷺ?",
+      "en": "Who was the first wife of the Prophet Muhammad ﷺ?",
+      "ar": "من كانت أول زوجات النبي محمد ﷺ؟",
+      "ma": "شكون كانت أول مرا تزوجها النبي محمد ﷺ؟"
+    },
+    "options": {
+      "es": ["Aisha (RA)", "Jadiya (RA)", "Hafsa (RA)", "Zaynab (RA)"],
+      "en": ["Aisha (RA)", "Khadijah (RA)", "Hafsah (RA)", "Zaynab (RA)"],
+      "ar": ["عائشة رضي الله عنها", "خديجة رضي الله عنها", "حفصة رضي الله عنها", "زينب رضي الله عنها"],
+      "ma": ["عائشة رضي الله عنها", "خديجة رضي الله عنها", "حفصة رضي الله عنها", "زينب رضي الله عنها"]
+    },
+    "correctIndex": 1,
+    "explanation": {
+      "es": "Jadiya bint Juwaylid (RA) fue la primera esposa del Profeta ﷺ y la primera persona en creer en su mensaje (Sahih al-Bujari 3818).",
+      "en": "Khadijah bint Khuwaylid (RA) was the Prophet's ﷺ first wife and the first person to believe in his message (Sahih al-Bukhari 3818).",
+      "ar": "خديجة بنت خويلد رضي الله عنها أول زوجات النبي ﷺ وأول من آمن برسالته (صحيح البخاري ٣٨١٨).",
+      "ma": "خديجة بنت خويلد رضي الله عنها هي أول زوجة ديال النبي ﷺ وأول وحدة آمنات برسالتو (صحيح البخاري ٣٨١٨)."
+    },
+    "source": {
+      "primary": "Sahih al-Bukhari 3818",
+      "secondary": "Sirat Ibn Hisham",
+      "reference_url": "https://sunnah.com/bukhari:3818",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  },
+  {
+    "id": "seerah_003",
+    "category": "seerah",
+    "difficulty": "easy",
+    "question": {
+      "es": "¿A qué ciudad emigró el Profeta ﷺ en la Hégira?",
+      "en": "To which city did the Prophet ﷺ migrate in the Hijra?",
+      "ar": "إلى أي مدينة هاجر النبي ﷺ؟",
+      "ma": "لفينا مدينة هاجر النبي ﷺ؟"
+    },
+    "options": {
+      "es": ["Taif", "Abisinia", "Yathrib (Medina)", "Damasco"],
+      "en": ["Taif", "Abyssinia", "Yathrib (Medina)", "Damascus"],
+      "ar": ["الطائف", "الحبشة", "يثرب (المدينة)", "دمشق"],
+      "ma": ["الطائف", "الحبشة", "يثرب (المدينة)", "دمشق"]
+    },
+    "correctIndex": 2,
+    "explanation": {
+      "es": "El Profeta ﷺ emigró de La Meca a Yathrib, que pasó a llamarse Al-Madina al-Munáwwara (la Ciudad Iluminada). Este suceso marca el inicio del calendario islámico.",
+      "en": "The Prophet ﷺ migrated from Mecca to Yathrib, which became known as Al-Madinah Al-Munawwarah (the Radiant City). This event marks the start of the Islamic calendar.",
+      "ar": "هاجر النبي ﷺ من مكة إلى يثرب التي صارت تُعرف بالمدينة المنورة، وبهذا الحدث يبدأ التقويم الهجري.",
+      "ma": "هاجر النبي ﷺ من مكة ليثرب اللي ولات معروفة بالمدينة المنورة، وبهاد الحدث كيبدا التقويم الهجري."
+    },
+    "source": {
+      "primary": "Sirat Ibn Hisham",
+      "secondary": "Sahih al-Bukhari 3906",
+      "reference_url": "https://sunnah.com/bukhari:3906",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  },
+  {
+    "id": "seerah_004",
+    "category": "seerah",
+    "difficulty": "medium",
+    "question": {
+      "es": "¿En qué cueva recibió el Profeta ﷺ la primera revelación?",
+      "en": "In which cave did the Prophet ﷺ receive the first revelation?",
+      "ar": "في أي غار نزل الوحي على النبي ﷺ أول مرة؟",
+      "ma": "ففينا غار نزل الوحي على النبي ﷺ أول مرة؟"
+    },
+    "options": {
+      "es": ["Cueva de Thawr", "Cueva de Hira", "Cueva de Uhud", "Cueva de los Siete Durmientes"],
+      "en": ["Cave of Thawr", "Cave of Hira", "Cave of Uhud", "Cave of the Seven Sleepers"],
+      "ar": ["غار ثور", "غار حراء", "غار أُحد", "كهف أهل الكهف"],
+      "ma": ["غار ثور", "غار حراء", "غار أُحد", "كهف أهل الكهف"]
+    },
+    "correctIndex": 1,
+    "explanation": {
+      "es": "El ángel Yibril se presentó al Profeta ﷺ en la cueva de Hira, en el monte An-Nur cerca de La Meca, con las primeras aleyas de la sura Al-'Alaq (Sahih al-Bujari 3).",
+      "en": "The angel Jibril came to the Prophet ﷺ in the cave of Hira, on Mount An-Nur near Mecca, with the first verses of Surah Al-'Alaq (Sahih al-Bukhari 3).",
+      "ar": "جاء جبريل عليه السلام إلى النبي ﷺ في غار حراء بأوائل سورة العلق (صحيح البخاري ٣).",
+      "ma": "جا جبريل عليه السلام للنبي ﷺ فغار حراء بأول آيات سورة العلق (صحيح البخاري ٣)."
+    },
+    "source": {
+      "primary": "Sahih al-Bukhari 3",
+      "secondary": "Corán 96:1-5",
+      "reference_url": "https://sunnah.com/bukhari:3",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  },
+  {
+    "id": "seerah_005",
+    "category": "seerah",
+    "difficulty": "medium",
+    "question": {
+      "es": "¿Quién acompañó al Profeta ﷺ en la cueva durante la Hégira?",
+      "en": "Who accompanied the Prophet ﷺ in the cave during the Hijra?",
+      "ar": "من صاحَب النبي ﷺ في الغار أثناء الهجرة؟",
+      "ma": "شكون رافق النبي ﷺ فالغار فالهجرة؟"
+    },
+    "options": {
+      "es": ["Umar (RA)", "Ali (RA)", "Abu Bakr (RA)", "Uthman (RA)"],
+      "en": ["Umar (RA)", "Ali (RA)", "Abu Bakr (RA)", "Uthman (RA)"],
+      "ar": ["عمر رضي الله عنه", "علي رضي الله عنه", "أبو بكر رضي الله عنه", "عثمان رضي الله عنه"],
+      "ma": ["عمر رضي الله عنه", "علي رضي الله عنه", "أبو بكر رضي الله عنه", "عثمان رضي الله عنه"]
+    },
+    "correctIndex": 2,
+    "explanation": {
+      "es": "El Corán alude a Abu Bakr (RA) como «el segundo de dos, cuando ambos estaban en la cueva» (Corán 9:40), refiriéndose a la cueva de Thawr durante la Hégira.",
+      "en": "The Quran refers to Abu Bakr (RA) as “the second of two, when they were both in the cave” (Quran 9:40), meaning the cave of Thawr during the Hijra.",
+      "ar": "أشار القرآن إلى أبي بكر رضي الله عنه: ﴿ثَانِيَ اثْنَيْنِ إِذْ هُمَا فِي الْغَارِ﴾ (التوبة ٤٠)، أي غار ثور أثناء الهجرة.",
+      "ma": "القرآن أشار لأبي بكر رضي الله عنه: ﴿ثَانِيَ اثْنَيْنِ إِذْ هُمَا فِي الْغَارِ﴾ (التوبة ٤٠)، يعني غار ثور فالهجرة."
+    },
+    "source": {
+      "primary": "Corán 9:40",
+      "secondary": "Sahih al-Bukhari 3653",
+      "reference_url": "https://quran.com/9/40",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  },
+  {
+    "id": "seerah_006",
+    "category": "seerah",
+    "difficulty": "hard",
+    "question": {
+      "es": "¿En qué año de la Hégira tuvo lugar la batalla de Badr?",
+      "en": "In which year of the Hijra did the Battle of Badr take place?",
+      "ar": "في أي سنة هجرية وقعت غزوة بدر؟",
+      "ma": "ففينا عام هجري وقعات غزوة بدر؟"
+    },
+    "options": {
+      "es": ["1 H", "2 H", "3 H", "5 H"],
+      "en": ["1 AH", "2 AH", "3 AH", "5 AH"],
+      "ar": ["١ هـ", "٢ هـ", "٣ هـ", "٥ هـ"],
+      "ma": ["١ هـ", "٢ هـ", "٣ هـ", "٥ هـ"]
+    },
+    "correctIndex": 1,
+    "explanation": {
+      "es": "La batalla de Badr ocurrió en Ramadán del año 2 de la Hégira, según el consenso de las obras de Seerah. El Corán la menciona en 3:123: «Allah os auxilió en Badr cuando erais débiles».",
+      "en": "The Battle of Badr took place in Ramadan of the year 2 AH, per the consensus of Seerah works. The Quran mentions it in 3:123: “Allah aided you at Badr when you were weak.”",
+      "ar": "وقعت غزوة بدر في رمضان من السنة الثانية للهجرة باتفاق كتب السيرة. وذكرها القرآن: ﴿وَلَقَدْ نَصَرَكُمُ اللَّهُ بِبَدْرٍ وَأَنتُمْ أَذِلَّةٌ﴾ (آل عمران ١٢٣).",
+      "ma": "غزوة بدر وقعات فرمضان ديال العام الثاني للهجرة باتفاق كتب السيرة. والقرآن ذكرها: ﴿وَلَقَدْ نَصَرَكُمُ اللَّهُ بِبَدْرٍ وَأَنتُمْ أَذِلَّةٌ﴾ (آل عمران ١٢٣)."
+    },
+    "source": {
+      "primary": "Sirat Ibn Hisham",
+      "secondary": "Corán 3:123",
+      "reference_url": "https://quran.com/3/123",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  },
+  {
+    "id": "seerah_007",
+    "category": "seerah",
+    "difficulty": "medium",
+    "question": {
+      "es": "¿Cómo se llamaba la madre del Profeta Muhammad ﷺ?",
+      "en": "What was the name of the Prophet Muhammad's ﷺ mother?",
+      "ar": "ما اسم أم النبي محمد ﷺ؟",
+      "ma": "شنو كانت سمية أم النبي محمد ﷺ؟"
+    },
+    "options": {
+      "es": ["Halima", "Amina bint Wahb", "Fátima bint Asad", "Safiyya"],
+      "en": ["Halimah", "Aminah bint Wahb", "Fatimah bint Asad", "Safiyyah"],
+      "ar": ["حليمة", "آمنة بنت وهب", "فاطمة بنت أسد", "صفية"],
+      "ma": ["حليمة", "آمنة بنت وهب", "فاطمة بنت أسد", "صفية"]
+    },
+    "correctIndex": 1,
+    "explanation": {
+      "es": "La madre del Profeta ﷺ fue Amina bint Wahb, de Quraysh. Halima as-Sa'diyya fue su nodriza, no su madre (Sirat Ibn Hisham).",
+      "en": "The Prophet's ﷺ mother was Aminah bint Wahb of Quraysh. Halimah as-Sa'diyyah was his wet nurse, not his mother (Sirat Ibn Hisham).",
+      "ar": "أم النبي ﷺ هي آمنة بنت وهب من قريش، أما حليمة السعدية فكانت مرضعته (سيرة ابن هشام).",
+      "ma": "أم النبي ﷺ هي آمنة بنت وهب من قريش، أما حليمة السعدية فكانت هي اللي رضعاتو (سيرة ابن هشام)."
+    },
+    "source": {
+      "primary": "Sirat Ibn Hisham",
+      "secondary": "Ar-Raheeq Al-Makhtum (El Néctar Sellado)",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  },
+  {
+    "id": "quran_007",
+    "category": "quran_general",
+    "difficulty": "medium",
+    "question": {
+      "es": "¿Cuántos pilares tiene el Islam?",
+      "en": "How many pillars does Islam have?",
+      "ar": "كم عدد أركان الإسلام؟",
+      "ma": "شحال من ركن عند الإسلام؟"
+    },
+    "options": {
+      "es": ["3", "4", "5", "6"],
+      "en": ["3", "4", "5", "6"],
+      "ar": ["٣", "٤", "٥", "٦"],
+      "ma": ["٣", "٤", "٥", "٦"]
+    },
+    "correctIndex": 2,
+    "explanation": {
+      "es": "El Profeta ﷺ dijo: «El Islam se ha edificado sobre cinco [pilares]: el testimonio de fe, la oración, el zakat, la peregrinación y el ayuno de Ramadán» (Sahih al-Bujari 8, Sahih Muslim 16).",
+      "en": "The Prophet ﷺ said: “Islam is built upon five [pillars]: the testimony of faith, prayer, zakat, pilgrimage, and fasting Ramadan” (Sahih al-Bukhari 8, Sahih Muslim 16).",
+      "ar": "قال النبي ﷺ: «بُني الإسلام على خمس: شهادة أن لا إله إلا الله وأن محمدًا رسول الله، وإقام الصلاة، وإيتاء الزكاة، والحج، وصوم رمضان» (صحيح البخاري ٨).",
+      "ma": "قال النبي ﷺ: «بُني الإسلام على خمس: الشهادة، والصلاة، والزكاة، والحج، وصيام رمضان» (صحيح البخاري ٨)."
+    },
+    "source": {
+      "primary": "Sahih al-Bukhari 8",
+      "secondary": "Sahih Muslim 16",
+      "reference_url": "https://sunnah.com/bukhari:8",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  },
+  {
+    "id": "prophets_007",
+    "category": "prophets",
+    "difficulty": "hard",
+    "question": {
+      "es": "¿Qué profeta es mencionado por su nombre más veces en el Corán?",
+      "en": "Which prophet is mentioned by name the most times in the Quran?",
+      "ar": "أي نبي ذُكر اسمه في القرآن أكثر من غيره؟",
+      "ma": "شكون من نبي تذكر سميتو فالقرآن كثر من غيرو؟"
+    },
+    "options": {
+      "es": ["Ibrahim (AS)", "Musa (AS)", "Isa (AS)", "Nuh (AS)"],
+      "en": ["Ibrahim (AS)", "Musa (AS)", "Isa (AS)", "Nuh (AS)"],
+      "ar": ["إبراهيم عليه السلام", "موسى عليه السلام", "عيسى عليه السلام", "نوح عليه السلام"],
+      "ma": ["إبراهيم عليه السلام", "موسى عليه السلام", "عيسى عليه السلام", "نوح عليه السلام"]
+    },
+    "correctIndex": 1,
+    "explanation": {
+      "es": "Musa (AS) es el profeta más mencionado por su nombre en el Corán (más de 130 veces), según los recuentos clásicos del texto coránico.",
+      "en": "Musa (AS) is the prophet most mentioned by name in the Quran (over 130 times), according to classical counts of the Quranic text.",
+      "ar": "موسى عليه السلام هو أكثر الأنبياء ذكرًا بالاسم في القرآن (أكثر من ١٣٠ مرة) حسب إحصاءات النص القرآني.",
+      "ma": "موسى عليه السلام هو النبي اللي تذكر سميتو كثر فالقرآن (كثر من ١٣٠ مرة) على حساب إحصاءات النص القرآني."
+    },
+    "source": {
+      "primary": "Recuento del texto coránico (concordancias clásicas, p. ej. Al-Mu'jam al-Mufahras)",
+      "reference_url": "https://quran.com",
+      "verified_by": "editorial_check_v1",
+      "verified_date": "2026-06-10"
+    },
+    "sensitivity": "none"
+  }
+]
