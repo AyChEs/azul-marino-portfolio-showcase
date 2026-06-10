@@ -5,6 +5,8 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
+  Linking,
+  TouchableOpacity,
 } from "react-native";
 import Animated, {
   useSharedValue,
@@ -34,7 +36,8 @@ import {
   INITIAL_LIFELINES,
   EXTRA_TIME_BONUS,
 } from "../lib/gameLogic";
-import { getPlayedQuestions, addPlayedQuestions, updateStats } from "../lib/storage";
+import { getPlayedQuestions, addPlayedQuestions, updateStats, getStats, bumpDailyStreak } from "../lib/storage";
+import { parseSource } from "../lib/sources";
 import { getAIFeedback } from "../lib/ai";
 import type { Question, Difficulty, GameMode } from "../lib/types";
 import questions from "../data/questions.json";
@@ -172,13 +175,17 @@ export default function PlayScreen() {
     const playedIds = gameQuestions.map((q) => q.id);
     await addPlayedQuestions(playedIds);
     const finalScore = calculateFinalScore(earnedPoints, maxPoints);
+    const prevStats = await getStats();
+    const newRecord = finalScore > prevStats.bestScore && prevStats.gamesPlayed > 0;
     await updateStats(finalScore, correctCount);
+    await bumpDailyStreak();
     router.replace({
       pathname: "/game-over",
       params: {
         score: String(finalScore),
         correct: String(correctCount),
         total: String(gameQuestions.length),
+        newRecord: newRecord ? "1" : "0",
         language,
         category,
         difficulty,
@@ -295,9 +302,11 @@ export default function PlayScreen() {
         setIsLoadingFeedback(true);
         try {
           const feedback = await getAIFeedback({
+            questionId: currentQ.id,
             question: currentQ.question[language],
             correctAnswer: correct,
             userAnswer: option,
+            explanation: currentQ.explanation[language] ?? "",
             language,
           });
           setAiFeedback(feedback || null);
@@ -460,6 +469,42 @@ export default function PlayScreen() {
         {/* Feedback + Next button */}
         {isAnswered && (
           <Animated.View entering={FadeIn.duration(300)} style={styles.feedbackContainer}>
+            {/* Verified explanation + cited source — always shown, AI or not */}
+            <NoorCard>
+              <Text style={styles.explanationLabel}>{t("game.explanation") ?? "Explicación"}</Text>
+              <Text style={[styles.feedbackText, isRTL && { textAlign: "right" }]}>
+                {currentQ.explanation[language]}
+              </Text>
+              {(() => {
+                const src = parseSource(currentQ.source);
+                if (!src) return null;
+                return (
+                  <TouchableOpacity
+                    accessibilityRole={src.url ? "link" : "text"}
+                    disabled={!src.url}
+                    onPress={() => src.url && Linking.openURL(src.url)}
+                  >
+                    <Text style={[styles.sourceText, src.url && styles.sourceLink]}>
+                      {t("game.source") ?? "Fuente"}: {src.label}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })()}
+              <TouchableOpacity
+                accessibilityRole="link"
+                accessibilityLabel={t("game.report") ?? "Reportar este dato"}
+                onPress={() =>
+                  Linking.openURL(
+                    `mailto:aymanessamadi72@gmail.com?subject=${encodeURIComponent(
+                      `[Noor] Reporte de contenido — pregunta ${currentQ.id}`
+                    )}`
+                  )
+                }
+              >
+                <Text style={styles.reportText}>{t("game.report") ?? "Reportar este dato"}</Text>
+              </TouchableOpacity>
+            </NoorCard>
+
             {isLoadingFeedback ? (
               <NoorCard>
                 <Text style={styles.feedbackLoading}>{t("loading.default") ?? "..."}</Text>
@@ -519,6 +564,16 @@ const styles = StyleSheet.create({
   feedbackLoading: { color: Colors.text.muted, textAlign: "center", fontStyle: "italic" },
   feedbackLabel: { fontFamily: "Amiri_700Bold", fontSize: 16, color: Colors.gold.primary, marginBottom: 8, textAlign: "right" },
   feedbackText: { fontSize: 15, color: Colors.text.primary, lineHeight: 24 },
+  explanationLabel: {
+    fontSize: 11, color: Colors.gold.primary, fontWeight: "700",
+    letterSpacing: 1.2, textTransform: "uppercase", marginBottom: 6,
+  },
+  sourceText: { fontSize: 12, color: Colors.text.muted, marginTop: 10 },
+  sourceLink: { color: Colors.gold.primary, textDecorationLine: "underline" },
+  reportText: {
+    fontSize: 12, color: Colors.incorrect, textDecorationLine: "underline",
+    marginTop: 10, paddingVertical: 6,
+  },
   flashOverlay: { ...StyleSheet.absoluteFillObject, backgroundColor: Colors.gold.primary, zIndex: 10 },
   scorePop: {
     position: "absolute", top: "40%", alignSelf: "center", zIndex: 20,

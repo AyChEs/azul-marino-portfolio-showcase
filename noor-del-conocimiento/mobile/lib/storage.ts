@@ -7,6 +7,7 @@ const KEYS = {
   language: "@noor:language",
   playedQuestions: "@noor:played_questions",
   stats: "@noor:stats",
+  streak: "@noor:daily_streak",
 } as const;
 
 const MAX_MEMORY_SIZE = 150;
@@ -119,3 +120,47 @@ const defaultStats = (): StoredStats => ({
   totalCorrect: 0,
   lastPlayedAt: 0,
 });
+
+// ── Racha diaria ───────────────────────────────────────────────────────────
+
+interface DailyStreak {
+  lastPlayed: string; // YYYY-MM-DD (local device date)
+  streak: number;
+}
+
+function localDateString(d: Date): string {
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${d.getFullYear()}-${m}-${day}`;
+}
+
+export const getDailyStreak = async (): Promise<number> => {
+  try {
+    const data = await AsyncStorage.getItem(KEYS.streak);
+    if (!data) return 0;
+    const parsed = JSON.parse(data) as DailyStreak;
+    if (typeof parsed?.streak !== "number" || typeof parsed?.lastPlayed !== "string") return 0;
+    const today = localDateString(new Date());
+    const yesterday = localDateString(new Date(Date.now() - 86_400_000));
+    // A streak is only alive if the user played today or yesterday.
+    return parsed.lastPlayed === today || parsed.lastPlayed === yesterday ? parsed.streak : 0;
+  } catch {
+    return 0;
+  }
+};
+
+/** Call once per finished game. Returns the updated streak. */
+export const bumpDailyStreak = async (): Promise<number> => {
+  try {
+    const data = await AsyncStorage.getItem(KEYS.streak);
+    const parsed: DailyStreak | null = data ? (JSON.parse(data) as DailyStreak) : null;
+    const today = localDateString(new Date());
+    const yesterday = localDateString(new Date(Date.now() - 86_400_000));
+    if (parsed?.lastPlayed === today) return parsed.streak;
+    const streak = parsed?.lastPlayed === yesterday ? parsed.streak + 1 : 1;
+    await AsyncStorage.setItem(KEYS.streak, JSON.stringify({ lastPlayed: today, streak }));
+    return streak;
+  } catch {
+    return 0;
+  }
+};

@@ -74,6 +74,8 @@ interface FeedbackRequest {
   question: string;
   correctAnswer: string;
   userAnswer: string;
+  /** Verified explanation from the bank — the model may only rephrase it. */
+  explanation?: string;
   language: string;
 }
 
@@ -131,6 +133,8 @@ export async function POST(request: Request): Promise<Response> {
   const question = sanitize(raw.question, MAX_QUESTION_LEN);
   const correctAnswer = sanitize(raw.correctAnswer, MAX_ANSWER_LEN);
   const userAnswer = sanitize(raw.userAnswer, MAX_ANSWER_LEN);
+  const explanation =
+    typeof raw.explanation === "string" ? sanitize(raw.explanation, 600) : "";
 
   if (!question || !correctAnswer || !userAnswer) {
     return Response.json({ error: "Fields must not be empty" }, { status: 400 });
@@ -148,14 +152,22 @@ export async function POST(request: Request): Promise<Response> {
       messages: [
         {
           role: "user",
-          content: `You are Noor, a knowledgeable and encouraging Islamic studies tutor.
-The student answered an Islamic trivia question incorrectly.
+          content: `You are Noor, a warm and knowledgeable Islamic trivia teacher.
+A student just answered an Islamic knowledge question incorrectly.
+Rephrase and gently expand the VERIFIED EXPLANATION below in a kind,
+pedagogical tone (2-3 sentences max).
+
+HARD RULES:
+- Base your answer ONLY on the verified explanation provided. Do NOT add new
+  religious facts, dates, names, verses or hadiths not present in it.
+- Do NOT invent or quote hadith/Quranic verses that are not in the context.
+- Do NOT issue religious rulings (fatwas).
+- Respond ONLY in ${langName}.
 
 Question: ${question}
 Correct answer: ${correctAnswer}
 Student's answer: ${userAnswer}
-
-Respond in ${langName}. Give a brief, warm explanation (2-3 sentences) of why the correct answer is right, citing the relevant Quranic verse or hadith source only if you are certain of it. Be encouraging, never condescending. Do NOT invent citations.`,
+VERIFIED EXPLANATION: ${explanation || correctAnswer}`,
         },
       ],
     });

@@ -1,7 +1,7 @@
 // Home Screen — mode selection + category + difficulty setup
 // Migrated from Next.js page.tsx
 // Mobile-native: bottom sheet approach for difficulty (not website tabs in phone)
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -18,6 +18,7 @@ import { NoorButton } from "../components/ui/NoorButton";
 import { NoorCard } from "../components/ui/NoorCard";
 import { IslamicPatternBackground } from "../components/patterns/IslamicPattern";
 import { useLanguage } from "../context/LanguageContext";
+import { getDailyStreak } from "../lib/storage";
 import type { GameMode, Difficulty, Language } from "../lib/types";
 
 const { width } = Dimensions.get("window");
@@ -43,6 +44,18 @@ export default function HomeScreen() {
 
   const [step, setStep] = useState<Step>("mode");
   const [selectedCategory, setSelectedCategory] = useState<GameMode | null>(null);
+  const [flow, setFlow] = useState<"musafir" | "learn">("musafir");
+  const [streak, setStreak] = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+    getDailyStreak().then((s) => {
+      if (!cancelled) setStreak(s);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const handleStartMusafir = (difficulty: Difficulty) => {
     if (!selectedCategory) {
@@ -82,6 +95,11 @@ export default function HomeScreen() {
           <Text style={[styles.headerSub, isRTL && { textAlign: "right" }]}>
             {t("welcomeMessage")}
           </Text>
+          {streak > 0 && (
+            <Text style={[styles.streak, isRTL && { textAlign: "right" }]}>
+              🔥 {t("home.streak", { count: streak })}
+            </Text>
+          )}
         </View>
 
         {/* Language switcher — compact, top right */}
@@ -121,9 +139,33 @@ export default function HomeScreen() {
                   {t("setup.musafirMode.description")}
                 </Text>
                 <NoorButton
-                  onPress={() => setStep("category")}
+                  onPress={() => {
+                    setFlow("musafir");
+                    setStep("category");
+                  }}
                   label={t("setup.selectButton")}
                   variant="primary"
+                  size="sm"
+                  style={{ marginTop: 16 }}
+                />
+              </NoorCard>
+
+              {/* Learn — no clock, no lives */}
+              <NoorCard style={styles.modeCard}>
+                <Text style={styles.modeIcon}>📖</Text>
+                <Text style={[styles.modeTitle, isRTL && { textAlign: "right" }]}>
+                  {t("setup.learnMode.title")}
+                </Text>
+                <Text style={[styles.modeDesc, isRTL && { textAlign: "right" }]}>
+                  {t("setup.learnMode.description")}
+                </Text>
+                <NoorButton
+                  onPress={() => {
+                    setFlow("learn");
+                    setStep("category");
+                  }}
+                  label={t("setup.selectButton")}
+                  variant="secondary"
                   size="sm"
                   style={{ marginTop: 16 }}
                 />
@@ -164,6 +206,10 @@ export default function HomeScreen() {
                 <TouchableOpacity
                   key={cat.key}
                   onPress={() => {
+                    if (flow === "learn") {
+                      router.push({ pathname: "/learn", params: { category: cat.key } });
+                      return;
+                    }
                     setSelectedCategory(cat.key);
                     setStep("difficulty");
                   }}
@@ -239,6 +285,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
     maxWidth: 280,
   },
+  streak: { fontSize: 13, color: Colors.gold.primary, fontWeight: "700", marginTop: 6 },
   langRow: { flexDirection: "row", justifyContent: "center", gap: 8, marginBottom: 8 },
   langChip: {
     paddingHorizontal: 12,

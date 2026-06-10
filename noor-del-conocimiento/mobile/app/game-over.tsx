@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
+  Share,
 } from "react-native";
 import Animated, {
   useSharedValue,
@@ -31,6 +32,7 @@ export default function GameOverScreen() {
     score: string;
     correct: string;
     total: string;
+    newRecord: string;
     language: string;
     category: string;
     difficulty: string;
@@ -42,6 +44,13 @@ export default function GameOverScreen() {
   const total = Math.max(1, parseInt(params.total ?? "1", 10) || 1);
   const correct = Math.min(total, Math.max(0, parseInt(params.correct ?? "0", 10) || 0));
   const rank = getRank(score);
+  const isNewRecord = params.newRecord === "1";
+
+  const handleShare = () => {
+    Share.share({
+      message: t("game.shareMessage", { score, correct, total }),
+    }).catch(() => {});
+  };
 
   // Staggered entrance animations
   const archOpacity = useSharedValue(0);
@@ -88,6 +97,9 @@ export default function GameOverScreen() {
 
         {/* Score */}
         <Animated.View style={[styles.scoreContainer, scoreStyle]}>
+          {isNewRecord && (
+            <Text style={styles.newRecord}>★ {t("game.newRecord") ?? "¡Nuevo récord!"}</Text>
+          )}
           <Text style={styles.scoreLabel}>{t("game.score") ?? "Puntuación"}</Text>
           <Text style={styles.score}>{score}</Text>
           <Text style={styles.scoreOutOf}>/100</Text>
@@ -142,6 +154,12 @@ export default function GameOverScreen() {
         {/* Actions */}
         <Animated.View style={[styles.buttons, buttonsStyle]}>
           <NoorButton
+            onPress={handleShare}
+            label={t("game.share") ?? "Compartir resultado"}
+            variant="gold"
+            size="md"
+          />
+          <NoorButton
             onPress={handlePlayAgain}
             label={t("game.playAgain") ?? "Jugar de nuevo"}
             variant="primary"
@@ -175,6 +193,10 @@ const styles = StyleSheet.create({
   },
   archContainer: { opacity: 0.75, marginBottom: -8 },
   scoreContainer: { alignItems: "center" },
+  newRecord: {
+    fontSize: 13, fontWeight: "800", color: Colors.gold.primary,
+    letterSpacing: 1, textTransform: "uppercase", marginBottom: 6,
+  },
   scoreLabel: { fontSize: 13, color: Colors.text.muted, letterSpacing: 1.5, textTransform: "uppercase" },
   score: { fontSize: 72, fontWeight: "800", color: Colors.gold.primary, lineHeight: 82 },
   scoreOutOf: { fontSize: 18, color: Colors.text.secondary },

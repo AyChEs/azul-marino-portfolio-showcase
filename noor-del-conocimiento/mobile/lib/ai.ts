@@ -12,11 +12,18 @@ import type { Language } from "./types";
 const CLAUDE_MODEL = "claude-sonnet-4-6";
 
 interface FeedbackInput {
+  questionId: number;
   question: string;
   correctAnswer: string;
   userAnswer: string;
+  /** Verified explanation from the bank — the model may ONLY rephrase/expand it. */
+  explanation: string;
   language: Language;
 }
+
+// Cache by questionId+language — avoids paying for repeated calls on the
+// same question within a session.
+const feedbackCache = new Map<string, string>();
 
 const LANGUAGE_NAMES: Record<Language, string> = {
   es: "Spanish",
@@ -48,9 +55,11 @@ function sanitize(raw: string, maxLen: number): string {
 
 function sanitizeInput(input: FeedbackInput): FeedbackInput {
   return {
+    questionId: input.questionId,
     question: sanitize(input.question, 500),
     correctAnswer: sanitize(input.correctAnswer, 200),
     userAnswer: sanitize(input.userAnswer, 200),
+    explanation: sanitize(input.explanation, 600),
     language: input.language,
   };
 }
@@ -94,18 +103,20 @@ async function fetchDirectly(input: FeedbackInput): Promise<string> {
         role: "user",
         content: `You are Noor, a warm and knowledgeable Islamic trivia teacher.
 A student just answered an Islamic knowledge question incorrectly.
-Provide a brief, educational explanation (2-3 sentences max) that:
-1. Acknowledges their mistake kindly
-2. Explains why the correct answer is right with Islamic context
-3. Adds a helpful memory aid or related fact
+Rephrase and gently expand the VERIFIED EXPLANATION below in a kind,
+pedagogical tone (2-3 sentences max).
 
-CRITICAL: Respond ONLY in ${langName}.${isRTL ? " Write in Modern Standard Arabic (فُصحى), right-to-left." : ""}
-Do NOT invent hadith, Quranic verses, or citations you are unsure of.
-Be warm, educational, and concise.
+HARD RULES:
+- Base your answer ONLY on the verified explanation provided. Do NOT add new
+  religious facts, dates, names, verses or hadiths not present in it.
+- Do NOT invent or quote hadith/Quranic verses that are not in the context.
+- Do NOT issue religious rulings (fatwas).
+- Respond ONLY in ${langName}.${isRTL ? " Write right-to-left." : ""}
 
 Question: ${input.question}
 Correct answer: ${input.correctAnswer}
-Student's answer: ${input.userAnswer}`,
+Student's answer: ${input.userAnswer}
+VERIFIED EXPLANATION: ${input.explanation}`,
       },
     ],
   });
@@ -118,17 +129,19 @@ Student's answer: ${input.userAnswer}`,
 // ── Public API ────────────────────────────────────────────────────────────────
 
 export const getAIFeedback = async (input: FeedbackInput): Promise<string> => {
+  const cacheKey = `${input.questionId}:${input.language}`;
+  const cached = feedbackCache.get(cacheKey);
+  if (cached) return cached;
   try {
     const safe = sanitizeInput(input);
-    if (
-      typeof window !== "undefined" &&
-      window.location?.origin?.startsWith("http")
-    ) {
-      return await fetchViaProxy(safe);
-    }
-    return await fetchDirectly(safe);
+    const result =
+      typeof window !== "undefined" && window.location?.origin?.startsWith("http")
+        ? await fetchViaProxy(safe)
+        : await fetchDirectly(safe);
+    if (result) feedbackCache.set(cacheKey, result);
+    return result;
   } catch {
-    // Return empty — caller shows a static fallback message
+    // Return empty — caller falls back to the verified bank explanation
     return "";
   }
 };

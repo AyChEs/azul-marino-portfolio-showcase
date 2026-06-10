@@ -1,176 +1,194 @@
 {
-    "gameTitle": "Trivia Luz del Saber",
-    "bismillah": "بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
-    "startYourJourney": "Empieza tu Viaje",
-    "welcomeMessage": "Bienvenido a un viaje de conocimiento para iluminar la mente y el alma.",
-    "rulesTitle": "Reglas del Juego",
-    "rulesScrollPrompt": "Debes desplazarte hasta el final para poder continuar.",
-    "rulesReadButton": "He leído las reglas, ¡a jugar!",
-    "rulesScrollCta": "Desplázate hacia abajo para continuar...",
-    "chooseLanguage": "Elige tu idioma",
-    "loading": {
-        "default": "Cargando...",
-        "results": "Cargando resultados...",
-        "game": "Cargando partida..."
-    },
-    "rules": {
-        "gameModes": {
-            "title": "Modos de Juego",
-            "musafir": {
-                "title": "Modo Musafir (Solo)",
-                "description": "Juega preguntas hasta que pierdas tus 3 vidas. ¡Busca tu récord personal!"
-            },
-            "majlis": {
-                "title": "Modo Majlis (Grupo)",
-                "description": "Compite por turnos con 2-6 jugadores. Cada uno tiene 3 vidas. El juego termina cuando solo queda un jugador o se completan las rondas."
-            }
-        },
-        "difficulty": {
-            "title": "Dificultad y Tiempo",
-            "easy": "Hechos básicos y nombres conocidos. (30 segundos)",
-            "medium": "Fechas, detalles de batallas. (20 segundos)",
-            "hard": "Tafsir, cronología exacta, jurisprudencia. (15 segundos)"
-        },
-        "lifelines": {
-            "title": "Mecánica de Comodines",
-            "inventory": "Cada jugador tiene su propio inventario por partida.",
-            "fiftyFifty": {
-                "title": "50/50 (El Discernimiento)",
-                "description": "Elimina 2 respuestas incorrectas. Tienes 2 usos por partida."
-            },
-            "extraTime": {
-                "title": "Tiempo Extra (Sabr)",
-                "description": "Añade 15 segundos al temporizador. Tienes 2 usos por partida."
-            },
-            "skip": {
-                "title": "Saltar Pregunta (Hégira)",
-                "description": "Pasa a la siguiente pregunta sin perder vidas. Tienes 1 uso por partida (solo en dificultad Media y Difícil)."
-            }
-        },
-        "scoring": {
-            "title": "Sistema de Puntuación",
-            "difficulty": "Multiplicador por Dificultad: Fácil (1.0x), Medio (1.5x), Difícil (2.0x)",
-            "category": "Multiplicador por Categoría: Seerah (1.2x), Profetas (1.1x), Corán y General (1.0x)",
-            "timeBonus": "Bono de Tiempo: Hasta un 30% extra según lo rápido que respondas.",
-            "accumulation": "Progreso Global: Todos tus puntos se acumulan en la Tabla de Clasificación."
-        }
-    },
-    "setup": {
-        "chooseMode": "Elige tu Modo de Juego",
-        "musafirMode": {
-            "title": "Modo Musafir",
-            "description": "Un viaje de conocimiento en solitario. ¿Hasta dónde puedes llegar?"
-        },
-        "majlisMode": {
-            "title": "Modo Majlis",
-            "description": "Reúne a tu familia y amigos para un desafío en grupo.",
-            "button": "Configurar Partida"
-        },
-        "selectButton": "Seleccionar",
-        "chooseAnotherMode": "Elegir otro modo",
-        "chooseCategory": "Elige una Categoría",
-        "chooseDifficulty": "Elige la Dificultad"
-    },
-    "category": {
-        "seerah": "Sira",
-        "prophets": "Profetas",
-        "general": "General",
-        "mix": "Mixto",
-        "seerahDescription": "Sumérgete en la vida, batallas y enseñanzas del Profeta Muhammad (ﷺ).",
-        "prophetsDescription": "Pon a prueba tu conocimiento sobre las historias de los profetas, desde Adán (AS) hasta Isa (AS).",
-        "generalDescription": "Explora la revelación, Fiqh básico, historia islámica y los pilares de la fe.",
-        "mixDescription": "Un desafío aleatorio de todas las categorías para la dificultad elegida."
+  "gameTitle": "Trivia Luz del Saber",
+  "bismillah": "بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+  "startYourJourney": "Empieza tu Viaje",
+  "welcomeMessage": "Bienvenido a un viaje de conocimiento para iluminar la mente y el alma.",
+  "rulesTitle": "Reglas del Juego",
+  "rulesScrollPrompt": "Debes desplazarte hasta el final para poder continuar.",
+  "rulesReadButton": "He leído las reglas, ¡a jugar!",
+  "rulesScrollCta": "Desplázate hacia abajo para continuar...",
+  "chooseLanguage": "Elige tu idioma",
+  "loading": {
+    "default": "Cargando...",
+    "results": "Cargando resultados...",
+    "game": "Cargando partida..."
+  },
+  "rules": {
+    "gameModes": {
+      "title": "Modos de Juego",
+      "musafir": {
+        "title": "Modo Musafir (Solo)",
+        "description": "Juega preguntas hasta que pierdas tus 3 vidas. ¡Busca tu récord personal!"
+      },
+      "majlis": {
+        "title": "Modo Majlis (Grupo)",
+        "description": "Compite por turnos con 2-6 jugadores. Cada uno tiene 3 vidas. El juego termina cuando solo queda un jugador o se completan las rondas."
+      }
     },
     "difficulty": {
-        "easy": "Fácil",
-        "medium": "Medio",
-        "hard": "Difícil"
+      "title": "Dificultad y Tiempo",
+      "easy": "Hechos básicos y nombres conocidos. (30 segundos)",
+      "medium": "Fechas, detalles de batallas. (20 segundos)",
+      "hard": "Tafsir, cronología exacta, jurisprudencia. (15 segundos)"
     },
-    "majlisSetup": {
-        "title": "Configuración del Majlis",
-        "description": "Añade de 2 a 6 jugadores para comenzar",
-        "playerNameLabel": "Nombre del Jugador",
-        "playerNamePlaceholder": "Ej: Abdullah",
-        "addPlayerButton": "Añadir",
-        "playersTitle": "Jugadores",
-        "startGameButton": "Comenzar Partida Grupal",
-        "backToHome": "Volver al inicio"
+    "lifelines": {
+      "title": "Mecánica de Comodines",
+      "inventory": "Cada jugador tiene su propio inventario por partida.",
+      "fiftyFifty": {
+        "title": "50/50 (El Discernimiento)",
+        "description": "Elimina 2 respuestas incorrectas. Tienes 2 usos por partida."
+      },
+      "extraTime": {
+        "title": "Tiempo Extra (Sabr)",
+        "description": "Añade 15 segundos al temporizador. Tienes 2 usos por partida."
+      },
+      "skip": {
+        "title": "Saltar Pregunta (Hégira)",
+        "description": "Pasa a la siguiente pregunta sin perder vidas. Tienes 1 uso por partida (solo en dificultad Media y Difícil)."
+      }
+    },
+    "scoring": {
+      "title": "Sistema de Puntuación",
+      "difficulty": "Multiplicador por Dificultad: Fácil (1.0x), Medio (1.5x), Difícil (2.0x)",
+      "category": "Multiplicador por Categoría: Seerah (1.2x), Profetas (1.1x), Corán y General (1.0x)",
+      "timeBonus": "Bono de Tiempo: Hasta un 30% extra según lo rápido que respondas.",
+      "accumulation": "Progreso Global: Todos tus puntos se acumulan en la Tabla de Clasificación."
+    }
+  },
+  "setup": {
+    "chooseMode": "Elige tu Modo de Juego",
+    "musafirMode": {
+      "title": "Modo Musafir",
+      "description": "Un viaje de conocimiento en solitario. ¿Hasta dónde puedes llegar?"
+    },
+    "majlisMode": {
+      "title": "Modo Majlis",
+      "description": "Reúne a tu familia y amigos para un desafío en grupo.",
+      "button": "Configurar Partida"
+    },
+    "selectButton": "Seleccionar",
+    "chooseAnotherMode": "Elegir otro modo",
+    "chooseCategory": "Elige una Categoría",
+    "chooseDifficulty": "Elige la Dificultad",
+    "learnMode": {
+      "title": "Aprender",
+      "description": "Repasa sin reloj ni vidas. Cada tarjeta muestra la respuesta, la explicación y su fuente."
+    }
+  },
+  "category": {
+    "seerah": "Sira",
+    "prophets": "Profetas",
+    "general": "General",
+    "mix": "Mixto",
+    "seerahDescription": "Sumérgete en la vida, batallas y enseñanzas del Profeta Muhammad (ﷺ).",
+    "prophetsDescription": "Pon a prueba tu conocimiento sobre las historias de los profetas, desde Adán (AS) hasta Isa (AS).",
+    "generalDescription": "Explora la revelación, Fiqh básico, historia islámica y los pilares de la fe.",
+    "mixDescription": "Un desafío aleatorio de todas las categorías para la dificultad elegida."
+  },
+  "difficulty": {
+    "easy": "Fácil",
+    "medium": "Medio",
+    "hard": "Difícil"
+  },
+  "majlisSetup": {
+    "title": "Configuración del Majlis",
+    "description": "Añade de 2 a 6 jugadores para comenzar",
+    "playerNameLabel": "Nombre del Jugador",
+    "playerNamePlaceholder": "Ej: Abdullah",
+    "addPlayerButton": "Añadir",
+    "playersTitle": "Jugadores",
+    "startGameButton": "Comenzar Partida Grupal",
+    "backToHome": "Volver al inicio"
+  },
+  "majlis": {
+    "player": "Jugador",
+    "addPlayer": "Añadir jugador",
+    "defaultPlayer": "Jugador",
+    "results": "Resultados del Majlis",
+    "eliminated": "Eliminado"
+  },
+  "game": {
+    "score": "Puntos",
+    "start": "Iniciar Majlis",
+    "playAgain": "Jugar de nuevo",
+    "backHome": "Volver al inicio",
+    "explanation": "Explicación",
+    "source": "Fuente",
+    "report": "Reportar este dato",
+    "share": "Compartir resultado",
+    "newRecord": "¡Nuevo récord personal!",
+    "shareMessage": "He conseguido {{score}}/100 ({{correct}}/{{total}} correctas) en Noor del Conocimiento. ¿Te animas?"
+  },
+  "play": {
+    "score": "Puntuación",
+    "round": "Ronda",
+    "turnOf": "Turno de",
+    "readyButton": "¡Estoy listo!",
+    "exit": "Salir",
+    "exitAria": "Salir de la partida",
+    "exitTitle": "¿Salir de la partida?",
+    "exitDescription": "Tu progreso en esta partida se perderá. ¿Estás seguro de que quieres salir?",
+    "exitCancel": "Seguir jugando",
+    "exitConfirm": "Sí, salir"
+  },
+  "playerStatus": {
+    "pts": "pts",
+    "eliminated": "Eliminado",
+    "lives": "Vidas"
+  },
+  "lifeline": {
+    "fiftyFifty": "Comodín 50/50",
+    "extraTime": "Comodín de tiempo extra",
+    "skip": "Saltar"
+  },
+  "feedback": {
+    "title": "Feedback de IA",
+    "incorrect": "Eso no fue del todo correcto.",
+    "correctAnswerIs": "La respuesta correcta es:",
+    "generating": "Generando un poco de sabiduría...",
+    "continue": "Continuar",
+    "error": "La sabiduría de la IA no está disponible en este momento. Por favor, continúa."
+  },
+  "gameOver": {
+    "solo": {
+      "title": "Fin del Viaje",
+      "description": "Tu búsqueda de conocimiento ha terminado... por ahora."
     },
     "majlis": {
-        "player": "Jugador",
-        "addPlayer": "Añadir jugador",
-        "defaultPlayer": "Jugador",
-        "results": "Resultados del Majlis",
-        "eliminated": "Eliminado"
+      "title": "Fin del Majlis",
+      "description": "¡La competencia ha terminado!",
+      "winner": "Ganador",
+      "finalStandings": "Clasificación Final"
     },
-    "game": {
-        "score": "Puntos",
-        "start": "Iniciar Majlis",
-        "playAgain": "Jugar de nuevo",
-        "backHome": "Volver al inicio"
+    "finalScore": "Puntaje Final",
+    "correctOf": "correctas de",
+    "questions": "preguntas",
+    "playAgain": "Jugar de Nuevo"
+  },
+  "rank": {
+    "0": {
+      "title": "Novato de la Luz",
+      "description": "Has dado el primer paso en el camino del conocimiento. ¡Sigue aprendiendo!"
     },
-    "play": {
-        "score": "Puntuación",
-        "round": "Ronda",
-        "turnOf": "Turno de",
-        "readyButton": "¡Estoy listo!",
-        "exit": "Salir",
-        "exitAria": "Salir de la partida",
-        "exitTitle": "¿Salir de la partida?",
-        "exitDescription": "Tu progreso en esta partida se perderá. ¿Estás seguro de que quieres salir?",
-        "exitCancel": "Seguir jugando",
-        "exitConfirm": "Sí, salir"
+    "1": {
+      "title": "Buscador de las Escrituras",
+      "description": "Tu viaje está en marcha. Los versos se están abriendo para ti."
     },
-    "playerStatus": {
-        "pts": "pts",
-        "eliminated": "Eliminado",
-        "lives": "Vidas"
+    "2": {
+      "title": "Erudito de la Sunnah",
+      "description": "Muestras una gran promesa y comprensión. Tu dedicación brilla con fuerza."
     },
-    "lifeline": {
-        "fiftyFifty": "Comodín 50/50",
-        "extraTime": "Comodín de tiempo extra",
-        "skip": "Saltar"
-    },
-    "feedback": {
-        "title": "Feedback de IA",
-        "incorrect": "Eso no fue del todo correcto.",
-        "correctAnswerIs": "La respuesta correcta es:",
-        "generating": "Generando un poco de sabiduría...",
-        "continue": "Continuar",
-        "error": "La sabiduría de la IA no está disponible en este momento. Por favor, continúa."
-    },
-    "gameOver": {
-        "solo": {
-            "title": "Fin del Viaje",
-            "description": "Tu búsqueda de conocimiento ha terminado... por ahora."
-        },
-        "majlis": {
-            "title": "Fin del Majlis",
-            "description": "¡La competencia ha terminado!",
-            "winner": "Ganador",
-            "finalStandings": "Clasificación Final"
-        },
-        "finalScore": "Puntaje Final",
-        "correctOf": "correctas de",
-        "questions": "preguntas",
-        "playAgain": "Jugar de Nuevo"
-    },
-    "rank": {
-        "0": {
-            "title": "Novato de la Luz",
-            "description": "Has dado el primer paso en el camino del conocimiento. ¡Sigue aprendiendo!"
-        },
-        "1": {
-            "title": "Buscador de las Escrituras",
-            "description": "Tu viaje está en marcha. Los versos se están abriendo para ti."
-        },
-        "2": {
-            "title": "Erudito de la Sunnah",
-            "description": "Muestras una gran promesa y comprensión. Tu dedicación brilla con fuerza."
-        },
-        "3": {
-            "title": "Sabio de los Sahaba",
-            "description": "¡Masha-Allah! Tu conocimiento es vasto y profundo, un verdadero faro de luz."
-        }
+    "3": {
+      "title": "Sabio de los Sahaba",
+      "description": "¡Masha-Allah! Tu conocimiento es vasto y profundo, un verdadero faro de luz."
     }
+  },
+  "home": {
+    "streak": "Racha: {{count}} días"
+  },
+  "learn": {
+    "showAnswer": "Ver respuesta y explicación",
+    "next": "Siguiente tarjeta",
+    "done": "Fin del repaso"
+  }
 }
