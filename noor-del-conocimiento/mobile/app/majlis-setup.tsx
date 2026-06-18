@@ -4,14 +4,16 @@ import {
   View,
   Text,
   TextInput,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { Colors } from "../constants/colors";
+import { Fonts } from "../constants/fonts";
+import { SectionLabel } from "../components/ui/SectionLabel";
 import { NoorButton } from "../components/ui/NoorButton";
 import { NoorCard } from "../components/ui/NoorCard";
 import { IslamicPatternBackground } from "../components/patterns/IslamicPattern";
@@ -21,6 +23,7 @@ import type { Difficulty } from "../lib/types";
 
 const MIN_PLAYERS = 2;
 const MAX_PLAYERS = 6;
+const ARABIC_LETTERS = ["ا", "ب", "ج", "د", "هـ", "و"];
 
 export default function MajlisSetupScreen() {
   const { t } = useTranslation();
@@ -74,21 +77,23 @@ export default function MajlisSetupScreen() {
       <IslamicPatternBackground color={Colors.gold.primary} opacity={0.04} tileSize={52} />
 
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.back}>
-          <Text style={styles.backText}>← {t("setup.chooseAnotherMode")}</Text>
-        </TouchableOpacity>
-
-        <Text style={[styles.title, isRTL && { textAlign: "right" }]}>
-          {t("setup.majlisMode.title")}
-        </Text>
-        <Text style={[styles.subtitle, isRTL && { textAlign: "right" }]}>
-          {t("setup.majlisMode.description")}
-        </Text>
+        <View style={styles.headerBlock}>
+          <Text style={styles.ornament}>۞</Text>
+          <Text style={styles.title}>{t("majlisSetup.title")}</Text>
+          <Text style={styles.subtitle}>{t("majlisSetup.description")}</Text>
+        </View>
 
         {/* Player list */}
+        <SectionLabel
+          title={t("majlisSetup.playersLabel")}
+          meta={`${playerNames.length} / ${MAX_PLAYERS}`}
+        />
         <View style={styles.section}>
           {playerNames.map((name, i) => (
             <View key={i} style={styles.playerRow}>
+              <View style={styles.playerChip}>
+                <Text style={styles.playerChipText}>{ARABIC_LETTERS[i] ?? "•"}</Text>
+              </View>
               <TextInput
                 style={[
                   styles.input,
@@ -122,10 +127,8 @@ export default function MajlisSetupScreen() {
         </View>
 
         {/* Difficulty */}
+        <SectionLabel title={t("setup.difficultyLabel")} />
         <NoorCard style={styles.diffSection}>
-          <Text style={[styles.sectionLabel, isRTL && { textAlign: "right" }]}>
-            {t("setup.chooseDifficulty")}
-          </Text>
           <View style={styles.diffRow}>
             {(["easy", "medium", "hard"] as Difficulty[]).map((d) => (
               <TouchableOpacity
@@ -148,10 +151,16 @@ export default function MajlisSetupScreen() {
 
         <NoorButton
           onPress={handleStart}
-          label={t("game.start") ?? "Iniciar Majlis"}
-          variant="primary"
+          label={t("majlisSetup.start")}
+          variant="gold"
           size="lg"
           disabled={!canStart}
+        />
+        <NoorButton
+          onPress={() => router.back()}
+          label={t("majlisSetup.back")}
+          variant="ghost"
+          size="md"
         />
       </ScrollView>
     </SafeAreaView>
@@ -161,12 +170,28 @@ export default function MajlisSetupScreen() {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: Colors.bg.primary },
   content: { padding: 20, gap: 16, paddingBottom: 40 },
-  back: { paddingVertical: 4 },
-  backText: { fontSize: 14, color: Colors.text.secondary },
-  title: { fontSize: 26, fontWeight: "800", color: Colors.parchment.primary },
-  subtitle: { fontSize: 14, color: Colors.text.secondary, lineHeight: 22 },
+  headerBlock: { alignItems: "center", gap: 4, marginBottom: 6 },
+  ornament: { fontSize: 20, color: Colors.gold.dusty },
+  title: {
+    fontFamily: Fonts.serifItalic,
+    fontStyle: "italic",
+    fontSize: 28,
+    color: Colors.parchment.primary,
+  },
+  subtitle: { fontFamily: Fonts.body, fontSize: 13, color: Colors.text.muted },
   section: { gap: 10 },
   playerRow: { flexDirection: "row", alignItems: "center", gap: 10 },
+  playerChip: {
+    width: 34,
+    height: 34,
+    borderRadius: 10,
+    backgroundColor: "rgba(193, 154, 91, 0.14)",
+    borderWidth: 1,
+    borderColor: "rgba(193, 154, 91, 0.35)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  playerChipText: { fontFamily: Fonts.arabic, fontSize: 14, color: Colors.gold.dusty },
   input: {
     flex: 1,
     backgroundColor: Colors.bg.secondary,
@@ -176,12 +201,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 14,
     color: Colors.parchment.primary,
+    fontFamily: Fonts.serifItalic,
+    fontStyle: "italic",
     fontSize: 16,
   },
   removeBtn: { padding: 8 },
   removeBtnText: { color: Colors.incorrect, fontSize: 16 },
   diffSection: {},
-  sectionLabel: { fontSize: 15, fontWeight: "700", color: Colors.parchment.primary, marginBottom: 12 },
   diffRow: { flexDirection: "row", gap: 8 },
   diffChip: {
     flex: 1,
@@ -192,9 +218,14 @@ const styles = StyleSheet.create({
     borderColor: Colors.border.subtle,
   },
   diffChipActive: {
-    borderColor: Colors.accent.emerald,
-    backgroundColor: "rgba(16, 185, 129, 0.12)",
+    borderColor: Colors.accent.emeraldLight,
+    backgroundColor: Colors.accent.emerald,
   },
-  diffChipText: { fontSize: 13, color: Colors.text.secondary, fontWeight: "600" },
-  diffChipTextActive: { color: Colors.accent.emerald },
+  diffChipText: {
+    fontFamily: Fonts.serifItalic,
+    fontStyle: "italic",
+    fontSize: 15,
+    color: Colors.text.secondary,
+  },
+  diffChipTextActive: { color: "#ffffff" },
 });

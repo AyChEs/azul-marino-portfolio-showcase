@@ -11,7 +11,8 @@
   "loading": {
     "default": "Loading...",
     "results": "Loading results...",
-    "game": "Loading game..."
+    "game": "Loading game...",
+    "noQuestions": "No questions available for this combination."
   },
   "rules": {
     "gameModes": {
@@ -73,7 +74,14 @@
     "learnMode": {
       "title": "Learn",
       "description": "Review with no clock and no lives. Each card shows the answer, the explanation and its source."
-    }
+    },
+    "modeLabel": "Game mode",
+    "categoryLabel": "Category",
+    "difficultyLabel": "Difficulty",
+    "startJourney": "Begin journey →",
+    "musafirShort": "The lone traveler",
+    "majlisShort": "The gathering of 2 to 6",
+    "learnShort": "No clock, no lives"
   },
   "category": {
     "seerah": "Seerah",
@@ -83,12 +91,17 @@
     "seerahDescription": "Dive into the life, battles, and teachings of Prophet Muhammad (ﷺ).",
     "prophetsDescription": "Test your knowledge on the stories of the prophets, from Adam (AS) to Isa (AS).",
     "generalDescription": "Explore revelation, basic Fiqh, Islamic history, and the pillars of faith.",
-    "mixDescription": "A random challenge from all categories for the chosen difficulty."
+    "mixDescription": "A random challenge from all categories for the chosen difficulty.",
+    "seerahShort": "Life of the Prophet ﷺ",
+    "prophetsShort": "Stories of the prophets",
+    "generalShort": "Revelation, Fiqh, history",
+    "mixShort": "Random from all"
   },
   "difficulty": {
     "easy": "Easy",
     "medium": "Medium",
-    "hard": "Hard"
+    "hard": "Hard",
+    "seconds": "{{count}} seconds"
   },
   "majlisSetup": {
     "title": "Majlis Setup",
@@ -98,14 +111,20 @@
     "addPlayerButton": "Add",
     "playersTitle": "Players",
     "startGameButton": "Start Group Game",
-    "backToHome": "Back to home"
+    "backToHome": "Back to home",
+    "playersLabel": "Players",
+    "start": "Start →",
+    "back": "Back"
   },
   "majlis": {
     "player": "Player",
     "addPlayer": "Add player",
     "defaultPlayer": "Player",
     "results": "Majlis Results",
-    "eliminated": "Eliminated"
+    "eliminated": "Eliminated",
+    "questionOf": "Question {{current}} of {{total}}",
+    "winnerByScore": "Winner by score",
+    "winnerBySurvival": "Last one standing"
   },
   "game": {
     "score": "Points",
@@ -115,9 +134,13 @@
     "explanation": "Explanation",
     "source": "Source",
     "report": "Report this fact",
+    "nextQuestion": "Next",
+    "seeResults": "See results",
     "share": "Share result",
     "newRecord": "New personal best!",
-    "shareMessage": "I scored {{score}}/100 ({{correct}}/{{total}} correct) in Noor of Knowledge. Can you beat it?"
+    "shareMessage": "I scored {{score}}/100 ({{correct}}/{{total}} correct) in Noor of Knowledge. Can you beat it?",
+    "shareTitle": "Share your result",
+    "shareUnavailable": "Sharing is not available on this device"
   },
   "play": {
     "score": "Score",
@@ -129,7 +152,10 @@
     "exitTitle": "Exit Game?",
     "exitDescription": "Your progress in this game will be lost. Are you sure you want to exit?",
     "exitCancel": "Keep playing",
-    "exitConfirm": "Yes, exit"
+    "exitConfirm": "Yes, exit",
+    "lifelines": "Lifelines",
+    "reviewPaused": "Read the evidence",
+    "reviewHint": "Take your time to read the explanation and source. Press Next when you're ready."
   },
   "playerStatus": {
     "pts": "pts",
@@ -137,9 +163,15 @@
     "lives": "Lives"
   },
   "lifeline": {
-    "fiftyFifty": "50/50 Lifeline",
-    "extraTime": "Extra Time Lifeline",
-    "skip": "Skip"
+    "fiftyFifty": "50/50",
+    "extraTime": "Extra time",
+    "skip": "Skip",
+    "fiftyArabic": "الفُرقان",
+    "timeArabic": "الصَّبر",
+    "skipArabic": "الهِجرة",
+    "fiftyEffect": "50/50",
+    "timeEffect": "+15s",
+    "skipEffect": "Skip"
   },
   "feedback": {
     "title": "AI Feedback",
@@ -163,7 +195,13 @@
     "finalScore": "Final Score",
     "correctOf": "correct out of",
     "questions": "questions",
-    "playAgain": "Play Again"
+    "playAgain": "Play Again",
+    "rankLabel": "Rank",
+    "correctLabel": "Correct",
+    "accuracyLabel": "Accuracy",
+    "pointsLabel": "Points",
+    "winnerLabel": "Winner",
+    "ptsLabel": "PTS"
   },
   "rank": {
     "0": {
@@ -184,11 +222,130 @@
     }
   },
   "home": {
-    "streak": "Streak: {{count}} days"
+    "streak": "Streak: {{count}} days",
+    "dueCount_one": "{{count}} due",
+    "dueCount_other": "{{count}} due"
   },
   "learn": {
     "showAnswer": "Show answer & explanation",
     "next": "Next card",
-    "done": "Review finished"
+    "done": "Review finished",
+    "tapHint": "Pick an option to see the explanation",
+    "reviewBadge": "Review"
+  },
+  "greeting": "Peace be upon you",
+  "notFound": {
+    "title": "Route not found",
+    "description": "This page is not on the map.",
+    "cta": "Back to home"
+  },
+  "welcome": {
+    "subtitle": "A journey of knowledge to enlighten the mind and soul",
+    "playCta": "Begin journey →",
+    "howToPlay": "How to play",
+    "statsLink": "My stats",
+    "streakLabel": "Streak",
+    "bestLabel": "Best",
+    "gamesLabel": "Games"
+  },
+  "stats": {
+    "title": "Statistics",
+    "back": "Back",
+    "lifetimeLabel": "Your journey",
+    "bestScore": "Best score",
+    "gamesPlayed": "Games",
+    "totalCorrect": "Total correct",
+    "accuracy": "Accuracy",
+    "streak": "Daily streak",
+    "pendingReview": "To review",
+    "achievementsLabel": "Achievements",
+    "noRankYet": "No rank yet — play your first game!"
+  },
+  "achievements": {
+    "firstGame": "First step",
+    "games10": "Wayfarer (10)",
+    "games25": "Steadfast (25)",
+    "games50": "Pilgrim (50)",
+    "games100": "Centurion (100)",
+    "correct50": "50 correct",
+    "correct100": "100 correct",
+    "correct500": "500 correct",
+    "correct1000": "1000 correct",
+    "best40": "Passing (40+)",
+    "best60": "Scholar (60+)",
+    "best80": "Sage (80+)",
+    "best100": "Perfect journey (100)",
+    "perfectGame": "Flawless",
+    "perfect5": "Flawless ×5",
+    "hardWin": "Hard challenge",
+    "hardWin10": "Challenge master (10)",
+    "streak5correct": "5-answer streak",
+    "streak10correct": "10-answer streak",
+    "streak3": "3-day streak",
+    "streak7": "7-day streak",
+    "streak30": "30-day streak",
+    "majlis1": "Majlis host",
+    "majlis10": "Full house (10)",
+    "learn25": "Student (25)",
+    "learn100": "Diligent (100)",
+    "learn500": "Review scholar (500)"
+  },
+  "hadith": {
+    "dailyLabel": "Hadith of the day",
+    "another": "Another hadith"
+  },
+  "settings": {
+    "title": "Settings",
+    "sound": "Sound",
+    "haptics": "Vibration (haptics)",
+    "reducedMotion": "Reduce motion",
+    "language": "Language",
+    "resetProgress": "Reset progress",
+    "resetConfirm": "Delete all your progress? This cannot be undone.",
+    "resetDone": "Progress erased",
+    "privacy": "Privacy",
+    "version": "Version",
+    "resetCancel": "Keep it",
+    "back": "Back",
+    "privacyBody": "Noor of Knowledge collects no personal data. Everything is stored on your device only.",
+    "privacyLink": "Read the privacy policy"
+  },
+  "onboarding": {
+    "title": "Your journey starts here",
+    "subtitle": "Answer questions, rank up, and unlock achievements. Knowledge is light.",
+    "cta": "Got it, let's play!"
+  },
+  "pause": {
+    "title": "Game paused",
+    "resume": "Resume",
+    "quit": "Quit game"
+  },
+  "categoryStats": {
+    "title": "Accuracy by category",
+    "seerah": "Seerah",
+    "prophets": "Prophets",
+    "general": "General"
+  },
+  "review": {
+    "title": "Review",
+    "done": "Review complete!",
+    "noneDue": "No cards due for review.",
+    "cardsReviewed_one": "You reviewed {{count}} card.",
+    "cardsReviewed_other": "You reviewed {{count}} cards.",
+    "finish": "Finish"
+  },
+  "dailyChallenge": {
+    "badge": "DAILY CHALLENGE",
+    "title": "Challenge of the day",
+    "streak": "Streak: {{count}} days",
+    "done": "Back home",
+    "alreadyDone": "You've already completed today's challenge!"
+  },
+  "achievementToast": {
+    "unlocked": "Achievement unlocked!"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "button": "Back to home"
   }
 }

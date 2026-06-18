@@ -1,20 +1,31 @@
-// Amiri: classical Arabic typeface — authentic, elegant, highly legible
-// Latin: system font — clean, never Inter (banned by high-end skill)
+// Typography roles — Direction "D · El Messiri" (warm · friendly · family-first)
+// EL MESSIRI (Arabic display) · DM SERIF DISPLAY (editorial italic titles)
+// INTER (UI body) · AMIRI (Quranic verses only)
 
 export const Fonts = {
-  arabic: "Amiri_400Regular",
-  arabicBold: "Amiri_700Bold",
-  arabicItalic: "Amiri_400Italic",
-  arabicBoldItalic: "Amiri_700BoldItalic",
+  // Arabic display — wordmark نور, lifeline names, Arabic UI accents
+  arabic: "ElMessiri_600SemiBold",
+  arabicBold: "ElMessiri_700Bold",
+  // Legacy aliases (kept so existing styles keep compiling)
+  arabicItalic: "Amiri_400Regular_Italic",
+  arabicBoldItalic: "Amiri_700Bold_Italic",
+  // Quranic verses keep Amiri (mushaf feel)
+  verse: "Amiri_400Regular",
+  verseBold: "Amiri_700Bold",
+  // Editorial titles — serif italic ("Fin del viaje", "Musafir", CTA labels)
+  serif: "DMSerifDisplay_400Regular",
+  serifItalic: "DMSerifDisplay_400Regular_Italic",
+  // UI body / labels
+  body: "Inter_400Regular",
+  bodyMedium: "Inter_500Medium",
+  bodySemiBold: "Inter_600SemiBold",
+  bodyBold: "Inter_700Bold",
 } as const;
 
 export const FontSizes = {
-  // Arabic verse display — large, commanding
   arabicVerse: 28,
   arabicLarge: 24,
   arabicBody: 20,
-
-  // UI text
   display: 32,
   headline: 24,
   title: 20,
@@ -23,8 +34,10 @@ export const FontSizes = {
   micro: 11,
 } as const;
 
-export const LineHeights = {
-  arabic: 1.8,   // Arabic text needs more leading
-  latin: 1.4,
-  tight: 1.2,
+// Micro section labels ("MODO DE JUEGO", "COMODINES", "RANK · 1/4")
+export const MicroLabel = {
+  fontFamily: Fonts.bodySemiBold,
+  fontSize: 11,
+  letterSpacing: 1.8,
+  textTransform: "uppercase" as const,
 } as const;

@@ -43,5 +43,15 @@ export function parseSource(source: string | undefined): ParsedSource | null {
   const quran = label.match(/(?:cor[áa]n|quran|qur'an)\s+(\d{1,3}):(\d{1,3}(?:-\d{1,3})?)/i);
   if (quran) return { label, url: `https://quran.com/${quran[1]}/${quran[2]}` };
 
+  // Chapter-only reference: "Quran 111" / "Corán 27 (Surah An-Naml)" →
+  // quran.com/111 (quran.com supports surah-level URLs). The number must
+  // directly follow the word so prose like "el Corán tiene 114 Surahs" — where
+  // a word sits between — never matches.
+  const quranSurah = label.match(/(?:cor[áa]n|quran|qur'an)\s+(\d{1,3})(?!\s*[:\d])/i);
+  if (quranSurah) {
+    const n = Number(quranSurah[1]);
+    if (n >= 1 && n <= 114) return { label, url: `https://quran.com/${n}` };
+  }
+
   return { label };
 }

@@ -21,6 +21,19 @@ describe('parseSource', () => {
     expect(parseSource('Quran 2:282')?.url).toBe('https://quran.com/2/282');
   });
 
+  it('builds surah-level quran.com links from chapter-only references', () => {
+    expect(parseSource('Quran 111 (Surat al-Masad)')?.url).toBe('https://quran.com/111');
+    expect(parseSource('Quran 27 (Surah An-Naml)')?.url).toBe('https://quran.com/27');
+  });
+
+  it('does not link Quran prose where a word sits before the number', () => {
+    expect(parseSource('Ciencias coránicas — el Corán tiene 114 Surahs')?.url).toBeUndefined();
+  });
+
+  it('ignores out-of-range surah numbers', () => {
+    expect(parseSource('Quran 200')?.url).toBeUndefined();
+  });
+
   it('keeps unknown formats as plain labels', () => {
     const r = parseSource('Consenso de las obras de Seerah');
     expect(r?.label).toBe('Consenso de las obras de Seerah');

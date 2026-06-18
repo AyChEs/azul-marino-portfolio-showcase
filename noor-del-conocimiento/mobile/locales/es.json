@@ -11,7 +11,8 @@
   "loading": {
     "default": "Cargando...",
     "results": "Cargando resultados...",
-    "game": "Cargando partida..."
+    "game": "Cargando partida...",
+    "noQuestions": "No hay preguntas disponibles para esta combinación."
   },
   "rules": {
     "gameModes": {
@@ -73,7 +74,14 @@
     "learnMode": {
       "title": "Aprender",
       "description": "Repasa sin reloj ni vidas. Cada tarjeta muestra la respuesta, la explicación y su fuente."
-    }
+    },
+    "modeLabel": "Modo de juego",
+    "categoryLabel": "Categoría",
+    "difficultyLabel": "Dificultad",
+    "startJourney": "Empezar viaje →",
+    "musafirShort": "El viajero solitario",
+    "majlisShort": "La asamblea de 2 a 6",
+    "learnShort": "Sin reloj, sin vidas"
   },
   "category": {
     "seerah": "Sira",
@@ -83,12 +91,17 @@
     "seerahDescription": "Sumérgete en la vida, batallas y enseñanzas del Profeta Muhammad (ﷺ).",
     "prophetsDescription": "Pon a prueba tu conocimiento sobre las historias de los profetas, desde Adán (AS) hasta Isa (AS).",
     "generalDescription": "Explora la revelación, Fiqh básico, historia islámica y los pilares de la fe.",
-    "mixDescription": "Un desafío aleatorio de todas las categorías para la dificultad elegida."
+    "mixDescription": "Un desafío aleatorio de todas las categorías para la dificultad elegida.",
+    "seerahShort": "Vida del Profeta ﷺ",
+    "prophetsShort": "Historias de los profetas",
+    "generalShort": "Revelación, Fiqh, historia",
+    "mixShort": "Aleatorio de todo"
   },
   "difficulty": {
     "easy": "Fácil",
     "medium": "Medio",
-    "hard": "Difícil"
+    "hard": "Difícil",
+    "seconds": "{{count}} segundos"
   },
   "majlisSetup": {
     "title": "Configuración del Majlis",
@@ -98,14 +111,20 @@
     "addPlayerButton": "Añadir",
     "playersTitle": "Jugadores",
     "startGameButton": "Comenzar Partida Grupal",
-    "backToHome": "Volver al inicio"
+    "backToHome": "Volver al inicio",
+    "playersLabel": "Jugadores",
+    "start": "Comenzar →",
+    "back": "Volver"
   },
   "majlis": {
     "player": "Jugador",
     "addPlayer": "Añadir jugador",
     "defaultPlayer": "Jugador",
     "results": "Resultados del Majlis",
-    "eliminated": "Eliminado"
+    "eliminated": "Eliminado",
+    "questionOf": "Pregunta {{current}} de {{total}}",
+    "winnerByScore": "Ganador por puntuación",
+    "winnerBySurvival": "Último en pie"
   },
   "game": {
     "score": "Puntos",
@@ -115,9 +134,13 @@
     "explanation": "Explicación",
     "source": "Fuente",
     "report": "Reportar este dato",
+    "nextQuestion": "Siguiente",
+    "seeResults": "Ver resultados",
     "share": "Compartir resultado",
     "newRecord": "¡Nuevo récord personal!",
-    "shareMessage": "He conseguido {{score}}/100 ({{correct}}/{{total}} correctas) en Noor del Conocimiento. ¿Te animas?"
+    "shareMessage": "He conseguido {{score}}/100 ({{correct}}/{{total}} correctas) en Noor del Conocimiento. ¿Te animas?",
+    "shareTitle": "Comparte tu resultado",
+    "shareUnavailable": "Compartir no está disponible en este dispositivo"
   },
   "play": {
     "score": "Puntuación",
@@ -129,7 +152,10 @@
     "exitTitle": "¿Salir de la partida?",
     "exitDescription": "Tu progreso en esta partida se perderá. ¿Estás seguro de que quieres salir?",
     "exitCancel": "Seguir jugando",
-    "exitConfirm": "Sí, salir"
+    "exitConfirm": "Sí, salir",
+    "lifelines": "Comodines",
+    "reviewPaused": "Lee la evidencia",
+    "reviewHint": "Tómate tu tiempo para leer la explicación y la fuente. Pulsa Siguiente cuando estés listo."
   },
   "playerStatus": {
     "pts": "pts",
@@ -137,9 +163,15 @@
     "lives": "Vidas"
   },
   "lifeline": {
-    "fiftyFifty": "Comodín 50/50",
-    "extraTime": "Comodín de tiempo extra",
-    "skip": "Saltar"
+    "fiftyFifty": "50/50",
+    "extraTime": "Tiempo extra",
+    "skip": "Saltar",
+    "fiftyArabic": "الفُرقان",
+    "timeArabic": "الصَّبر",
+    "skipArabic": "الهِجرة",
+    "fiftyEffect": "50/50",
+    "timeEffect": "+15s",
+    "skipEffect": "Saltar"
   },
   "feedback": {
     "title": "Feedback de IA",
@@ -163,7 +195,13 @@
     "finalScore": "Puntaje Final",
     "correctOf": "correctas de",
     "questions": "preguntas",
-    "playAgain": "Jugar de Nuevo"
+    "playAgain": "Jugar de Nuevo",
+    "rankLabel": "Rank",
+    "correctLabel": "Aciertos",
+    "accuracyLabel": "Precisión",
+    "pointsLabel": "Puntos",
+    "winnerLabel": "Ganador",
+    "ptsLabel": "PTS"
   },
   "rank": {
     "0": {
@@ -184,11 +222,130 @@
     }
   },
   "home": {
-    "streak": "Racha: {{count}} días"
+    "streak": "Racha: {{count}} días",
+    "dueCount_one": "{{count}} pendiente",
+    "dueCount_other": "{{count}} pendientes"
   },
   "learn": {
     "showAnswer": "Ver respuesta y explicación",
     "next": "Siguiente tarjeta",
-    "done": "Fin del repaso"
+    "done": "Fin del repaso",
+    "tapHint": "Elige una opción para ver la explicación",
+    "reviewBadge": "Repaso"
+  },
+  "greeting": "Que la paz sea contigo",
+  "notFound": {
+    "title": "Ruta no encontrada",
+    "description": "Esta página no existe en el mapa.",
+    "cta": "Volver al inicio"
+  },
+  "welcome": {
+    "subtitle": "Un viaje de conocimiento para iluminar la mente y el alma",
+    "playCta": "Empezar viaje →",
+    "howToPlay": "Cómo jugar",
+    "statsLink": "Mis estadísticas",
+    "streakLabel": "Racha",
+    "bestLabel": "Mejor",
+    "gamesLabel": "Partidas"
+  },
+  "stats": {
+    "title": "Estadísticas",
+    "back": "Volver",
+    "lifetimeLabel": "Tu trayectoria",
+    "bestScore": "Mejor puntaje",
+    "gamesPlayed": "Partidas",
+    "totalCorrect": "Aciertos totales",
+    "accuracy": "Precisión",
+    "streak": "Racha diaria",
+    "pendingReview": "Por repasar",
+    "achievementsLabel": "Logros",
+    "noRankYet": "Aún sin rango — ¡juega tu primera partida!"
+  },
+  "achievements": {
+    "firstGame": "Primer paso",
+    "games10": "Caminante (10)",
+    "games25": "Constante (25)",
+    "games50": "Peregrino (50)",
+    "games100": "Centurión (100)",
+    "correct50": "50 aciertos",
+    "correct100": "100 aciertos",
+    "correct500": "500 aciertos",
+    "correct1000": "1000 aciertos",
+    "best40": "Aprobado (40+)",
+    "best60": "Erudito (60+)",
+    "best80": "Sabio (80+)",
+    "best100": "Viaje perfecto (100)",
+    "perfectGame": "Sin fallos",
+    "perfect5": "Impecable ×5",
+    "hardWin": "Reto difícil",
+    "hardWin10": "Maestro del reto (10)",
+    "streak5correct": "Racha de 5 aciertos",
+    "streak10correct": "Racha de 10 aciertos",
+    "streak3": "Racha de 3 días",
+    "streak7": "Racha de 7 días",
+    "streak30": "Racha de 30 días",
+    "majlis1": "Anfitrión del Majlis",
+    "majlis10": "Sala llena (10)",
+    "learn25": "Estudiante (25)",
+    "learn100": "Aplicado (100)",
+    "learn500": "Erudito del repaso (500)"
+  },
+  "hadith": {
+    "dailyLabel": "Hadiz del día",
+    "another": "Otro hadiz"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "sound": "Sonido",
+    "haptics": "Vibración (háptica)",
+    "reducedMotion": "Reducir movimiento",
+    "language": "Idioma",
+    "resetProgress": "Borrar progreso",
+    "resetConfirm": "¿Borrar todo tu progreso? Esta acción no se puede deshacer.",
+    "resetDone": "Progreso borrado",
+    "privacy": "Privacidad",
+    "version": "Versión",
+    "resetCancel": "No borrar",
+    "back": "Volver",
+    "privacyBody": "Noor del Conocimiento no recopila datos personales. Toda la información se almacena solo en tu dispositivo.",
+    "privacyLink": "Leer la política de privacidad"
+  },
+  "onboarding": {
+    "title": "Tu viaje comienza aquí",
+    "subtitle": "Responde preguntas, sube de rango y desbloquea logros. El saber es luz.",
+    "cta": "Entendido, ¡a jugar!"
+  },
+  "pause": {
+    "title": "Partida en pausa",
+    "resume": "Reanudar",
+    "quit": "Abandonar partida"
+  },
+  "categoryStats": {
+    "title": "Precisión por categoría",
+    "seerah": "Sira",
+    "prophets": "Profetas",
+    "general": "General"
+  },
+  "review": {
+    "title": "Repaso",
+    "done": "¡Repaso completado!",
+    "noneDue": "No hay tarjetas pendientes de repaso.",
+    "cardsReviewed_one": "Has repasado {{count}} tarjeta.",
+    "cardsReviewed_other": "Has repasado {{count}} tarjetas.",
+    "finish": "Finalizar"
+  },
+  "dailyChallenge": {
+    "badge": "RETO DIARIO",
+    "title": "Desafío del día",
+    "streak": "Racha: {{count}} días",
+    "done": "Volver al inicio",
+    "alreadyDone": "¡Ya has completado el reto de hoy!"
+  },
+  "achievementToast": {
+    "unlocked": "¡Logro desbloqueado!"
+  },
+  "error": {
+    "title": "Algo salió mal",
+    "button": "Volver al inicio"
   }
 }

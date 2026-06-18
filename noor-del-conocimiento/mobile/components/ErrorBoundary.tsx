@@ -1,8 +1,15 @@
 import React from "react";
-import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { Colors } from "../constants/colors";
+import { Fonts } from "../constants/fonts";
 import { NoorButton } from "./ui/NoorButton";
+import i18n from "../lib/i18n";
 
 interface State {
   hasError: boolean;
@@ -34,12 +41,11 @@ export class ErrorBoundary extends React.Component<
     return (
       <SafeAreaView style={styles.root}>
         <View style={styles.content}>
-          <Text style={styles.icon}>☁️</Text>
-          <Text style={styles.title}>Algo salió mal</Text>
-          <Text style={styles.subtitle}>Something went wrong · حدث خطأ ما</Text>
+          <Text style={styles.icon}>۞</Text>
+          <Text style={styles.title}>{i18n.t("error.title")}</Text>
           <NoorButton
             onPress={this.handleReset}
-            label="Volver al inicio"
+            label={i18n.t("error.button")}
             variant="primary"
             size="md"
             style={styles.button}
@@ -59,10 +65,11 @@ const styles = StyleSheet.create({
     padding: 32,
     gap: 12,
   },
-  icon: { fontSize: 48 },
+  icon: { fontSize: 34, color: Colors.gold.dusty },
   title: {
-    fontSize: 22,
-    fontWeight: "700",
+    fontFamily: Fonts.serifItalic,
+    fontStyle: "italic",
+    fontSize: 26,
     color: Colors.parchment.primary,
     textAlign: "center",
   },

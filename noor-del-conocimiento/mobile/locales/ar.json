@@ -11,7 +11,8 @@
   "loading": {
     "default": "جارٍ التحميل...",
     "results": "جارٍ تحميل النتائج...",
-    "game": "جارٍ تحميل اللعبة..."
+    "game": "جارٍ تحميل اللعبة...",
+    "noQuestions": "لا توجد أسئلة متاحة لهذا الاختيار."
   },
   "rules": {
     "gameModes": {
@@ -73,7 +74,14 @@
     "learnMode": {
       "title": "تعلّم",
       "description": "راجع بلا مؤقّت ولا أرواح. كل بطاقة تعرض الإجابة والشرح والمصدر."
-    }
+    },
+    "modeLabel": "نمط اللعب",
+    "categoryLabel": "الفئة",
+    "difficultyLabel": "الصعوبة",
+    "startJourney": "← ابدأ الرحلة",
+    "musafirShort": "المسافر المنفرد",
+    "majlisShort": "مجلس من ٢ إلى ٦",
+    "learnShort": "بلا مؤقّت ولا أرواح"
   },
   "category": {
     "seerah": "السيرة النبوية",
@@ -83,12 +91,17 @@
     "seerahDescription": "تعمَّق في حياة النبي محمد ﷺ ومعاركه وتعاليمه.",
     "prophetsDescription": "اختبر معلوماتك حول قصص الأنبياء من آدم عليه السلام إلى عيسى عليه السلام.",
     "generalDescription": "استكشف الوحي والفقه الأساسي والتاريخ الإسلامي وأركان الإيمان.",
-    "mixDescription": "تحدٍّ عشوائي من جميع الفئات وفق الصعوبة المختارة."
+    "mixDescription": "تحدٍّ عشوائي من جميع الفئات وفق الصعوبة المختارة.",
+    "seerahShort": "حياة النبي ﷺ",
+    "prophetsShort": "قصص الأنبياء",
+    "generalShort": "الوحي والفقه والتاريخ",
+    "mixShort": "عشوائي من الكل"
   },
   "difficulty": {
     "easy": "سهل",
     "medium": "متوسط",
-    "hard": "صعب"
+    "hard": "صعب",
+    "seconds": "{{count}} ثانية"
   },
   "majlisSetup": {
     "title": "إعداد المجلس",
@@ -98,14 +111,20 @@
     "addPlayerButton": "إضافة",
     "playersTitle": "اللاعبون",
     "startGameButton": "ابدأ اللعبة الجماعية",
-    "backToHome": "العودة إلى البداية"
+    "backToHome": "العودة إلى البداية",
+    "playersLabel": "اللاعبون",
+    "start": "← ابدأ",
+    "back": "رجوع"
   },
   "majlis": {
     "player": "لاعب",
     "addPlayer": "إضافة لاعب",
     "defaultPlayer": "لاعب",
     "results": "نتائج المجلس",
-    "eliminated": "مُقصَى"
+    "eliminated": "مُقصَى",
+    "questionOf": "سؤال {{current}} من {{total}}",
+    "winnerByScore": "الفائز بالنقاط",
+    "winnerBySurvival": "آخر من يبقى"
   },
   "game": {
     "score": "النقاط",
@@ -115,9 +134,13 @@
     "explanation": "الشرح",
     "source": "المصدر",
     "report": "الإبلاغ عن هذه المعلومة",
+    "nextQuestion": "التالي",
+    "seeResults": "عرض النتائج",
     "share": "مشاركة النتيجة",
     "newRecord": "رقم قياسي شخصي جديد!",
-    "shareMessage": "حصلت على {{score}}/100 ({{correct}}/{{total}} صحيحة) في نور المعرفة. هل تجرب؟"
+    "shareMessage": "حصلت على {{score}}/100 ({{correct}}/{{total}} صحيحة) في نور المعرفة. هل تجرب؟",
+    "shareTitle": "شارك نتيجتك",
+    "shareUnavailable": "المشاركة غير متاحة على هذا الجهاز"
   },
   "play": {
     "score": "النتيجة",
@@ -129,7 +152,10 @@
     "exitTitle": "هل تريد الخروج؟",
     "exitDescription": "سيضيع تقدمك في هذه اللعبة. هل أنت متأكد؟",
     "exitCancel": "مواصلة اللعب",
-    "exitConfirm": "نعم، اخرج"
+    "exitConfirm": "نعم، اخرج",
+    "lifelines": "وسائل المساعدة",
+    "reviewPaused": "اقرأ الدليل",
+    "reviewHint": "خذ وقتك لقراءة الشرح والمصدر. اضغط «التالي» عندما تكون مستعداً."
   },
   "playerStatus": {
     "pts": "نقطة",
@@ -137,9 +163,15 @@
     "lives": "حياة"
   },
   "lifeline": {
-    "fiftyFifty": "مساعدة 50/50",
+    "fiftyFifty": "50/50",
     "extraTime": "وقت إضافي",
-    "skip": "تخطَّ"
+    "skip": "تخطّى",
+    "fiftyArabic": "الفُرقان",
+    "timeArabic": "الصَّبر",
+    "skipArabic": "الهِجرة",
+    "fiftyEffect": "50/50",
+    "timeEffect": "+15ث",
+    "skipEffect": "تخطّى"
   },
   "feedback": {
     "title": "ملاحظات الذكاء الاصطناعي",
@@ -163,7 +195,13 @@
     "finalScore": "النتيجة النهائية",
     "correctOf": "صحيحة من",
     "questions": "أسئلة",
-    "playAgain": "العب مرة أخرى"
+    "playAgain": "العب مرة أخرى",
+    "rankLabel": "الرتبة",
+    "correctLabel": "الصحيحة",
+    "accuracyLabel": "الدقة",
+    "pointsLabel": "النقاط",
+    "winnerLabel": "الفائز",
+    "ptsLabel": "نقطة"
   },
   "rank": {
     "0": {
@@ -184,11 +222,130 @@
     }
   },
   "home": {
-    "streak": "السلسلة: {{count}} يومًا"
+    "streak": "السلسلة: {{count}} يومًا",
+    "dueCount_one": "{{count}} مراجعة",
+    "dueCount_other": "{{count}} مراجعات"
   },
   "learn": {
     "showAnswer": "إظهار الإجابة والشرح",
     "next": "البطاقة التالية",
-    "done": "انتهت المراجعة"
+    "done": "انتهت المراجعة",
+    "tapHint": "اختر إجابة لعرض الشرح",
+    "reviewBadge": "مراجعة"
+  },
+  "greeting": "السلام عليكم",
+  "notFound": {
+    "title": "الطريق غير موجود",
+    "description": "هذه الصفحة ليست على الخريطة.",
+    "cta": "العودة للرئيسية"
+  },
+  "welcome": {
+    "subtitle": "رحلة معرفية لتنوير العقل والروح",
+    "playCta": "← ابدأ الرحلة",
+    "howToPlay": "طريقة اللعب",
+    "statsLink": "إحصائياتي",
+    "streakLabel": "السلسلة",
+    "bestLabel": "الأفضل",
+    "gamesLabel": "الجولات"
+  },
+  "stats": {
+    "title": "الإحصائيات",
+    "back": "رجوع",
+    "lifetimeLabel": "مسيرتك",
+    "bestScore": "أفضل نتيجة",
+    "gamesPlayed": "الجولات",
+    "totalCorrect": "مجموع الإجابات الصحيحة",
+    "accuracy": "الدقة",
+    "streak": "السلسلة اليومية",
+    "pendingReview": "للمراجعة",
+    "achievementsLabel": "الإنجازات",
+    "noRankYet": "لا رتبة بعد — العب جولتك الأولى!"
+  },
+  "achievements": {
+    "firstGame": "الخطوة الأولى",
+    "games10": "عابر سبيل (10)",
+    "games25": "مثابر (25)",
+    "games50": "حاجّ (50)",
+    "games100": "قائد (100)",
+    "correct50": "50 إجابة صحيحة",
+    "correct100": "100 إجابة صحيحة",
+    "correct500": "500 إجابة صحيحة",
+    "correct1000": "1000 إجابة صحيحة",
+    "best40": "ناجح (+40)",
+    "best60": "عالِم (+60)",
+    "best80": "حكيم (+80)",
+    "best100": "رحلة كاملة (100)",
+    "perfectGame": "بلا أخطاء",
+    "perfect5": "إتقان ×5",
+    "hardWin": "تحدٍّ صعب",
+    "hardWin10": "سيّد التحدي (10)",
+    "streak5correct": "سلسلة 5 إجابات",
+    "streak10correct": "سلسلة 10 إجابات",
+    "streak3": "سلسلة 3 أيام",
+    "streak7": "سلسلة 7 أيام",
+    "streak30": "سلسلة 30 يوماً",
+    "majlis1": "مضيف المجلس",
+    "majlis10": "مجلس عامر (10)",
+    "learn25": "طالب (25)",
+    "learn100": "مجتهد (100)",
+    "learn500": "عالِم المراجعة (500)"
+  },
+  "hadith": {
+    "dailyLabel": "حديث اليوم",
+    "another": "حديث آخر"
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "sound": "الصوت",
+    "haptics": "الاهتزاز",
+    "reducedMotion": "تقليل الحركة",
+    "language": "اللغة",
+    "resetProgress": "حذف التقدم",
+    "resetConfirm": "هل تريد حذف كل تقدمك؟ هذا الإجراء لا يمكن التراجع عنه.",
+    "resetDone": "تم حذف التقدم",
+    "privacy": "الخصوصية",
+    "version": "الإصدار",
+    "resetCancel": "لا تحذف",
+    "back": "رجوع",
+    "privacyBody": "نور المعرفة لا يجمع أي بيانات شخصية. كل المعلومات تُحفظ على جهازك فقط.",
+    "privacyLink": "اقرأ سياسة الخصوصية"
+  },
+  "onboarding": {
+    "title": "رحلتك تبدأ هنا",
+    "subtitle": "أجب عن الأسئلة، وارتقِ في الرتبة، واكشف الإنجازات. العلم نور.",
+    "cta": "حسناً، فلنلعب!"
+  },
+  "pause": {
+    "title": "اللعبة موقوفة",
+    "resume": "استئناف",
+    "quit": "إنهاء اللعبة"
+  },
+  "categoryStats": {
+    "title": "الدقة حسب الفئة",
+    "seerah": "السيرة",
+    "prophets": "الأنبياء",
+    "general": "عام"
+  },
+  "review": {
+    "title": "مراجعة",
+    "done": "اكتملت المراجعة!",
+    "noneDue": "لا توجد بطاقات للمراجعة.",
+    "cardsReviewed_one": "راجعت {{count}} بطاقة.",
+    "cardsReviewed_other": "راجعت {{count}} بطاقات.",
+    "finish": "إنهاء"
+  },
+  "dailyChallenge": {
+    "badge": "التحدي اليومي",
+    "title": "تحدي اليوم",
+    "streak": "السلسلة: {{count}} يومًا",
+    "done": "العودة إلى البداية",
+    "alreadyDone": "لقد أكملت تحدي اليوم بالفعل!"
+  },
+  "achievementToast": {
+    "unlocked": "تم فتح إنجاز!"
+  },
+  "error": {
+    "title": "حدث خطأ ما",
+    "button": "العودة إلى البداية"
   }
 }

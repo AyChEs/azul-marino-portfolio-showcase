@@ -22,6 +22,8 @@ export const Colors = {
     primary: "#d4af37",
     light: "#e8c96b",
     muted: "#c8a84b",
+    dusty: "#c19a5b",   // direction D — wordmark "Noor", micro labels
+    cta: "#e9c46a",     // solid gold buttons ("Comenzar →")
   },
 
   // Parchment — text on dark backgrounds, light surface elements

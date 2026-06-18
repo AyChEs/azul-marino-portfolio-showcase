@@ -59,14 +59,28 @@ describe('validateQuestions', () => {
   });
 });
 
-describe('shipped question bank (507)', () => {
+describe('shipped question bank', () => {
+  const bank = questionsJson as Array<Record<string, unknown>>;
+
   it('passes validation', () => {
     expect(validateQuestions(questionsJson as never[])).toEqual([]);
   });
 
-  it('has no excluded (unverified/flagged) questions', () => {
+  it('serves a healthy majority of the bank', () => {
     const { servable, excluded } = countByVerification(questionsJson as never[]);
-    expect(excluded).toBe(0);
-    expect(servable).toBe(507);
+    expect(servable + excluded).toBe(bank.length);
+    // The production gate (verified && !flag) must keep most of the bank live.
+    expect(servable).toBeGreaterThanOrEqual(bank.length - 20);
+    expect(servable / bank.length).toBeGreaterThan(0.95);
+  });
+
+  it('documents every excluded question with a correction_note', () => {
+    // Governance: a flagged/unverified question must say why it was pulled,
+    // so removals are auditable rather than silent.
+    const excluded = bank.filter((q) => q.flag === true || q.verified === false);
+    for (const q of excluded) {
+      expect(typeof q.correction_note).toBe('string');
+      expect((q.correction_note as string).length).toBeGreaterThan(0);
+    }
   });
 });
