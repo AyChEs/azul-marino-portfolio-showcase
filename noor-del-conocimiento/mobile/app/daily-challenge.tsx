@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: Colors.gold.dusty,
   },
-  letterActive: { color: "#ffffff" },
+  letterActive: { color: Colors.text.onAccent },
   optionText: {
     flex: 1,
     fontFamily: Fonts.body,

@@ -124,7 +124,8 @@
     "eliminated": "Eliminado",
     "questionOf": "Pregunta {{current}} de {{total}}",
     "winnerByScore": "Ganador por puntuación",
-    "winnerBySurvival": "Último en pie"
+    "winnerBySurvival": "Último en pie",
+    "removePlayer": "Eliminar"
   },
   "game": {
     "score": "Puntos",
@@ -259,7 +260,9 @@
     "streak": "Racha diaria",
     "pendingReview": "Por repasar",
     "achievementsLabel": "Logros",
-    "noRankYet": "Aún sin rango — ¡juega tu primera partida!"
+    "noRankYet": "Aún sin rango — ¡juega tu primera partida!",
+    "unlocked": "Desbloqueado",
+    "locked": "Bloqueado"
   },
   "achievements": {
     "firstGame": "Primer paso",
@@ -339,7 +342,8 @@
     "title": "Desafío del día",
     "streak": "Racha: {{count}} días",
     "done": "Volver al inicio",
-    "alreadyDone": "¡Ya has completado el reto de hoy!"
+    "alreadyDone": "¡Ya has completado el reto de hoy!",
+    "completed": "Completado"
   },
   "achievementToast": {
     "unlocked": "¡Logro desbloqueado!"

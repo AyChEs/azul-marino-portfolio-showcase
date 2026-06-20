@@ -133,7 +133,11 @@ export default function StatsScreen() {
         />
         <View style={styles.badges}>
           {achievements.map((a) => (
-            <View key={a.id} style={[styles.badge, !a.unlocked && styles.badgeLocked]}>
+            <View
+              key={a.id}
+              style={[styles.badge, !a.unlocked && styles.badgeLocked]}
+              accessibilityLabel={`${t(`achievements.${a.id}`)}, ${a.unlocked ? t("stats.unlocked") : t("stats.locked")}`}
+            >
               <Text style={[styles.badgeIcon, !a.unlocked && styles.badgeIconLocked]}>
                 {a.unlocked ? a.icon : "🔒"}
               </Text>

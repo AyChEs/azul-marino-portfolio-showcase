@@ -124,7 +124,8 @@
     "eliminated": "Eliminated",
     "questionOf": "Question {{current}} of {{total}}",
     "winnerByScore": "Winner by score",
-    "winnerBySurvival": "Last one standing"
+    "winnerBySurvival": "Last one standing",
+    "removePlayer": "Remove"
   },
   "game": {
     "score": "Points",
@@ -259,7 +260,9 @@
     "streak": "Daily streak",
     "pendingReview": "To review",
     "achievementsLabel": "Achievements",
-    "noRankYet": "No rank yet — play your first game!"
+    "noRankYet": "No rank yet — play your first game!",
+    "unlocked": "Unlocked",
+    "locked": "Locked"
   },
   "achievements": {
     "firstGame": "First step",
@@ -339,7 +342,8 @@
     "title": "Challenge of the day",
     "streak": "Streak: {{count}} days",
     "done": "Back home",
-    "alreadyDone": "You've already completed today's challenge!"
+    "alreadyDone": "You've already completed today's challenge!",
+    "completed": "Completed"
   },
   "achievementToast": {
     "unlocked": "Achievement unlocked!"

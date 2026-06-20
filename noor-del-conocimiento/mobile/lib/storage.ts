@@ -80,17 +80,19 @@ export const getPlayedQuestions = async (): Promise<number[]> => {
 };
 
 export const addPlayedQuestions = async (ids: number[]): Promise<void> => {
-  try {
-    const existing = await getPlayedQuestions();
-    const merged = Array.from(new Set([...existing, ...ids]));
-    const trimmed =
-      merged.length > MAX_MEMORY_SIZE
-        ? merged.slice(merged.length - MAX_MEMORY_SIZE)
-        : merged;
-    await AsyncStorage.setItem(KEYS.playedQuestions, JSON.stringify(trimmed));
-  } catch (e) {
-    logError("storage.addPlayedQuestions", e);
-  }
+  return withLock(async () => {
+    try {
+      const existing = await getPlayedQuestions();
+      const merged = Array.from(new Set([...existing, ...ids]));
+      const trimmed =
+        merged.length > MAX_MEMORY_SIZE
+          ? merged.slice(merged.length - MAX_MEMORY_SIZE)
+          : merged;
+      await AsyncStorage.setItem(KEYS.playedQuestions, JSON.stringify(trimmed));
+    } catch (e) {
+      logError("storage.addPlayedQuestions", e);
+    }
+  });
 };
 
 // ── Preguntas falladas (repaso inteligente) ────────────────────────────────
@@ -112,29 +114,33 @@ export const getMissedQuestions = async (): Promise<number[]> => {
 };
 
 export const addMissedQuestion = async (id: number): Promise<void> => {
-  try {
-    const existing = await getMissedQuestions();
-    if (existing.includes(id)) return;
-    const merged = [...existing, id];
-    const trimmed =
-      merged.length > MAX_MISSED_SIZE
-        ? merged.slice(merged.length - MAX_MISSED_SIZE)
-        : merged;
-    await AsyncStorage.setItem(KEYS.missedQuestions, JSON.stringify(trimmed));
-  } catch (e) {
-    logError("storage.addMissedQuestion", e);
-  }
+  return withLock(async () => {
+    try {
+      const existing = await getMissedQuestions();
+      if (existing.includes(id)) return;
+      const merged = [...existing, id];
+      const trimmed =
+        merged.length > MAX_MISSED_SIZE
+          ? merged.slice(merged.length - MAX_MISSED_SIZE)
+          : merged;
+      await AsyncStorage.setItem(KEYS.missedQuestions, JSON.stringify(trimmed));
+    } catch (e) {
+      logError("storage.addMissedQuestion", e);
+    }
+  });
 };
 
 export const removeMissedQuestion = async (id: number): Promise<void> => {
-  try {
-    const existing = await getMissedQuestions();
-    const filtered = existing.filter((x) => x !== id);
-    if (filtered.length === existing.length) return;
-    await AsyncStorage.setItem(KEYS.missedQuestions, JSON.stringify(filtered));
-  } catch (e) {
-    logError("storage.removeMissedQuestion", e);
-  }
+  return withLock(async () => {
+    try {
+      const existing = await getMissedQuestions();
+      const filtered = existing.filter((x) => x !== id);
+      if (filtered.length === existing.length) return;
+      await AsyncStorage.setItem(KEYS.missedQuestions, JSON.stringify(filtered));
+    } catch (e) {
+      logError("storage.removeMissedQuestion", e);
+    }
+  });
 };
 
 // ── Estadísticas del jugador ───────────────────────────────────────────────

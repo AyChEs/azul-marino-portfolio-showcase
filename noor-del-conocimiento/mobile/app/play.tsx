@@ -44,6 +44,7 @@ import {
   MAJLIS_QUESTIONS_PER_PLAYER,
   shuffleSeeded,
 } from "../lib/gameLogic";
+import { findNextMajlisTurn, isMajlisGameOver } from "../lib/majlisLogic";
 import { getPlayedQuestions, addPlayedQuestions, addMissedQuestion, updateStats, getStats, getDailyStreak, bumpDailyStreak, incrementMajlisGames, addCategoryStats } from "../lib/storage";
 import { feedback } from "../lib/feedback";
 import { buildAchievements, diffUnlocked } from "../lib/achievements";
@@ -57,30 +58,6 @@ type AnswerState = "idle" | "selected" | "correct" | "incorrect";
 const VALID_DIFFICULTIES: Difficulty[] = ["easy", "medium", "hard"];
 const VALID_CATEGORIES: GameMode[] = ["mix", "Seerah", "Profetas", "Corán y General"];
 const SUPPORT_EMAIL = "aymanessamadi72@gmail.com";
-
-const findNextMajlisTurn = (
-  fromIdx: number,
-  players: Player[],
-  answered: Record<string, number>
-): number | null => {
-  const n = players.length;
-  for (let step = 1; step <= n; step++) {
-    const idx = (fromIdx + step) % n;
-    const p = players[idx];
-    if (!p.isEliminated && (answered[p.id] ?? 0) < MAJLIS_QUESTIONS_PER_PLAYER) {
-      return idx;
-    }
-  }
-  return null;
-};
-
-const isMajlisGameOver = (players: Player[], answered: Record<string, number>): boolean => {
-  const alive = players.filter((p) => !p.isEliminated);
-  if (alive.length <= 1) return true;
-  return players.every(
-    (p) => p.isEliminated || (answered[p.id] ?? 0) >= MAJLIS_QUESTIONS_PER_PLAYER
-  );
-};
 
 export default function PlayScreen() {
   const { t } = useTranslation();
@@ -1158,12 +1135,12 @@ const styles = StyleSheet.create({
   scorePopPlus: {
     fontFamily: Fonts.bodyBold,
     fontSize: 20,
-    color: "#ffffff",
+    color: Colors.text.onAccent,
   },
   scorePopText: {
     fontFamily: Fonts.bodyBold,
     fontSize: 28,
-    color: "#ffffff",
+    color: Colors.text.onAccent,
     lineHeight: 32,
   },
   scorePopPts: {

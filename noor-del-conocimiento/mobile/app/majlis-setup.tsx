@@ -104,11 +104,14 @@ export default function MajlisSetupScreen() {
                 value={name}
                 onChangeText={(v) => updateName(i, v)}
                 maxLength={20}
+                accessibilityLabel={`${t("majlis.player") ?? "Jugador"} ${i + 1}`}
               />
               {playerNames.length > MIN_PLAYERS && (
                 <TouchableOpacity
                   onPress={() => removePlayer(i)}
                   style={styles.removeBtn}
+                  accessibilityRole="button"
+                  accessibilityLabel={`${t("majlis.removePlayer") ?? "Eliminar"} ${t("majlis.player") ?? "Jugador"} ${i + 1}`}
                 >
                   <Text style={styles.removeBtnText}>✕</Text>
                 </TouchableOpacity>
@@ -227,5 +230,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: Colors.text.secondary,
   },
-  diffChipTextActive: { color: "#ffffff" },
+  diffChipTextActive: { color: Colors.text.onAccent },
 });

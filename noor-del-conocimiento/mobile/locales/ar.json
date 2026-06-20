@@ -124,7 +124,8 @@
     "eliminated": "مُقصَى",
     "questionOf": "سؤال {{current}} من {{total}}",
     "winnerByScore": "الفائز بالنقاط",
-    "winnerBySurvival": "آخر من يبقى"
+    "winnerBySurvival": "آخر من يبقى",
+    "removePlayer": "إزالة"
   },
   "game": {
     "score": "النقاط",
@@ -259,7 +260,9 @@
     "streak": "السلسلة اليومية",
     "pendingReview": "للمراجعة",
     "achievementsLabel": "الإنجازات",
-    "noRankYet": "لا رتبة بعد — العب جولتك الأولى!"
+    "noRankYet": "لا رتبة بعد — العب جولتك الأولى!",
+    "unlocked": "مفتوح",
+    "locked": "مقفل"
   },
   "achievements": {
     "firstGame": "الخطوة الأولى",
@@ -339,7 +342,8 @@
     "title": "تحدي اليوم",
     "streak": "السلسلة: {{count}} يومًا",
     "done": "العودة إلى البداية",
-    "alreadyDone": "لقد أكملت تحدي اليوم بالفعل!"
+    "alreadyDone": "لقد أكملت تحدي اليوم بالفعل!",
+    "completed": "مكتمل"
   },
   "achievementToast": {
     "unlocked": "تم فتح إنجاز!"

@@ -119,7 +119,7 @@ const getStyles = (variant: Variant, size: Size, disabled: boolean, useSerif: bo
   };
 
   const labelColor: Record<Variant, string> = {
-    primary: "#ffffff",
+    primary: Colors.text.onAccent,
     gold: Colors.bg.primary,
     secondary: Colors.parchment.primary,
     ghost: Colors.text.secondary,

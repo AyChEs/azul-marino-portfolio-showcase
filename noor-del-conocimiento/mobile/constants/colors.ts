@@ -48,6 +48,7 @@ export const Colors = {
     secondary: "rgba(253, 246, 227, 0.7)",
     muted: "rgba(253, 246, 227, 0.4)",
     onLight: "#0a2a1a",   // on parchment bg
+    onAccent: "#ffffff",  // on accent/emerald/gold backgrounds
   },
 
   // Borders — hairline, never harsh (design-taste: no generic 1px solid gray)

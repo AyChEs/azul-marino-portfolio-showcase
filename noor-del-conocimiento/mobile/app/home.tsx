@@ -144,6 +144,12 @@ export default function HomeScreen() {
           onPress={() => router.push("/daily-challenge")}
           activeOpacity={0.8}
           style={[styles.dcCard, dailyDone && styles.dcCardDone]}
+          accessibilityRole="button"
+          accessibilityLabel={
+            dailyDone
+              ? t("dailyChallenge.completed")
+              : `${t("dailyChallenge.title")}${dailyStreak > 0 ? `, ${t("dailyChallenge.streak", { count: dailyStreak })}` : ""}`
+          }
         >
           <View style={styles.dcRow}>
             <View style={styles.dcLeft}>
@@ -236,8 +242,8 @@ export default function HomeScreen() {
                 accessibilityState={{ selected: active }}
                 style={[styles.diffCard, active && styles.diffSelected]}
               >
-                <Text style={[styles.diffDots, active && { color: "#ffffff" }]}>{d.dots}</Text>
-                <Text style={[styles.diffTitle, active && { color: "#ffffff" }]}>
+                <Text style={[styles.diffDots, active && { color: Colors.text.onAccent }]}>{d.dots}</Text>
+                <Text style={[styles.diffTitle, active && { color: Colors.text.onAccent }]}>
                   {t(`difficulty.${d.key}`)}
                 </Text>
                 <Text style={[styles.diffSeconds, active && { color: "rgba(255,255,255,0.85)" }]}>
@@ -422,7 +428,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.accent.emerald,
   },
   dcStatusText: { fontSize: 18, color: Colors.gold.cta },
-  dcStatusTextDone: { color: "#ffffff" },
+  dcStatusTextDone: { color: Colors.text.onAccent },
   dueBadge: {
     position: "absolute",
     top: 8,
