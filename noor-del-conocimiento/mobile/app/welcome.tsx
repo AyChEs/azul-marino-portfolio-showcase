@@ -145,6 +145,7 @@ export default function WelcomeScreen() {
             <TouchableOpacity
               onPress={() => router.push("/rules")}
               accessibilityRole="button"
+              accessibilityLabel={t("welcome.howToPlay")}
               style={styles.link}
             >
               <Text style={styles.linkText}>{t("welcome.howToPlay")}</Text>
@@ -153,6 +154,7 @@ export default function WelcomeScreen() {
             <TouchableOpacity
               onPress={() => router.push("/stats")}
               accessibilityRole="button"
+              accessibilityLabel={t("welcome.statsLink")}
               style={styles.link}
             >
               <Text style={styles.linkText}>{t("welcome.statsLink")}</Text>
