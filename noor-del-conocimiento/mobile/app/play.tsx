@@ -263,9 +263,9 @@ export default function PlayScreen() {
   useEffect(() => {
     if (!currentQ) return;
     // Seeded shuffle kills positional bias from the JSON author ordering;
-    // same seed across languages so the answer doesn't jump on switch.
-    const langOpts = currentQ.options[language];
-    const fallbackOpts = currentQ.options["es"] ?? currentQ.options["en"] ?? [];
+    // same seed across languages so the answer doesn't jump on language switch.
+    const langOpts = currentQ.options?.[language];
+    const fallbackOpts = currentQ.options?.["es"] ?? currentQ.options?.["en"] ?? [];
     const opts = shuffleSeeded(
       Array.isArray(langOpts) && langOpts.length > 0 ? langOpts : fallbackOpts,
       currentQ.id ^ optionSaltRef.current
@@ -376,7 +376,7 @@ export default function PlayScreen() {
     if (timerRef.current) clearInterval(timerRef.current);
 
     const opts = visibleOptionsRef.current;
-    const correct = currentQ?.correctAnswer[language] ?? "";
+    const correct = currentQ?.correctAnswer?.[language] ?? currentQ?.correctAnswer?.es ?? "";
     const newStates: Record<string, AnswerState> = {};
     opts.forEach((opt) => {
       newStates[opt] = opt === correct ? "correct" : "idle";
@@ -449,7 +449,7 @@ export default function PlayScreen() {
       if (timerRef.current) clearInterval(timerRef.current);
       setIsAnswered(true);
 
-      const correct = currentQ!.correctAnswer[language];
+      const correct = currentQ!.correctAnswer?.[language] ?? currentQ!.correctAnswer?.es ?? "";
       const isCorrect = option === correct;
 
       if (!isMajlis) {
@@ -634,7 +634,7 @@ export default function PlayScreen() {
 
   const useFiftyFifty = useCallback(() => {
     if (lifelines.fiftyFifty <= 0 || isAnswered || !currentQ) return;
-    const correct = currentQ.correctAnswer[language];
+    const correct = currentQ.correctAnswer?.[language] ?? currentQ.correctAnswer?.es ?? "";
     const reduced = applyFiftyFifty(visibleOptionsRef.current, correct);
     visibleOptionsRef.current = reduced;
     setVisibleOptions(reduced);
@@ -902,7 +902,7 @@ export default function PlayScreen() {
               </View>
             </View>
             <Text style={[styles.question, isRTL && styles.questionRTL]}>
-              {currentQ.question[language]}
+              {currentQ.question?.[language] ?? currentQ.question?.es ?? ""}
             </Text>
 
             <View style={styles.options}>
@@ -964,12 +964,12 @@ export default function PlayScreen() {
                     <Text style={[styles.correctReveal, isRTL && { textAlign: "right" }]}>
                       {t("feedback.correctAnswerIs")}{" "}
                       <Text style={styles.correctRevealAnswer}>
-                        {currentQ.correctAnswer[language]}
+                        {currentQ.correctAnswer?.[language] ?? currentQ.correctAnswer?.es ?? ""}
                       </Text>
                     </Text>
                   )}
                   <Text style={[styles.feedbackText, isRTL && { textAlign: "right" }]}>
-                    {currentQ.explanation[language]}
+                    {currentQ.explanation?.[language] ?? currentQ.explanation?.es ?? ""}
                   </Text>
                   {(() => {
                     const src = parseSource(currentQ.source);
