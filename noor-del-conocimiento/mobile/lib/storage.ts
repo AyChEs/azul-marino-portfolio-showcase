@@ -1,9 +1,20 @@
-// Abstracción sobre AsyncStorage — reemplaza localStorage del web
-// Nunca accede a localStorage (no existe en React Native)
+// Abstracción sobre AsyncStorage y SQLite
+// AsyncStorage: datos simples (idioma, stats, prefs, streak, daily challenge)
+// SQLite: datos estructurados (preguntas jugadas, falladas, SR cards)
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { Language, StoredStats, GameOutcome, AppPrefs, CategoryStats, SRCard } from "./types";
 import { getTodayDateString } from "./dailyChallenge";
 import { logError } from "./logger";
+import {
+  getPlayedQuestions as dbGetPlayedQuestions,
+  addPlayedQuestions as dbAddPlayedQuestions,
+  getMissedQuestions as dbGetMissedQuestions,
+  addMissedQuestion as dbAddMissedQuestion,
+  removeMissedQuestion as dbRemoveMissedQuestion,
+  getSRCards as dbGetSRCards,
+  saveSRCard as dbSaveSRCard,
+  getDueCards as dbGetDueCards,
+} from "./database";
 
 // Simple mutex to serialize read-modify-write operations and prevent race conditions
 let storageQueue: Promise<void> = Promise.resolve();
@@ -26,8 +37,6 @@ const KEYS = {
   srCards: "@noor:sr_cards",
   dailyChallenge: "@noor:daily_challenge",
 } as const;
-
-const MAX_MEMORY_SIZE = 150;
 
 const ALLOWED_LANGUAGES: Language[] = ["es", "en", "ar"];
 
@@ -59,88 +68,31 @@ export const setStoredLanguage = async (lang: Language): Promise<void> => {
 };
 
 // ── Historial de preguntas jugadas (anti-repetición) ───────────────────────
-
-function isNumberArray(val: unknown): val is number[] {
-  return (
-    Array.isArray(val) &&
-    val.every((x) => typeof x === "number" && Number.isFinite(x))
-  );
-}
+// Migrado a SQLite para mejor rendimiento y queries indexadas
 
 export const getPlayedQuestions = async (): Promise<number[]> => {
-  try {
-    const data = await AsyncStorage.getItem(KEYS.playedQuestions);
-    if (!data) return [];
-    const parsed: unknown = JSON.parse(data);
-    return isNumberArray(parsed) ? parsed : [];
-  } catch (e) {
-    logError("storage.getPlayedQuestions", e);
-    return [];
-  }
+  return dbGetPlayedQuestions();
 };
 
 export const addPlayedQuestions = async (ids: number[]): Promise<void> => {
-  return withLock(async () => {
-    try {
-      const existing = await getPlayedQuestions();
-      const merged = Array.from(new Set([...existing, ...ids]));
-      const trimmed =
-        merged.length > MAX_MEMORY_SIZE
-          ? merged.slice(merged.length - MAX_MEMORY_SIZE)
-          : merged;
-      await AsyncStorage.setItem(KEYS.playedQuestions, JSON.stringify(trimmed));
-    } catch (e) {
-      logError("storage.addPlayedQuestions", e);
-    }
-  });
+  return dbAddPlayedQuestions(ids);
 };
 
 // ── Preguntas falladas (repaso inteligente) ────────────────────────────────
 // Spaced-repetition lite: las preguntas falladas se priorizan en el modo
 // Aprender hasta que el jugador las acierte allí.
-
-const MAX_MISSED_SIZE = 100;
+// Migrado a SQLite para mejor rendimiento
 
 export const getMissedQuestions = async (): Promise<number[]> => {
-  try {
-    const data = await AsyncStorage.getItem(KEYS.missedQuestions);
-    if (!data) return [];
-    const parsed: unknown = JSON.parse(data);
-    return isNumberArray(parsed) ? parsed : [];
-  } catch (e) {
-    logError("storage.getMissedQuestions", e);
-    return [];
-  }
+  return dbGetMissedQuestions();
 };
 
 export const addMissedQuestion = async (id: number): Promise<void> => {
-  return withLock(async () => {
-    try {
-      const existing = await getMissedQuestions();
-      if (existing.includes(id)) return;
-      const merged = [...existing, id];
-      const trimmed =
-        merged.length > MAX_MISSED_SIZE
-          ? merged.slice(merged.length - MAX_MISSED_SIZE)
-          : merged;
-      await AsyncStorage.setItem(KEYS.missedQuestions, JSON.stringify(trimmed));
-    } catch (e) {
-      logError("storage.addMissedQuestion", e);
-    }
-  });
+  return dbAddMissedQuestion(id);
 };
 
 export const removeMissedQuestion = async (id: number): Promise<void> => {
-  return withLock(async () => {
-    try {
-      const existing = await getMissedQuestions();
-      const filtered = existing.filter((x) => x !== id);
-      if (filtered.length === existing.length) return;
-      await AsyncStorage.setItem(KEYS.missedQuestions, JSON.stringify(filtered));
-    } catch (e) {
-      logError("storage.removeMissedQuestion", e);
-    }
-  });
+  return dbRemoveMissedQuestion(id);
 };
 
 // ── Estadísticas del jugador ───────────────────────────────────────────────
@@ -387,63 +339,19 @@ export const addCategoryStats = async (
 };
 
 // ── Spaced Repetition (SM-2) ────────────────────────────────────────────────
-
-function isSRCardArray(val: unknown): val is SRCard[] {
-  return (
-    Array.isArray(val) &&
-    val.every(
-      (x) =>
-        typeof x === "object" &&
-        x !== null &&
-        typeof (x as SRCard).questionId === "number" &&
-        typeof (x as SRCard).easeFactor === "number" &&
-        typeof (x as SRCard).interval === "number" &&
-        typeof (x as SRCard).repetitions === "number" &&
-        typeof (x as SRCard).nextReviewAt === "number",
-    )
-  );
-}
+// Migrado a SQLite para mejor rendimiento y queries indexadas
 
 export const getSRCards = async (): Promise<SRCard[]> => {
-  try {
-    const data = await AsyncStorage.getItem(KEYS.srCards);
-    if (!data) return [];
-    const parsed: unknown = JSON.parse(data);
-    return isSRCardArray(parsed) ? parsed : [];
-  } catch (e) {
-    logError("storage.getSRCards", e);
-    return [];
-  }
+  return dbGetSRCards();
 };
 
 export const saveSRCard = async (card: SRCard): Promise<void> => {
-  return withLock(async () => {
-    try {
-      const cards = await getSRCards();
-      const idx = cards.findIndex((c) => c.questionId === card.questionId);
-      if (idx >= 0) {
-        cards[idx] = card;
-      } else {
-        cards.push(card);
-      }
-      await AsyncStorage.setItem(KEYS.srCards, JSON.stringify(cards));
-    } catch (e) {
-      logError("storage.saveSRCard", e);
-    }
-  });
+  return dbSaveSRCard(card);
 };
 
 /** Get cards that are due for review now, in priority order. */
 export const getDueCards = async (now: number = Date.now()): Promise<SRCard[]> => {
-  try {
-    const cards = await getSRCards();
-    return cards
-      .filter((c) => c.nextReviewAt <= now)
-      .sort((a, b) => a.easeFactor - b.easeFactor);
-  } catch (e) {
-    logError("storage.getDueCards", e);
-    return [];
-  }
+  return dbGetDueCards(now);
 };
 
 // ── Daily Challenge ─────────────────────────────────────────────────────────
@@ -524,15 +432,20 @@ export const isDailyDone = async (now: number = Date.now()): Promise<boolean> =>
 
 export const resetAllProgress = async (): Promise<void> => {
   try {
+    // Limpiar AsyncStorage
     await AsyncStorage.multiRemove([
-      KEYS.playedQuestions,
-      KEYS.missedQuestions,
       KEYS.stats,
       KEYS.streak,
       KEYS.categoryStats,
-      KEYS.srCards,
       KEYS.dailyChallenge,
     ]);
+    
+    // Limpiar tablas SQLite
+    const { getDatabase } = await import('./database');
+    const db = getDatabase();
+    db.runSync('DELETE FROM played_questions');
+    db.runSync('DELETE FROM missed_questions');
+    db.runSync('DELETE FROM sr_cards');
   } catch (e) {
     logError("storage.resetAllProgress", e);
   }

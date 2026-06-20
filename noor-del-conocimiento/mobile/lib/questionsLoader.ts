@@ -1,16 +1,25 @@
-import type { Question } from "./types";
+/**
+ * Questions loader — re-exports from database module for backward compatibility.
+ * 
+ * This module maintains the same API as the old JSON-based loader,
+ * but now queries SQLite instead of parsing a JSON file.
+ */
 
-let questionsCache: Question[] | null = null;
+import { loadQuestions as dbLoadQuestions, clearQuestionsCache } from './database';
 
-export async function loadQuestions(): Promise<Question[]> {
-  if (questionsCache) return questionsCache;
-  // Use require() for JSON - more reliable in Metro bundler for production builds
-  // than static import, especially for large JSON files (827KB)
-  const data = require("../data/questions.json");
-  questionsCache = data as Question[];
-  return questionsCache;
+export async function loadQuestions() {
+  return dbLoadQuestions();
 }
 
-export function getQuestionsSync(): Question[] | null {
-  return questionsCache;
+export function getQuestionsSync() {
+  // Note: With SQLite, we can't provide a truly synchronous accessor
+  // without first loading the data. This is a limitation of the async
+  // nature of database queries.
+  // 
+  // For now, return null and let callers use the async loadQuestions().
+  // In the future, we could maintain an in-memory cache that's populated
+  // on app start.
+  return null;
 }
+
+export { clearQuestionsCache };

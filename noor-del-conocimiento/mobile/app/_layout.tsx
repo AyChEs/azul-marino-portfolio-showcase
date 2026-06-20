@@ -1,5 +1,5 @@
 import "../lib/i18n";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -32,6 +32,7 @@ import { LanguageProvider } from "../context/LanguageContext";
 import { SettingsProvider } from "../context/SettingsContext";
 import { ErrorBoundary } from "../components/ErrorBoundary";
 import { Colors } from "../constants/colors";
+import { initDatabase } from "../lib/database";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -53,15 +54,27 @@ export default function RootLayout() {
     Inter_700Bold,
   });
 
+  const [dbReady, setDbReady] = useState(false);
+
   useEffect(() => {
-    // Hide splash once fonts resolve (loaded or errored)
-    if (fontsLoaded || fontError) {
+    // Initialize SQLite database on app start
+    initDatabase()
+      .then(() => setDbReady(true))
+      .catch((e) => {
+        console.error("Failed to initialize database:", e);
+        setDbReady(true); // Continue anyway, app can still function
+      });
+  }, []);
+
+  useEffect(() => {
+    // Hide splash once fonts AND database are ready
+    if ((fontsLoaded || fontError) && dbReady) {
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded, fontError]);
+  }, [fontsLoaded, fontError, dbReady]);
 
   // Keep splash visible while loading; on error, fonts fall back to system defaults
-  if (!fontsLoaded && !fontError) return null;
+  if ((!fontsLoaded && !fontError) || !dbReady) return null;
 
   return (
     <GestureHandlerRootView style={{ flex: 1, backgroundColor: Colors.bg.primary }}>
