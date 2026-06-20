@@ -1,11 +1,11 @@
 import type { Question } from "./types";
+import questionsData from "../data/questions.json";
 
 let questionsCache: Question[] | null = null;
 
 export async function loadQuestions(): Promise<Question[]> {
   if (questionsCache) return questionsCache;
-  const { default: data } = await import("../data/questions.json");
-  questionsCache = data as Question[];
+  questionsCache = questionsData as Question[];
   return questionsCache;
 }
 

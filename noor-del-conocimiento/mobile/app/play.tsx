@@ -48,6 +48,7 @@ import { getPlayedQuestions, addPlayedQuestions, addMissedQuestion, updateStats,
 import { feedback } from "../lib/feedback";
 import { buildAchievements, diffUnlocked } from "../lib/achievements";
 import { parseSource } from "../lib/sources";
+import { logError } from "../lib/logger";
 import type { Question, Difficulty, GameMode, Player } from "../lib/types";
 import { loadQuestions } from "../lib/questionsLoader";
 
@@ -199,8 +200,8 @@ export default function PlayScreen() {
         setAwaitingReady(true);
         syncMajlisDerivedState(parsed[0]);
       }
-    } catch {
-      // malformed param
+    } catch (e) {
+      logError("play.initMajlis", e);
     } finally {
       setIsLoading(false);
     }
@@ -213,7 +214,8 @@ export default function PlayScreen() {
       try {
         const data = await loadQuestions();
         if (!cancelled) setAllQuestions(data);
-      } catch {
+      } catch (e) {
+        logError("play.loadQuestions", e);
         if (!cancelled) setAllQuestions([]);
       }
     };
@@ -225,7 +227,11 @@ export default function PlayScreen() {
 
   // ── Load musafir questions ──────────────────────────────────────────────────
   useEffect(() => {
-    if (isMajlis || allQuestions.length === 0) return;
+    if (isMajlis) return;
+    if (allQuestions.length === 0) {
+      setIsLoading(false);
+      return;
+    }
     let cancelled = false;
     const init = async () => {
       try {
@@ -249,7 +255,8 @@ export default function PlayScreen() {
         if (cancelled) return;
         setGameQuestions(selected);
         setMaxPoints(selected.length);
-      } catch {
+      } catch (e) {
+        logError("play.initMusafir", e);
         if (!cancelled) setGameQuestions([]);
       } finally {
         if (!cancelled) setIsLoading(false);
@@ -560,7 +567,8 @@ export default function PlayScreen() {
       setMajlisQuestion(q);
       setAwaitingReady(false);
       resetQuestionUi();
-    } catch {
+    } catch (e) {
+      logError("play.loadMajlisQuestion", e);
       endMajlisGame();
     }
   }, [category, difficulty, language, sessionPlayedIds, endMajlisGame, resetQuestionUi]);
