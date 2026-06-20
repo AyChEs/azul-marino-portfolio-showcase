@@ -164,6 +164,8 @@ export default function PlayScreen() {
   }, [currentPlayerIdx, syncMajlisDerivedState]);
 
   // ── Init majlis players ─────────────────────────────────────────────────────
+  // Only parses players, does NOT set awaitingReady yet.
+  // awaitingReady is set after questions are loaded (see load questions useEffect).
   useEffect(() => {
     if (!isMajlis) return;
     if (!params.players) {
@@ -174,67 +176,55 @@ export default function PlayScreen() {
       const parsed = JSON.parse(params.players) as Player[];
       if (parsed.length > 0) {
         setMajlisPlayers(parsed);
-        setAwaitingReady(true);
         syncMajlisDerivedState(parsed[0]);
       }
     } catch (e) {
       logError("play.initMajlis", e);
-    } finally {
-      setIsLoading(false);
     }
   }, [isMajlis, params.players, syncMajlisDerivedState]);
 
   // ── Load questions data ─────────────────────────────────────────────────────
+  // Single useEffect to load questions and initialize game state.
+  // This fixes the race condition where the selection useEffect ran before
+  // questions were loaded.
   useEffect(() => {
-    let cancelled = false;
-    const load = async () => {
-      try {
-        const data = await loadQuestions();
-        if (!cancelled) setAllQuestions(data);
-      } catch (e) {
-        logError("play.loadQuestions", e);
-        if (!cancelled) setAllQuestions([]);
-      }
-    };
-    load();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  // ── Load musafir questions ──────────────────────────────────────────────────
-  useEffect(() => {
-    if (isMajlis) return;
-    if (allQuestions.length === 0) {
-      setIsLoading(false);
-      return;
-    }
     let cancelled = false;
     const init = async () => {
       try {
-        const played = await getPlayedQuestions();
-        let selected = selectGameQuestions(
-          allQuestions,
-          category,
-          difficulty,
-          language,
-          played
-        );
-        if (selected.length === 0) {
-          selected = selectGameQuestions(
-            allQuestions,
+        const data = await loadQuestions();
+        if (cancelled) return;
+        setAllQuestions(data);
+
+        // For musafir mode, select questions immediately after loading
+        if (!isMajlis) {
+          const played = await getPlayedQuestions();
+          let selected = selectGameQuestions(
+            data,
             category,
             difficulty,
             language,
-            []
+            played
           );
+          if (selected.length === 0) {
+            selected = selectGameQuestions(
+              data,
+              category,
+              difficulty,
+              language,
+              []
+            );
+          }
+          if (!cancelled) {
+            setGameQuestions(selected);
+            setMaxPoints(selected.length);
+          }
         }
-        if (cancelled) return;
-        setGameQuestions(selected);
-        setMaxPoints(selected.length);
       } catch (e) {
-        logError("play.initMusafir", e);
-        if (!cancelled) setGameQuestions([]);
+        logError("play.loadQuestions", e);
+        if (!cancelled) {
+          setAllQuestions([]);
+          setGameQuestions([]);
+        }
       } finally {
         if (!cancelled) setIsLoading(false);
       }
@@ -243,7 +233,19 @@ export default function PlayScreen() {
     return () => {
       cancelled = true;
     };
-  }, [category, difficulty, language, isMajlis, allQuestions]);
+  }, [category, difficulty, language, isMajlis]);
+
+  // ── Set majlis awaitingReady after both players and questions are loaded ────
+  // This useEffect runs when allQuestions or majlisPlayers change.
+  // It sets awaitingReady = true only when both are ready.
+  useEffect(() => {
+    if (!isMajlis) return;
+    if (isLoading) return;
+    if (allQuestions.length === 0) return;
+    if (majlisPlayers.length === 0) return;
+    if (awaitingReady) return;
+    setAwaitingReady(true);
+  }, [isMajlis, isLoading, allQuestions.length, majlisPlayers.length, awaitingReady]);
 
   const resetQuestionUi = useCallback(() => {
     setAnswerStates({});
@@ -506,6 +508,11 @@ export default function PlayScreen() {
   );
 
   const loadMajlisQuestion = useCallback(async () => {
+    if (allQuestions.length === 0) {
+      logError("play.loadMajlisQuestion", new Error("allQuestions is empty"));
+      endMajlisGame();
+      return;
+    }
     try {
       const played = await getPlayedQuestions();
       const exclude = [...played, ...sessionPlayedIds];
@@ -548,7 +555,7 @@ export default function PlayScreen() {
       logError("play.loadMajlisQuestion", e);
       endMajlisGame();
     }
-  }, [category, difficulty, language, sessionPlayedIds, endMajlisGame, resetQuestionUi]);
+  }, [category, difficulty, language, sessionPlayedIds, allQuestions, endMajlisGame, resetQuestionUi]);
 
   const handleMajlisReady = useCallback(() => {
     loadMajlisQuestion();
