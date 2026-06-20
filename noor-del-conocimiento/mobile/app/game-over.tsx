@@ -36,6 +36,7 @@ import type { Language } from "../lib/types";
 import { feedback } from "../lib/feedback";
 import { ShareCard } from "../components/share/ShareCard";
 import { captureViewAsImage, downloadImage } from "../lib/shareImage";
+import { logError } from "../lib/logger";
 
 export default function GameOverScreen() {
   const { t } = useTranslation();
@@ -103,7 +104,9 @@ export default function GameOverScreen() {
         } else {
           Alert.alert(t("game.shareUnavailable"));
         }
-      } catch {}
+      } catch (e) {
+        logError("game-over.share", e);
+      }
       if (!cancelled) setIsCapturing(false);
     }, 200);
     return () => {

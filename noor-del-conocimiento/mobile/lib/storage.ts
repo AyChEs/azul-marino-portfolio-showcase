@@ -3,13 +3,14 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { Language, StoredStats, GameOutcome, AppPrefs, CategoryStats, SRCard } from "./types";
 import { getTodayDateString } from "./dailyChallenge";
+import { logError } from "./logger";
 
 // Simple mutex to serialize read-modify-write operations and prevent race conditions
 let storageQueue: Promise<void> = Promise.resolve();
 
 function withLock<T>(fn: () => Promise<T>): Promise<T> {
   const next = storageQueue.then(fn);
-  storageQueue = next.then(() => {}).catch(() => {});
+  storageQueue = next.then(() => {}).catch((e) => { logError("storage.mutex", e); });
   return next;
 }
 
@@ -43,7 +44,8 @@ export const getStoredLanguage = async (): Promise<Language | null> => {
       return migrated as Language;
     }
     return null;
-  } catch {
+  } catch (e) {
+    logError("storage.getStoredLanguage", e);
     return null;
   }
 };
@@ -51,7 +53,9 @@ export const getStoredLanguage = async (): Promise<Language | null> => {
 export const setStoredLanguage = async (lang: Language): Promise<void> => {
   try {
     await AsyncStorage.setItem(KEYS.language, lang);
-  } catch {}
+  } catch (e) {
+    logError("storage.setStoredLanguage", e);
+  }
 };
 
 // ── Historial de preguntas jugadas (anti-repetición) ───────────────────────
@@ -69,7 +73,8 @@ export const getPlayedQuestions = async (): Promise<number[]> => {
     if (!data) return [];
     const parsed: unknown = JSON.parse(data);
     return isNumberArray(parsed) ? parsed : [];
-  } catch {
+  } catch (e) {
+    logError("storage.getPlayedQuestions", e);
     return [];
   }
 };
@@ -83,7 +88,9 @@ export const addPlayedQuestions = async (ids: number[]): Promise<void> => {
         ? merged.slice(merged.length - MAX_MEMORY_SIZE)
         : merged;
     await AsyncStorage.setItem(KEYS.playedQuestions, JSON.stringify(trimmed));
-  } catch {}
+  } catch (e) {
+    logError("storage.addPlayedQuestions", e);
+  }
 };
 
 // ── Preguntas falladas (repaso inteligente) ────────────────────────────────
@@ -98,7 +105,8 @@ export const getMissedQuestions = async (): Promise<number[]> => {
     if (!data) return [];
     const parsed: unknown = JSON.parse(data);
     return isNumberArray(parsed) ? parsed : [];
-  } catch {
+  } catch (e) {
+    logError("storage.getMissedQuestions", e);
     return [];
   }
 };
@@ -113,7 +121,9 @@ export const addMissedQuestion = async (id: number): Promise<void> => {
         ? merged.slice(merged.length - MAX_MISSED_SIZE)
         : merged;
     await AsyncStorage.setItem(KEYS.missedQuestions, JSON.stringify(trimmed));
-  } catch {}
+  } catch (e) {
+    logError("storage.addMissedQuestion", e);
+  }
 };
 
 export const removeMissedQuestion = async (id: number): Promise<void> => {
@@ -122,7 +132,9 @@ export const removeMissedQuestion = async (id: number): Promise<void> => {
     const filtered = existing.filter((x) => x !== id);
     if (filtered.length === existing.length) return;
     await AsyncStorage.setItem(KEYS.missedQuestions, JSON.stringify(filtered));
-  } catch {}
+  } catch (e) {
+    logError("storage.removeMissedQuestion", e);
+  }
 };
 
 // ── Estadísticas del jugador ───────────────────────────────────────────────
@@ -148,7 +160,8 @@ export const getStats = async (): Promise<StoredStats> => {
     if (!data) return defaultStats();
     const parsed: unknown = JSON.parse(data);
     return isValidStats(parsed) ? parsed : defaultStats();
-  } catch {
+  } catch (e) {
+    logError("storage.getStats", e);
     return defaultStats();
   }
 };
@@ -173,7 +186,9 @@ export const updateStats = async (outcome: GameOutcome): Promise<void> => {
         longestStreak: c.longestStreak ?? 0,
       };
       await AsyncStorage.setItem(KEYS.stats, JSON.stringify(updated));
-    } catch {}
+    } catch (e) {
+      logError("storage.updateStats", e);
+    }
   });
 };
 
@@ -186,7 +201,9 @@ export const incrementMajlisGames = async (): Promise<void> => {
         KEYS.stats,
         JSON.stringify({ ...c, majlisGames: (c.majlisGames ?? 0) + 1, lastPlayedAt: Date.now() })
       );
-    } catch {}
+    } catch (e) {
+      logError("storage.incrementMajlisGames", e);
+    }
   });
 };
 
@@ -198,7 +215,9 @@ export const incrementLearnReviewed = async (n = 1): Promise<void> => {
         KEYS.stats,
         JSON.stringify({ ...c, learnReviewed: (c.learnReviewed ?? 0) + n })
       );
-    } catch {}
+    } catch (e) {
+      logError("storage.incrementLearnReviewed", e);
+    }
   });
 };
 
@@ -238,7 +257,8 @@ export const getDailyStreak = async (): Promise<number> => {
     const yesterday = localDateString(new Date(Date.now() - 86_400_000));
     // A streak is only alive if the user played today or yesterday.
     return parsed.lastPlayed === today || parsed.lastPlayed === yesterday ? parsed.streak : 0;
-  } catch {
+  } catch (e) {
+    logError("storage.getDailyStreak", e);
     return 0;
   }
 };
@@ -264,9 +284,12 @@ export const bumpDailyStreak = async (): Promise<number> => {
             JSON.stringify({ ...c, longestStreak: streak })
           );
         }
-      } catch {}
+      } catch (e) {
+        logError("storage.bumpDailyStreak", e);
+      }
       return streak;
-    } catch {
+    } catch (e) {
+      logError("storage.bumpDailyStreak", e);
       return 0;
     }
   });
@@ -293,7 +316,8 @@ export const getPrefs = async (): Promise<AppPrefs> => {
           ? parsed.reducedMotion
           : DEFAULT_PREFS.reducedMotion,
     };
-  } catch {
+  } catch (e) {
+    logError("storage.getPrefs", e);
     return { ...DEFAULT_PREFS };
   }
 };
@@ -301,7 +325,9 @@ export const getPrefs = async (): Promise<AppPrefs> => {
 export const setPrefs = async (prefs: AppPrefs): Promise<void> => {
   try {
     await AsyncStorage.setItem(KEYS.prefs, JSON.stringify(prefs));
-  } catch {}
+  } catch (e) {
+    logError("storage.setPrefs", e);
+  }
 };
 
 // ── Onboarding (primer arranque) ────────────────────────────────────────────
@@ -309,7 +335,8 @@ export const setPrefs = async (prefs: AppPrefs): Promise<void> => {
 export const hasOnboarded = async (): Promise<boolean> => {
   try {
     return (await AsyncStorage.getItem(KEYS.onboarded)) === "1";
-  } catch {
+  } catch (e) {
+    logError("storage.hasOnboarded", e);
     return false;
   }
 };
@@ -317,7 +344,9 @@ export const hasOnboarded = async (): Promise<boolean> => {
 export const setOnboarded = async (): Promise<void> => {
   try {
     await AsyncStorage.setItem(KEYS.onboarded, "1");
-  } catch {}
+  } catch (e) {
+    logError("storage.setOnboarded", e);
+  }
 };
 
 // ── Precisión por categoría ─────────────────────────────────────────────────
@@ -328,7 +357,8 @@ export const getCategoryStats = async (): Promise<CategoryStats> => {
     if (!data) return {};
     const parsed = JSON.parse(data) as CategoryStats;
     return parsed && typeof parsed === "object" ? parsed : {};
-  } catch {
+  } catch (e) {
+    logError("storage.getCategoryStats", e);
     return {};
   }
 };
@@ -344,7 +374,9 @@ export const addCategoryStats = async (
         current[cat] = { correct: prev.correct + correct, total: prev.total + total };
       }
       await AsyncStorage.setItem(KEYS.categoryStats, JSON.stringify(current));
-    } catch {}
+    } catch (e) {
+      logError("storage.addCategoryStats", e);
+    }
   });
 };
 
@@ -372,7 +404,8 @@ export const getSRCards = async (): Promise<SRCard[]> => {
     if (!data) return [];
     const parsed: unknown = JSON.parse(data);
     return isSRCardArray(parsed) ? parsed : [];
-  } catch {
+  } catch (e) {
+    logError("storage.getSRCards", e);
     return [];
   }
 };
@@ -388,7 +421,9 @@ export const saveSRCard = async (card: SRCard): Promise<void> => {
         cards.push(card);
       }
       await AsyncStorage.setItem(KEYS.srCards, JSON.stringify(cards));
-    } catch {}
+    } catch (e) {
+      logError("storage.saveSRCard", e);
+    }
   });
 };
 
@@ -399,7 +434,8 @@ export const getDueCards = async (now: number = Date.now()): Promise<SRCard[]> =
     return cards
       .filter((c) => c.nextReviewAt <= now)
       .sort((a, b) => a.easeFactor - b.easeFactor);
-  } catch {
+  } catch (e) {
+    logError("storage.getDueCards", e);
     return [];
   }
 };
@@ -427,7 +463,8 @@ export const getDailyChallenge = async (): Promise<DailyChallengeData> => {
     const data = await AsyncStorage.getItem(KEYS.dailyChallenge);
     if (!data) return { ...DEFAULT_DAILY };
     return JSON.parse(data) as DailyChallengeData;
-  } catch {
+  } catch (e) {
+    logError("storage.getDailyChallenge", e);
     return { ...DEFAULT_DAILY };
   }
 };
@@ -459,7 +496,9 @@ export const completeDailyChallenge = async (
         lastQuestionId: questionId,
       };
       await AsyncStorage.setItem(KEYS.dailyChallenge, JSON.stringify(updated));
-    } catch {}
+    } catch (e) {
+      logError("storage.completeDailyChallenge", e);
+    }
   });
 };
 
@@ -469,7 +508,8 @@ export const isDailyDone = async (now: number = Date.now()): Promise<boolean> =>
     const data = await getDailyChallenge();
     const today = getTodayDateString(now);
     return data.lastDate === today && data.completed;
-  } catch {
+  } catch (e) {
+    logError("storage.isDailyDone", e);
     return false;
   }
 };
@@ -487,5 +527,7 @@ export const resetAllProgress = async (): Promise<void> => {
       KEYS.srCards,
       KEYS.dailyChallenge,
     ]);
-  } catch {}
+  } catch (e) {
+    logError("storage.resetAllProgress", e);
+  }
 };

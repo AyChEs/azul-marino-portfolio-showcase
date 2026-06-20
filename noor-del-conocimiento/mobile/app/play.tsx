@@ -55,6 +55,7 @@ type AnswerState = "idle" | "selected" | "correct" | "incorrect";
 
 const VALID_DIFFICULTIES: Difficulty[] = ["easy", "medium", "hard"];
 const VALID_CATEGORIES: GameMode[] = ["mix", "Seerah", "Profetas", "Corán y General"];
+const SUPPORT_EMAIL = "aymanessamadi72@gmail.com";
 
 const findNextMajlisTurn = (
   fromIdx: number,
@@ -998,7 +999,7 @@ export default function PlayScreen() {
                     accessibilityLabel={t("game.report")}
                     onPress={() =>
                       Linking.openURL(
-                        `mailto:aymanessamadi72@gmail.com?subject=${encodeURIComponent(
+                        `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(
                           `[Noor] Reporte de contenido — pregunta ${currentQ.id}`
                         )}`
                       )

@@ -10,6 +10,7 @@ import { Colors } from "../constants/colors";
 import { Fonts } from "../constants/fonts";
 import { NoorButton } from "./ui/NoorButton";
 import i18n from "../lib/i18n";
+import { logFatal } from "../lib/logger";
 
 interface State {
   hasError: boolean;
@@ -26,8 +27,7 @@ export class ErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error) {
-    // Log to console in dev; swap for Sentry.captureException(error) in prod
-    console.error("[ErrorBoundary]", error);
+    logFatal("ErrorBoundary", error);
   }
 
   handleReset = () => {
