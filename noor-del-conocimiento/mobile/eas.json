@@ -12,28 +12,19 @@
       },
       "ios": {
         "simulator": true
-      },
-      "env": {
-        "EXPO_PUBLIC_ANTHROPIC_BASE_URL": "https://api.anthropic.com"
       }
     },
     "preview": {
       "distribution": "internal",
-      "channel": "preview",
       "android": {
-        "buildType": "apk"
-      },
-      "env": {
-        "EXPO_PUBLIC_ANTHROPIC_BASE_URL": "https://api.anthropic.com"
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
       }
     },
     "production": {
       "channel": "production",
       "android": {
         "buildType": "app-bundle"
-      },
-      "env": {
-        "EXPO_PUBLIC_ANTHROPIC_BASE_URL": "https://api.anthropic.com"
       }
     }
   },

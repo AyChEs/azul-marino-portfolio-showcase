@@ -1,55 +1,58 @@
-# Noor del Conocimiento — Mobile App
+# نور · Noor del Conocimiento — App móvil
 
-Islamic trivia quiz app — React Native / Expo SDK 52.
+App de trivia de conocimiento islámico construida con **Expo SDK 54** + **React Native 0.81**
++ **TypeScript estricto**. 100% offline, sin anuncios y sin recogida de datos.
 
-## Quick start
+> Visión general del proyecto, características y arquitectura: [README raíz](../../README.md).
+
+## Desarrollo
 
 ```bash
 npm install
-npx expo start
+npm start                # Expo dev server (Expo Go o dev build)
 ```
 
-Scan the QR code with Expo Go (Android/iOS) or press `a` for Android emulator.
+## Scripts
 
-## Environment
+| Script | Qué hace |
+|---|---|
+| `npm start` | Servidor de desarrollo de Expo |
+| `npm run type-check` | TypeScript estricto, sin emitir |
+| `npm run validate:questions` | **Gate de contenido**: valida las 507 preguntas (fuentes, opciones, traducciones, IDs) |
+| `npm test` | Tests Jest (validador, parser de fuentes, banco real) |
+| `npm run prebuild:check` | Los tres anteriores en cadena — ejecútalo antes de cualquier build |
+| `npm run lint` | ESLint |
+
+## Estructura
+
+```
+app/                 # Pantallas (expo-router)
+components/          # UI reutilizable + patrones decorativos
+constants/           # Tokens de color y tipografías
+context/             # LanguageContext (i18n + RTL)
+data/questions.json  # Banco de 507 preguntas con metadatos de auditoría
+lib/                 # gameLogic, storage, sources (parser de citas), i18n, types
+locales/             # es.json · en.json · ar.json (i18next)
+scripts/             # validate-questions.ts
+__tests__/           # Jest
+assets/              # Iconos, splash, feature graphic
+```
+
+## Reglas del banco de preguntas
+
+- Solo se sirven preguntas `verified: true` sin `flag` (filtro en `lib/gameLogic.ts`).
+- `scripts/validate-questions.ts` rompe el build ante: fuente ausente, `correctAnswer`
+  fuera de las opciones, opciones ≠ 4 o duplicadas, traducciones incompletas, IDs repetidos.
+- Detalles y jerarquía de fuentes: [CONTENT_SOURCES.md](CONTENT_SOURCES.md).
+
+## Publicación (Android)
 
 ```bash
-cp .env.example .env
-# Add your ANTHROPIC_API_KEY (server-side only, never in APK)
+npm run prebuild:check
+eas build --platform android --profile production    # .aab firmado
+eas submit --platform android --profile production
 ```
 
-## Build (EAS)
-
-```bash
-# Requires EXPO_TOKEN env var or eas login
-eas build --platform android --profile preview   # APK
-eas build --platform android --profile production # AAB for Play Store
-```
-
-## Project structure
-
-```
-app/              expo-router screens
-  index.tsx       language select / onboarding
-  home.tsx        mode/difficulty/category picker
-  play.tsx        main game screen
-  game-over.tsx   solo results
-  majlis-setup.tsx  multiplayer lobby
-  majlis-game-over.tsx  multiplayer results
-components/
-  ui/             AnswerOption, NoorButton, NoorCard, TimerBar, ...
-  patterns/       IslamicPattern background SVG
-constants/        colors.ts, i18n.ts
-context/          LanguageContext
-data/
-  questions.json  507 verified questions (es/en/ma)
-lib/
-  gameLogic.ts    scoring, shuffling, question selection
-  types.ts        shared TypeScript types
-locales/          i18n strings (es/en/ma)
-hooks/            usePlayedQuestions, useStats
-```
-
-## Questions
-
-All 507 questions are human-verified with sources from quran.com, sunnah.com, and islamqa.info. Each entry has `verified: true`, `flag: false`, and a `source` citation.
+Checklist completo: [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) ·
+Ficha de Play Store: [STORE_LISTING.md](STORE_LISTING.md) ·
+Privacidad: [PRIVACY.md](PRIVACY.md)

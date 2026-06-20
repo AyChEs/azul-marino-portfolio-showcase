@@ -1,7 +1,5 @@
-// Design principles applied:
-// - Emil Kowalski: scale(0.97) on press, ease-out, < 200ms
-// - high-end skill: double-bezel nested architecture for premium feel
-// - design-taste: spring physics, no linear easing
+// Primary button — Direction D: editorial serif-italic labels on emerald/gold,
+// spring press feedback (scale 0.97), double-bezel shell.
 import React from "react";
 import {
   Pressable,
@@ -16,6 +14,9 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { Colors } from "../../constants/colors";
+import { Fonts } from "../../constants/fonts";
+import { Spring } from "../../constants/motion";
+import { feedback } from "../../lib/feedback";
 
 type Variant = "primary" | "secondary" | "ghost" | "gold";
 type Size = "sm" | "md" | "lg";
@@ -29,6 +30,8 @@ interface NoorButtonProps {
   loading?: boolean;
   isRTL?: boolean;
   style?: object;
+  /** Serif italic label (CTAs like "Empezar viaje →"). Default true for md/lg. */
+  serif?: boolean;
 }
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -42,30 +45,26 @@ const NoorButtonBase: React.FC<NoorButtonProps> = ({
   loading = false,
   isRTL = false,
   style,
+  serif,
 }) => {
   const scale = useSharedValue(1);
-
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
   }));
 
-  const handlePressIn = () => {
-    // Emil Kowalski: scale(0.97) on active, spring physics, not linear
-    scale.value = withSpring(0.97, { stiffness: 400, damping: 25 });
-  };
-
-  const handlePressOut = () => {
-    scale.value = withSpring(1, { stiffness: 300, damping: 20 });
-  };
-
-  const styles = getStyles(variant, size, disabled);
+  const useSerif = serif ?? size !== "sm";
+  const styles = getStyles(variant, size, disabled, useSerif);
 
   return (
-    // Double-bezel: outer shell + inner core (high-end skill)
     <AnimatedPressable
       onPress={disabled || loading ? undefined : onPress}
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
+      onPressIn={() => {
+        feedback.tap();
+        scale.value = withSpring(0.97, Spring.press);
+      }}
+      onPressOut={() => {
+        scale.value = withSpring(1, Spring.press);
+      }}
       style={[animatedStyle, styles.outerShell, style]}
       accessibilityRole="button"
       accessibilityLabel={label}
@@ -75,13 +74,10 @@ const NoorButtonBase: React.FC<NoorButtonProps> = ({
         {loading ? (
           <ActivityIndicator
             size="small"
-            color={variant === "primary" ? Colors.parchment.primary : Colors.accent.emerald}
+            color={variant === "gold" ? Colors.bg.primary : Colors.parchment.primary}
           />
         ) : (
-          <Text
-            style={[styles.label, isRTL && { textAlign: "right" }]}
-            numberOfLines={1}
-          >
+          <Text style={[styles.label, isRTL && { textAlign: "right" }]} numberOfLines={1}>
             {label}
           </Text>
         )}
@@ -90,95 +86,65 @@ const NoorButtonBase: React.FC<NoorButtonProps> = ({
   );
 };
 
-// Memoize the button — its props (label, variant, size, etc.) rarely change
-// for a given instance, so React skips re-renders when the parent updates.
-// Crucial in play.tsx where the parent re-renders every second from the timer.
 export const NoorButton = React.memo(NoorButtonBase);
 
-const getStyles = (variant: Variant, size: Size, disabled: boolean) => {
-  const pad = { sm: 12, md: 16, lg: 20 }[size];
-  const fontSize = { sm: 14, md: 16, lg: 18 }[size];
+const getStyles = (variant: Variant, size: Size, disabled: boolean, useSerif: boolean) => {
+  const padV = { sm: 9, md: 13, lg: 16 }[size];
+  const padH = { sm: 16, md: 22, lg: 28 }[size];
+  const fontSize = { sm: 13, md: 17, lg: 19 }[size];
 
-  const variantOuter: Record<Variant, object> = {
+  const inner: Record<Variant, object> = {
     primary: {
-      backgroundColor: "rgba(16, 185, 129, 0.15)",
-      borderWidth: 1,
-      borderColor: Colors.border.emerald,
-      borderRadius: 16,
-      padding: 2,
+      backgroundColor: Colors.accent.emerald,
+      shadowColor: Colors.accent.emerald,
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.35,
+      shadowRadius: 12,
+      elevation: 6,
+    },
+    gold: {
+      backgroundColor: Colors.gold.cta,
+      shadowColor: Colors.gold.cta,
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.3,
+      shadowRadius: 12,
+      elevation: 6,
     },
     secondary: {
       backgroundColor: "rgba(253, 246, 227, 0.08)",
       borderWidth: 1,
-      borderColor: Colors.border.subtle,
-      borderRadius: 16,
-      padding: 2,
+      borderColor: Colors.border.medium,
     },
-    ghost: {
-      borderRadius: 16,
-      padding: 2,
-    },
-    gold: {
-      backgroundColor: "rgba(212, 175, 55, 0.12)",
-      borderWidth: 1,
-      borderColor: Colors.border.gold,
-      borderRadius: 16,
-      padding: 2,
-    },
-  };
-
-  const variantInner: Record<Variant, object> = {
-    primary: {
-      backgroundColor: Colors.accent.emerald,
-      borderRadius: 14,
-      // Inner highlight — liquid glass refraction (design-taste skill)
-      shadowColor: Colors.accent.emerald,
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.3,
-      shadowRadius: 8,
-    },
-    secondary: {
-      backgroundColor: "rgba(253, 246, 227, 0.1)",
-      borderRadius: 14,
-    },
-    ghost: {
-      borderRadius: 14,
-    },
-    gold: {
-      backgroundColor: Colors.gold.primary,
-      borderRadius: 14,
-      shadowColor: Colors.gold.primary,
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.25,
-      shadowRadius: 8,
-    },
+    ghost: { backgroundColor: "transparent" },
   };
 
   const labelColor: Record<Variant, string> = {
-    primary: Colors.parchment.primary,
-    secondary: Colors.text.primary,
-    ghost: Colors.text.secondary,
+    primary: "#ffffff",
     gold: Colors.bg.primary,
+    secondary: Colors.parchment.primary,
+    ghost: Colors.text.secondary,
   };
 
   return StyleSheet.create({
     outerShell: {
-      ...(variantOuter[variant] as object),
+      borderRadius: 18,
       opacity: disabled ? 0.45 : 1,
     },
     innerCore: {
-      ...(variantInner[variant] as object),
-      paddingHorizontal: pad,
-      paddingVertical: pad * 0.7,
+      minHeight: 44,
+      borderRadius: 18,
+      paddingVertical: padV,
+      paddingHorizontal: padH,
       alignItems: "center",
       justifyContent: "center",
-      flexDirection: "row",
+      ...inner[variant],
     },
     label: {
-      color: labelColor[variant],
+      fontFamily: useSerif ? Fonts.serifItalic : Fonts.bodySemiBold,
+      fontStyle: useSerif ? "italic" : "normal",
       fontSize,
-      fontWeight: "600",
-      letterSpacing: 0.3,
+      color: labelColor[variant],
+      letterSpacing: useSerif ? 0.3 : 0.2,
     },
   });
 };

@@ -1,194 +1,212 @@
-// Language Selection Screen — shown only on first launch
-// Auto-detects device language and pre-selects it.
-// On subsequent launches, the app goes directly to home.
+// Language Selection Screen — Direction D "El Messiri".
+// Bismillah + نور wordmark over green; language cards with letter chips.
+// Shown only on first launch; afterwards routes straight to home.
 import React, { useEffect } from "react";
 import {
   View,
   Text,
-  SafeAreaView,
   StyleSheet,
-  Dimensions,
+  Pressable,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  withSpring,
   withDelay,
   withTiming,
 } from "react-native-reanimated";
 import { router } from "expo-router";
 import { Colors } from "../constants/colors";
-import { NoorButton } from "../components/ui/NoorButton";
+import { Fonts, MicroLabel } from "../constants/fonts";
 import { IslamicPatternBackground, MihrabArch } from "../components/patterns/IslamicPattern";
 import { useLanguage } from "../context/LanguageContext";
 import type { Language } from "../lib/types";
 
-const { width } = Dimensions.get("window");
+const LANGUAGES: Array<{
+  code: Language;
+  chip: string;
+  name: string;
+  sub: string;
+}> = [
+  { code: "es", chip: "E", name: "Español", sub: "Castellano" },
+  { code: "en", chip: "N", name: "English", sub: "International" },
+  { code: "ar", chip: "ع", name: "العربية", sub: "Arabic · RTL" },
+];
 
 export default function LanguageScreen() {
   const { setLanguage, isReady, isFirstTime, language } = useLanguage();
 
-  // If context is ready and this is not the first time, skip straight to home
   useEffect(() => {
-    if (isReady && !isFirstTime) {
-      router.replace("/home");
-    }
+    if (isReady && !isFirstTime) router.replace("/welcome");
   }, [isReady, isFirstTime]);
 
-  const titleOpacity = useSharedValue(0);
-  const titleY = useSharedValue(16);
-  const arabicOpacity = useSharedValue(0);
-  const arabicY = useSharedValue(12);
-  const buttonsOpacity = useSharedValue(0);
-  const buttonsY = useSharedValue(20);
-
+  const fade = useSharedValue(0);
   useEffect(() => {
     if (!isReady || !isFirstTime) return;
-    titleOpacity.value = withDelay(100, withTiming(1, { duration: 400 }));
-    titleY.value = withDelay(100, withSpring(0, { stiffness: 120, damping: 18 }));
-    arabicOpacity.value = withDelay(250, withTiming(1, { duration: 400 }));
-    arabicY.value = withDelay(250, withSpring(0, { stiffness: 120, damping: 18 }));
-    buttonsOpacity.value = withDelay(420, withTiming(1, { duration: 380 }));
-    buttonsY.value = withDelay(420, withSpring(0, { stiffness: 120, damping: 18 }));
+    fade.value = withDelay(80, withTiming(1, { duration: 500 }));
   }, [isReady, isFirstTime]);
+  const fadeStyle = useAnimatedStyle(() => ({ opacity: fade.value }));
 
-  const titleStyle = useAnimatedStyle(() => ({
-    opacity: titleOpacity.value,
-    transform: [{ translateY: titleY.value }],
-  }));
-
-  const arabicStyle = useAnimatedStyle(() => ({
-    opacity: arabicOpacity.value,
-    transform: [{ translateY: arabicY.value }],
-  }));
-
-  const buttonsStyle = useAnimatedStyle(() => ({
-    opacity: buttonsOpacity.value,
-    transform: [{ translateY: buttonsY.value }],
-  }));
-
-  const handleSelectLanguage = async (lang: Language) => {
+  const choose = async (lang: Language) => {
     await setLanguage(lang);
-    router.replace("/home");
+    router.replace("/welcome");
   };
 
-  // Render nothing while deciding whether to redirect
-  if (!isReady || !isFirstTime) return null;
-
-  const LANGS: { code: Language; label: string; isRTL?: boolean }[] = [
-    { code: "es", label: "Español" },
-    { code: "en", label: "English" },
-    { code: "ar", label: "العربية", isRTL: true },
-  ];
+  if (!isReady || !isFirstTime) {
+    return <SafeAreaView style={styles.root} />;
+  }
 
   return (
     <SafeAreaView style={styles.root}>
-      <IslamicPatternBackground color={Colors.gold.primary} opacity={0.05} tileSize={48} />
-
-      <View style={styles.content}>
-        <View style={styles.archContainer}>
-          <MihrabArch color={Colors.gold.primary} width={width * 0.65} />
+      <IslamicPatternBackground color={Colors.gold.primary} opacity={0.04} tileSize={52} />
+      <Animated.View style={[styles.content, fadeStyle]}>
+        <View style={styles.archWrap}>
+          <MihrabArch color={Colors.gold.dusty} width={220} />
         </View>
 
-        <Animated.View style={[styles.bismillahContainer, arabicStyle]}>
-          <Text style={styles.bismillah} allowFontScaling={false}>
-            بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
-          </Text>
-        </Animated.View>
+        <Text style={styles.bismillah}>بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</Text>
+        <Text style={styles.wordmark}>نور</Text>
+        <Text style={styles.noor}>Noor</Text>
+        <Text style={styles.tagline}>DEL CONOCIMIENTO</Text>
 
-        <Animated.View style={[styles.titleContainer, titleStyle]}>
-          <Text style={styles.arabicTitle}>نور المعرفة</Text>
-          <Text style={styles.subtitle}>Noor del Conocimiento</Text>
-        </Animated.View>
+        <Text style={styles.choose}>
+          <Text style={styles.chooseSerif}>Choose your language</Text>
+          {"  ·  "}
+          <Text style={styles.chooseArabic}>اختر لغتك</Text>
+        </Text>
 
-        <View style={styles.divider} />
-
-        <Animated.View style={[styles.buttons, buttonsStyle]}>
-          <Text style={styles.chooseLabel}>Choose your language / اختر لغتك</Text>
-
-          {LANGS.map((lang) => (
-            <NoorButton
-              key={lang.code}
-              onPress={() => handleSelectLanguage(lang.code)}
-              label={lang.label}
-              variant={language === lang.code ? "primary" : "secondary"}
-              size="lg"
-              isRTL={lang.isRTL}
-              style={styles.langButton}
-            />
-          ))}
-        </Animated.View>
-      </View>
+        <View style={styles.cards}>
+          {LANGUAGES.map((l) => {
+            const active = language === l.code;
+            return (
+              <Pressable
+                key={l.code}
+                onPress={() => choose(l.code)}
+                accessibilityRole="button"
+                accessibilityLabel={l.name}
+                style={({ pressed }) => [
+                  styles.card,
+                  active && styles.cardActive,
+                  pressed && { transform: [{ scale: 0.98 }] },
+                ]}
+              >
+                <View style={[styles.chip, active && styles.chipActive]}>
+                  <Text style={[styles.chipText, active && styles.chipTextActive]}>{l.chip}</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text
+                    style={[
+                      styles.cardName,
+                      l.code === "ar" && { fontFamily: Fonts.arabic, fontStyle: "normal" },
+                      active && styles.cardNameActive,
+                    ]}
+                  >
+                    {l.name}
+                  </Text>
+                  <Text style={[styles.cardSub, active && styles.cardSubActive]}>{l.sub}</Text>
+                </View>
+                <Text style={[styles.cardArrow, active && styles.cardArrowActive]}>
+                  {active ? "✓" : "›"}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
+      </Animated.View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: Colors.bg.primary,
+  root: { flex: 1, backgroundColor: Colors.bg.primary },
+  content: { flex: 1, alignItems: "center", justifyContent: "center", padding: 24 },
+  archWrap: { position: "absolute", top: 60, opacity: 0.5 },
+  bismillah: {
+    fontFamily: Fonts.verse,
+    fontSize: 18,
+    color: Colors.gold.light,
+    marginBottom: 18,
+    textAlign: "center",
   },
-  content: {
-    flex: 1,
+  wordmark: {
+    fontFamily: Fonts.arabicBold,
+    fontSize: 84,
+    lineHeight: 110,
+    color: Colors.parchment.primary,
+    textShadowColor: "rgba(212, 175, 55, 0.35)",
+    textShadowRadius: 28,
+    textShadowOffset: { width: 0, height: 0 },
+  },
+  noor: {
+    fontFamily: Fonts.serifItalic,
+    fontStyle: "italic",
+    fontSize: 26,
+    color: Colors.gold.cta,
+    marginTop: -6,
+  },
+  tagline: {
+    ...MicroLabel,
+    letterSpacing: 3,
+    color: "rgba(253, 246, 227, 0.65)",
+    marginTop: 8,
+    marginBottom: 36,
+  },
+  choose: { marginBottom: 18, color: Colors.text.secondary },
+  chooseSerif: {
+    fontFamily: Fonts.serifItalic,
+    fontStyle: "italic",
+    fontSize: 16,
+    color: Colors.parchment.primary,
+  },
+  chooseArabic: { fontFamily: Fonts.arabic, fontSize: 15, color: Colors.parchment.primary },
+  cards: { width: "100%", maxWidth: 420, gap: 12 },
+  card: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 14,
+    minHeight: 62,
+    borderRadius: 18,
+    paddingHorizontal: 16,
+    backgroundColor: "rgba(253, 246, 227, 0.06)",
+    borderWidth: 1,
+    borderColor: Colors.border.subtle,
+  },
+  cardActive: {
+    backgroundColor: Colors.accent.emerald,
+    borderColor: Colors.accent.emeraldLight,
+    shadowColor: Colors.accent.emerald,
+    shadowOpacity: 0.4,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 6,
+  },
+  chip: {
+    width: 32,
+    height: 32,
+    borderRadius: 10,
+    backgroundColor: "rgba(193, 154, 91, 0.15)",
+    borderWidth: 1,
+    borderColor: "rgba(193, 154, 91, 0.4)",
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 28,
-    gap: 8,
   },
-  archContainer: {
-    marginBottom: 8,
-    opacity: 0.7,
+  chipActive: { backgroundColor: "rgba(255,255,255,0.2)", borderColor: "rgba(255,255,255,0.5)" },
+  chipText: {
+    fontFamily: Fonts.serifItalic,
+    fontStyle: "italic",
+    fontSize: 16,
+    color: Colors.gold.dusty,
   },
-  bismillahContainer: {
-    alignItems: "center",
-  },
-  bismillah: {
-    fontFamily: "Amiri_400Regular",
-    fontSize: 22,
-    color: Colors.gold.primary,
-    textAlign: "center",
-    lineHeight: 38,
-    letterSpacing: 1,
-  },
-  titleContainer: {
-    alignItems: "center",
-    gap: 4,
-    marginTop: 4,
-  },
-  arabicTitle: {
-    fontFamily: "Amiri_700Bold",
-    fontSize: 40,
+  chipTextActive: { color: "#ffffff" },
+  cardName: {
+    fontFamily: Fonts.serifItalic,
+    fontStyle: "italic",
+    fontSize: 19,
     color: Colors.parchment.primary,
-    textAlign: "center",
-    lineHeight: 56,
   },
-  subtitle: {
-    fontSize: 14,
-    color: Colors.text.secondary,
-    letterSpacing: 2,
-    textTransform: "uppercase",
-    fontWeight: "500",
-  },
-  divider: {
-    width: 48,
-    height: 1,
-    backgroundColor: Colors.gold.primary,
-    opacity: 0.4,
-    marginVertical: 20,
-  },
-  buttons: {
-    width: "100%",
-    gap: 12,
-    alignItems: "stretch",
-  },
-  chooseLabel: {
-    fontSize: 13,
-    color: Colors.text.muted,
-    textAlign: "center",
-    letterSpacing: 0.5,
-    marginBottom: 4,
-  },
-  langButton: {
-    width: "100%",
-  },
+  cardNameActive: { color: "#ffffff" },
+  cardSub: { fontFamily: Fonts.body, fontSize: 12, color: Colors.text.muted, marginTop: 1 },
+  cardSubActive: { color: "rgba(255,255,255,0.8)" },
+  cardArrow: { fontSize: 18, color: Colors.text.muted },
+  cardArrowActive: { color: "#ffffff", fontFamily: Fonts.bodyBold },
 });

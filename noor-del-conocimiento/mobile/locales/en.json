@@ -1,176 +1,351 @@
 {
-    "gameTitle": "Light of Knowledge Trivia",
-    "bismillah": "بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
-    "startYourJourney": "Start Your Journey",
-    "welcomeMessage": "Welcome to a journey of knowledge to enlighten the mind and soul.",
-    "rulesTitle": "Game Rules",
-    "rulesScrollPrompt": "You must scroll to the end to continue.",
-    "rulesReadButton": "I have read the rules, let's play!",
-    "rulesScrollCta": "Scroll down to continue...",
-    "chooseLanguage": "Choose your language",
-    "loading": {
-        "default": "Loading...",
-        "results": "Loading results...",
-        "game": "Loading game..."
-    },
-    "rules": {
-        "gameModes": {
-            "title": "Game Modes",
-            "musafir": {
-                "title": "Musafir Mode (Solo)",
-                "description": "Play questions until you lose your 3 lives. Go for your personal best!"
-            },
-            "majlis": {
-                "title": "Majlis Mode (Group)",
-                "description": "Compete in turns with 2-6 players. Each has 3 lives. The game ends when only one player remains or the rounds are completed."
-            }
-        },
-        "difficulty": {
-            "title": "Difficulty and Time",
-            "easy": "Basic facts and well-known names. (30 seconds)",
-            "medium": "Dates, battle details. (20 seconds)",
-            "hard": "Tafsir, exact chronology, jurisprudence. (15 seconds)"
-        },
-        "lifelines": {
-            "title": "Lifeline Mechanics",
-            "inventory": "Each player has their own inventory per game.",
-            "fiftyFifty": {
-                "title": "50/50 (The Discernment)",
-                "description": "Removes 2 incorrect answers. You have 2 uses per game."
-            },
-            "extraTime": {
-                "title": "Extra Time (Sabr)",
-                "description": "Adds 15 seconds to the timer. You have 2 uses per game."
-            },
-            "skip": {
-                "title": "Skip Question (Hijrah)",
-                "description": "Moves to the next question without losing lives. You have 1 use per game (only in Medium and Hard difficulty)."
-            }
-        },
-        "scoring": {
-            "title": "Scoring System",
-            "difficulty": "Difficulty Multiplier: Easy (1.0x), Medium (1.5x), Hard (2.0x)",
-            "category": "Category Multiplier: Seerah (1.2x), Prophets (1.1x), Quran & General (1.0x)",
-            "timeBonus": "Time Bonus: Up to 30% extra based on how fast you answer.",
-            "accumulation": "Global Progress: All your points accumulate on the Leaderboard."
-        }
-    },
-    "setup": {
-        "chooseMode": "Choose Your Game Mode",
-        "musafirMode": {
-            "title": "Musafir Mode",
-            "description": "A solo journey of knowledge. How far can you go?"
-        },
-        "majlisMode": {
-            "title": "Majlis Mode",
-            "description": "Gather your family and friends for a group challenge.",
-            "button": "Set Up Game"
-        },
-        "selectButton": "Select",
-        "chooseAnotherMode": "Choose another mode",
-        "chooseCategory": "Choose a Category",
-        "chooseDifficulty": "Choose Difficulty"
-    },
-    "category": {
-        "seerah": "Seerah",
-        "prophets": "Prophets",
-        "general": "General",
-        "mix": "Mix",
-        "seerahDescription": "Dive into the life, battles, and teachings of Prophet Muhammad (ﷺ).",
-        "prophetsDescription": "Test your knowledge on the stories of the prophets, from Adam (AS) to Isa (AS).",
-        "generalDescription": "Explore revelation, basic Fiqh, Islamic history, and the pillars of faith.",
-        "mixDescription": "A random challenge from all categories for the chosen difficulty."
+  "gameTitle": "Light of Knowledge Trivia",
+  "bismillah": "بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+  "startYourJourney": "Start Your Journey",
+  "welcomeMessage": "Welcome to a journey of knowledge to enlighten the mind and soul.",
+  "rulesTitle": "Game Rules",
+  "rulesScrollPrompt": "You must scroll to the end to continue.",
+  "rulesReadButton": "I have read the rules, let's play!",
+  "rulesScrollCta": "Scroll down to continue...",
+  "chooseLanguage": "Choose your language",
+  "loading": {
+    "default": "Loading...",
+    "results": "Loading results...",
+    "game": "Loading game...",
+    "noQuestions": "No questions available for this combination."
+  },
+  "rules": {
+    "gameModes": {
+      "title": "Game Modes",
+      "musafir": {
+        "title": "Musafir Mode (Solo)",
+        "description": "Play questions until you lose your 3 lives. Go for your personal best!"
+      },
+      "majlis": {
+        "title": "Majlis Mode (Group)",
+        "description": "Compete in turns with 2-6 players. Each has 3 lives. The game ends when only one player remains or the rounds are completed."
+      }
     },
     "difficulty": {
-        "easy": "Easy",
-        "medium": "Medium",
-        "hard": "Hard"
+      "title": "Difficulty and Time",
+      "easy": "Basic facts and well-known names. (30 seconds)",
+      "medium": "Dates, battle details. (20 seconds)",
+      "hard": "Tafsir, exact chronology, jurisprudence. (15 seconds)"
     },
-    "majlisSetup": {
-        "title": "Majlis Setup",
-        "description": "Add 2 to 6 players to begin",
-        "playerNameLabel": "Player Name",
-        "playerNamePlaceholder": "E.g., Abdullah",
-        "addPlayerButton": "Add",
-        "playersTitle": "Players",
-        "startGameButton": "Start Group Game",
-        "backToHome": "Back to home"
+    "lifelines": {
+      "title": "Lifeline Mechanics",
+      "inventory": "Each player has their own inventory per game.",
+      "fiftyFifty": {
+        "title": "50/50 (The Discernment)",
+        "description": "Removes 2 incorrect answers. You have 2 uses per game."
+      },
+      "extraTime": {
+        "title": "Extra Time (Sabr)",
+        "description": "Adds 15 seconds to the timer. You have 2 uses per game."
+      },
+      "skip": {
+        "title": "Skip Question (Hijrah)",
+        "description": "Moves to the next question without losing lives. You have 1 use per game (only in Medium and Hard difficulty)."
+      }
+    },
+    "scoring": {
+      "title": "Scoring System",
+      "difficulty": "Difficulty Multiplier: Easy (1.0x), Medium (1.5x), Hard (2.0x)",
+      "category": "Category Multiplier: Seerah (1.2x), Prophets (1.1x), Quran & General (1.0x)",
+      "timeBonus": "Time Bonus: Up to 30% extra based on how fast you answer.",
+      "accumulation": "Global Progress: All your points accumulate on the Leaderboard."
+    }
+  },
+  "setup": {
+    "chooseMode": "Choose Your Game Mode",
+    "musafirMode": {
+      "title": "Musafir Mode",
+      "description": "A solo journey of knowledge. How far can you go?"
+    },
+    "majlisMode": {
+      "title": "Majlis Mode",
+      "description": "Gather your family and friends for a group challenge.",
+      "button": "Set Up Game"
+    },
+    "selectButton": "Select",
+    "chooseAnotherMode": "Choose another mode",
+    "chooseCategory": "Choose a Category",
+    "chooseDifficulty": "Choose Difficulty",
+    "learnMode": {
+      "title": "Learn",
+      "description": "Review with no clock and no lives. Each card shows the answer, the explanation and its source."
+    },
+    "modeLabel": "Game mode",
+    "categoryLabel": "Category",
+    "difficultyLabel": "Difficulty",
+    "startJourney": "Begin journey →",
+    "musafirShort": "The lone traveler",
+    "majlisShort": "The gathering of 2 to 6",
+    "learnShort": "No clock, no lives"
+  },
+  "category": {
+    "seerah": "Seerah",
+    "prophets": "Prophets",
+    "general": "General",
+    "mix": "Mix",
+    "seerahDescription": "Dive into the life, battles, and teachings of Prophet Muhammad (ﷺ).",
+    "prophetsDescription": "Test your knowledge on the stories of the prophets, from Adam (AS) to Isa (AS).",
+    "generalDescription": "Explore revelation, basic Fiqh, Islamic history, and the pillars of faith.",
+    "mixDescription": "A random challenge from all categories for the chosen difficulty.",
+    "seerahShort": "Life of the Prophet ﷺ",
+    "prophetsShort": "Stories of the prophets",
+    "generalShort": "Revelation, Fiqh, history",
+    "mixShort": "Random from all"
+  },
+  "difficulty": {
+    "easy": "Easy",
+    "medium": "Medium",
+    "hard": "Hard",
+    "seconds": "{{count}} seconds"
+  },
+  "majlisSetup": {
+    "title": "Majlis Setup",
+    "description": "Add 2 to 6 players to begin",
+    "playerNameLabel": "Player Name",
+    "playerNamePlaceholder": "E.g., Abdullah",
+    "addPlayerButton": "Add",
+    "playersTitle": "Players",
+    "startGameButton": "Start Group Game",
+    "backToHome": "Back to home",
+    "playersLabel": "Players",
+    "start": "Start →",
+    "back": "Back"
+  },
+  "majlis": {
+    "player": "Player",
+    "addPlayer": "Add player",
+    "defaultPlayer": "Player",
+    "results": "Majlis Results",
+    "eliminated": "Eliminated",
+    "questionOf": "Question {{current}} of {{total}}",
+    "winnerByScore": "Winner by score",
+    "winnerBySurvival": "Last one standing"
+  },
+  "game": {
+    "score": "Points",
+    "start": "Start Majlis",
+    "playAgain": "Play again",
+    "backHome": "Back to home",
+    "explanation": "Explanation",
+    "source": "Source",
+    "report": "Report this fact",
+    "nextQuestion": "Next",
+    "seeResults": "See results",
+    "share": "Share result",
+    "newRecord": "New personal best!",
+    "shareMessage": "I scored {{score}}/100 ({{correct}}/{{total}} correct) in Noor of Knowledge. Can you beat it?",
+    "shareTitle": "Share your result",
+    "shareUnavailable": "Sharing is not available on this device"
+  },
+  "play": {
+    "score": "Score",
+    "round": "Round",
+    "turnOf": "Turn of",
+    "readyButton": "I'm ready!",
+    "exit": "Exit",
+    "exitAria": "Exit game",
+    "exitTitle": "Exit Game?",
+    "exitDescription": "Your progress in this game will be lost. Are you sure you want to exit?",
+    "exitCancel": "Keep playing",
+    "exitConfirm": "Yes, exit",
+    "lifelines": "Lifelines",
+    "reviewPaused": "Read the evidence",
+    "reviewHint": "Take your time to read the explanation and source. Press Next when you're ready."
+  },
+  "playerStatus": {
+    "pts": "pts",
+    "eliminated": "Eliminated",
+    "lives": "Lives"
+  },
+  "lifeline": {
+    "fiftyFifty": "50/50",
+    "extraTime": "Extra time",
+    "skip": "Skip",
+    "fiftyArabic": "الفُرقان",
+    "timeArabic": "الصَّبر",
+    "skipArabic": "الهِجرة",
+    "fiftyEffect": "50/50",
+    "timeEffect": "+15s",
+    "skipEffect": "Skip"
+  },
+  "feedback": {
+    "title": "AI Feedback",
+    "incorrect": "That wasn't quite right.",
+    "correctAnswerIs": "The correct answer is:",
+    "generating": "Generating some wisdom...",
+    "continue": "Continue",
+    "error": "AI wisdom is currently unavailable. Please continue."
+  },
+  "gameOver": {
+    "solo": {
+      "title": "End of the Journey",
+      "description": "Your quest for knowledge has ended... for now."
     },
     "majlis": {
-        "player": "Player",
-        "addPlayer": "Add player",
-        "defaultPlayer": "Player",
-        "results": "Majlis Results",
-        "eliminated": "Eliminated"
+      "title": "End of the Majlis",
+      "description": "The competition is over!",
+      "winner": "Winner",
+      "finalStandings": "Final Standings"
     },
-    "game": {
-        "score": "Points",
-        "start": "Start Majlis",
-        "playAgain": "Play again",
-        "backHome": "Back to home"
+    "finalScore": "Final Score",
+    "correctOf": "correct out of",
+    "questions": "questions",
+    "playAgain": "Play Again",
+    "rankLabel": "Rank",
+    "correctLabel": "Correct",
+    "accuracyLabel": "Accuracy",
+    "pointsLabel": "Points",
+    "winnerLabel": "Winner",
+    "ptsLabel": "PTS"
+  },
+  "rank": {
+    "0": {
+      "title": "Novice of Light",
+      "description": "You have taken the first step on the path of knowledge. Keep learning!"
     },
-    "play": {
-        "score": "Score",
-        "round": "Round",
-        "turnOf": "Turn of",
-        "readyButton": "I'm ready!",
-        "exit": "Exit",
-        "exitAria": "Exit game",
-        "exitTitle": "Exit Game?",
-        "exitDescription": "Your progress in this game will be lost. Are you sure you want to exit?",
-        "exitCancel": "Keep playing",
-        "exitConfirm": "Yes, exit"
+    "1": {
+      "title": "Seeker of Scriptures",
+      "description": "Your journey is underway. The verses are opening up to you."
     },
-    "playerStatus": {
-        "pts": "pts",
-        "eliminated": "Eliminated",
-        "lives": "Lives"
+    "2": {
+      "title": "Scholar of the Sunnah",
+      "description": "You show great promise and understanding. Your dedication shines brightly."
     },
-    "lifeline": {
-        "fiftyFifty": "50/50 Lifeline",
-        "extraTime": "Extra Time Lifeline",
-        "skip": "Skip"
-    },
-    "feedback": {
-        "title": "AI Feedback",
-        "incorrect": "That wasn't quite right.",
-        "correctAnswerIs": "The correct answer is:",
-        "generating": "Generating some wisdom...",
-        "continue": "Continue",
-        "error": "AI wisdom is currently unavailable. Please continue."
-    },
-    "gameOver": {
-        "solo": {
-            "title": "End of the Journey",
-            "description": "Your quest for knowledge has ended... for now."
-        },
-        "majlis": {
-            "title": "End of the Majlis",
-            "description": "The competition is over!",
-            "winner": "Winner",
-            "finalStandings": "Final Standings"
-        },
-        "finalScore": "Final Score",
-        "correctOf": "correct out of",
-        "questions": "questions",
-        "playAgain": "Play Again"
-    },
-    "rank": {
-        "0": {
-            "title": "Novice of Light",
-            "description": "You have taken the first step on the path of knowledge. Keep learning!"
-        },
-        "1": {
-            "title": "Seeker of Scriptures",
-            "description": "Your journey is underway. The verses are opening up to you."
-        },
-        "2": {
-            "title": "Scholar of the Sunnah",
-            "description": "You show great promise and understanding. Your dedication shines brightly."
-        },
-        "3": {
-            "title": "Sage of the Sahaba",
-            "description": "Masha-Allah! Your knowledge is vast and deep, a true beacon of light."
-        }
+    "3": {
+      "title": "Sage of the Sahaba",
+      "description": "Masha-Allah! Your knowledge is vast and deep, a true beacon of light."
     }
+  },
+  "home": {
+    "streak": "Streak: {{count}} days",
+    "dueCount_one": "{{count}} due",
+    "dueCount_other": "{{count}} due"
+  },
+  "learn": {
+    "showAnswer": "Show answer & explanation",
+    "next": "Next card",
+    "done": "Review finished",
+    "tapHint": "Pick an option to see the explanation",
+    "reviewBadge": "Review"
+  },
+  "greeting": "Peace be upon you",
+  "notFound": {
+    "title": "Route not found",
+    "description": "This page is not on the map.",
+    "cta": "Back to home"
+  },
+  "welcome": {
+    "subtitle": "A journey of knowledge to enlighten the mind and soul",
+    "playCta": "Begin journey →",
+    "howToPlay": "How to play",
+    "statsLink": "My stats",
+    "streakLabel": "Streak",
+    "bestLabel": "Best",
+    "gamesLabel": "Games"
+  },
+  "stats": {
+    "title": "Statistics",
+    "back": "Back",
+    "lifetimeLabel": "Your journey",
+    "bestScore": "Best score",
+    "gamesPlayed": "Games",
+    "totalCorrect": "Total correct",
+    "accuracy": "Accuracy",
+    "streak": "Daily streak",
+    "pendingReview": "To review",
+    "achievementsLabel": "Achievements",
+    "noRankYet": "No rank yet — play your first game!"
+  },
+  "achievements": {
+    "firstGame": "First step",
+    "games10": "Wayfarer (10)",
+    "games25": "Steadfast (25)",
+    "games50": "Pilgrim (50)",
+    "games100": "Centurion (100)",
+    "correct50": "50 correct",
+    "correct100": "100 correct",
+    "correct500": "500 correct",
+    "correct1000": "1000 correct",
+    "best40": "Passing (40+)",
+    "best60": "Scholar (60+)",
+    "best80": "Sage (80+)",
+    "best100": "Perfect journey (100)",
+    "perfectGame": "Flawless",
+    "perfect5": "Flawless ×5",
+    "hardWin": "Hard challenge",
+    "hardWin10": "Challenge master (10)",
+    "streak5correct": "5-answer streak",
+    "streak10correct": "10-answer streak",
+    "streak3": "3-day streak",
+    "streak7": "7-day streak",
+    "streak30": "30-day streak",
+    "majlis1": "Majlis host",
+    "majlis10": "Full house (10)",
+    "learn25": "Student (25)",
+    "learn100": "Diligent (100)",
+    "learn500": "Review scholar (500)"
+  },
+  "hadith": {
+    "dailyLabel": "Hadith of the day",
+    "another": "Another hadith"
+  },
+  "settings": {
+    "title": "Settings",
+    "sound": "Sound",
+    "haptics": "Vibration (haptics)",
+    "reducedMotion": "Reduce motion",
+    "language": "Language",
+    "resetProgress": "Reset progress",
+    "resetConfirm": "Delete all your progress? This cannot be undone.",
+    "resetDone": "Progress erased",
+    "privacy": "Privacy",
+    "version": "Version",
+    "resetCancel": "Keep it",
+    "back": "Back",
+    "privacyBody": "Noor of Knowledge collects no personal data. Everything is stored on your device only.",
+    "privacyLink": "Read the privacy policy"
+  },
+  "onboarding": {
+    "title": "Your journey starts here",
+    "subtitle": "Answer questions, rank up, and unlock achievements. Knowledge is light.",
+    "cta": "Got it, let's play!"
+  },
+  "pause": {
+    "title": "Game paused",
+    "resume": "Resume",
+    "quit": "Quit game"
+  },
+  "categoryStats": {
+    "title": "Accuracy by category",
+    "seerah": "Seerah",
+    "prophets": "Prophets",
+    "general": "General"
+  },
+  "review": {
+    "title": "Review",
+    "done": "Review complete!",
+    "noneDue": "No cards due for review.",
+    "cardsReviewed_one": "You reviewed {{count}} card.",
+    "cardsReviewed_other": "You reviewed {{count}} cards.",
+    "finish": "Finish"
+  },
+  "dailyChallenge": {
+    "badge": "DAILY CHALLENGE",
+    "title": "Challenge of the day",
+    "streak": "Streak: {{count}} days",
+    "done": "Back home",
+    "alreadyDone": "You've already completed today's challenge!"
+  },
+  "achievementToast": {
+    "unlocked": "Achievement unlocked!"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "button": "Back to home"
+  }
 }

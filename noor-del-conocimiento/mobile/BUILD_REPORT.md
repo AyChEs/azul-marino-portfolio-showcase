@@ -42,3 +42,12 @@ _2026-06-10 · rama `claude/dazzling-bardeen-yrt6b8`_
 | `npm run validate:questions` | ✅ 507 válidas, 0 excluidas |
 | `npm test` | ✅ |
 | `npm run type-check` | ver nota en RELEASE_CHECKLIST (SDK 54) |
+
+## Actualización posterior
+
+- Se retiró el feedback de IA del flujo por decisión de producto (lib/ai.ts, app/api/ y
+  @anthropic-ai/sdk eliminados; recuperables del historial git). La explicación verificada
+  del banco con fuente citada se muestra siempre tras cada respuesta, así que el jugador no
+  pierde nada educativo. La app es ahora 100% offline.
+- Añadidos: modo Aprender, fuentes tocables, botón de reporte, racha diaria, récord +
+  compartir, caché/CI.
