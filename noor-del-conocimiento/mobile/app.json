@@ -12,14 +12,20 @@
       "resizeMode": "contain",
       "backgroundColor": "#0a2a1a"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.noor.conocimiento",
       "buildNumber": "1",
       "infoPlist": {
         "NSCameraUsageDescription": "No se requiere acceso a la cámara.",
-        "CFBundleLocalizations": ["es", "en", "ar"]
+        "CFBundleLocalizations": [
+          "es",
+          "en",
+          "ar"
+        ]
       }
     },
     "androidStatusBar": {
@@ -73,7 +79,9 @@
             "enableShrinkResourcesInReleaseBuilds": true
           }
         }
-      ]
+      ],
+      "expo-sqlite",
+      "expo-asset"
     ],
     "newArchEnabled": true,
     "experiments": {
